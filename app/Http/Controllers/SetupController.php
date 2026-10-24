@@ -204,8 +204,9 @@ class SetupController extends Controller {
             },
         ])->render();
 
-        // (Polr 2.x opened '../.env' relative to public/; same file.)
-        $handle = fopen(base_path('.env'), 'w');
+        // The .env file the application loads (base_path('.env') by default;
+        // Polr 2.x opened '../.env' relative to public/, the same file).
+        $handle = fopen(app()->environmentFilePath(), 'w');
         if (fwrite($handle, $compiled_configuration) === FALSE) {
             $response = view('error', [
                 'message' => 'Could not write configuration to disk.'

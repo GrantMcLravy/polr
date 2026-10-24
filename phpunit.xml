@@ -18,19 +18,64 @@
         </include>
     </source>
     <php>
+        <!--
+            Tests need MySQL (Polr uses MySQL-specific SQL). Variables already
+            set in the environment win, e.g. DB_HOST=127.0.0.1 in CI. The dev
+            environment (dev/docker-compose.yml) matches these defaults.
+            Every Polr setting is pinned here so a local .env cannot change
+            test results.
+        -->
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="false"/>
+        <!-- A 32-character hex key without base64:, as written by Polr 2.x's setup. -->
+        <env name="APP_KEY" value="a5bd6a61b1327670bedd712a358d9c2b"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
-        <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_HOST" value="mysql"/>
+        <env name="DB_PORT" value="3306"/>
+        <env name="DB_DATABASE" value="polr_test"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="rootpw"/>
         <env name="DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array"/>
+        <env name="MAIL_FROM_ADDRESS" value="noreply@polr.test"/>
+        <env name="MAIL_FROM_NAME" value="Polr Test"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="PULSE_ENABLED" value="false"/>
-        <env name="TELESCOPE_ENABLED" value="false"/>
-        <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <env name="TRUSTED_PROXIES" value=""/>
+
+        <env name="APP_NAME" value="Polr Test"/>
+        <env name="APP_PROTOCOL" value="http://"/>
+        <env name="APP_ADDRESS" value="polr.test"/>
+        <env name="APP_STYLESHEET" value=""/>
+        <env name="POLR_SETUP_RAN" value="true"/>
+        <env name="POLR_GENERATED_AT" value="Test"/>
+        <env name="POLR_VERSION" value="2.3.0"/>
+        <env name="POLR_RELDATE" value="Jan 28, 2020"/>
+        <env name="POLR_BASE" value="32"/>
+        <env name="POLR_SECRET_BYTES" value="2"/>
+        <env name="POLR_ALLOW_ACCT_CREATION" value="true"/>
+        <env name="POLR_ACCT_ACTIVATION" value="false"/>
+        <env name="POLR_ACCT_CREATION_RECAPTCHA" value="false"/>
+        <env name="POLR_RECAPTCHA_SITE_KEY" value=""/>
+        <env name="POLR_RECAPTCHA_SECRET_KEY" value=""/>
+        <env name="SETTING_PUBLIC_INTERFACE" value="true"/>
+        <env name="SETTING_SHORTEN_PERMISSION" value="false"/>
+        <env name="SETTING_INDEX_REDIRECT" value="https://example.com/home"/>
+        <env name="SETTING_REDIRECT_404" value="false"/>
+        <env name="SETTING_PASSWORD_RECOV" value="true"/>
+        <env name="SETTING_AUTO_API" value="false"/>
+        <env name="SETTING_ANON_API" value="true"/>
+        <env name="SETTING_ANON_API_QUOTA" value="30"/>
+        <env name="SETTING_PSEUDORANDOM_ENDING" value="false"/>
+        <env name="SETTING_ADV_ANALYTICS" value="false"/>
+        <env name="SETTING_RESTRICT_EMAIL_DOMAIN" value="false"/>
+        <env name="SETTING_ALLOWED_EMAIL_DOMAINS" value=""/>
+        <env name="_API_KEY_LENGTH" value="15"/>
+        <env name="_ANALYTICS_MAX_DAYS_DIFF" value="365"/>
+        <env name="_PSEUDO_RANDOM_KEY_LENGTH" value="5"/>
+        <env name="MAXMIND_LICENSE_KEY" value=""/>
     </php>
 </phpunit>

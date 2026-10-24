@@ -282,9 +282,27 @@ Public API, prefix `/api/v2`, `ApiMiddleware`, no CSRF: GET|POST `action/shorten
      and uses the signup validation rules.
 
    Replay: still 250/264, no warnings or deprecations logged.
-6. **Tests.** PHPUnit on MySQL: feature tests (per spec §5 Phase 6), replay of the
-   baseline responses, `migrate --pretend` on the 2.3.0 dump, old bcrypt hash and old
-   APP_KEY checks; GitHub Actions matrix on 8.3/8.4/8.5.
+6. **Tests** (done).
+   - PHPUnit 12 on MySQL, 81 tests: `tests/Unit` (base conversion, `.env` parsing of every
+     fixture, the hex APP_KEY) and `tests/Feature`:
+     - links: shortening, redirects, `Cache-Control`, clicks with GeoIP via MaxMind's test
+       database, broken GeoIP database;
+     - the public API (formats, errors, quotas, anonymous access, trusted proxies);
+     - accounts: login, signup and activation mail, password reset, reCAPTCHA required,
+       disabled signup;
+     - admin AJAX, role checks and tables; stats; `polr:create-admin`;
+     - CSRF, cookies on errors, `OPTIONS`/405, shadowed paths, route names, trusted
+       proxies; the setup wizard writing a byte-identical `.env`;
+     - the 2.3.0 database dump: `migrate --pretend`, old bcrypt hash, existing links and
+       API key, stats and admin tables.
+   - Passing on PHP 8.3, 8.4 and 8.5 (MySQL 5.7), and on MySQL 8.4 and MariaDB 11.4,
+     with no deprecations or warnings.
+   - `.github/workflows/tests.yml`:
+     - the PHPUnit matrix above;
+     - static checks: `composer validate`/`audit`, route inventory, `config:cache`/
+       `route:cache`, no `env()` outside `config/`, no Lumen code;
+     - the baseline replay, which fails on differences not in
+       `dev/accepted-differences.txt`.
 7. **Packaging and docs.** Dockerfile (php-fpm, non-root, `.env` symlink),
    `docker-compose.example.yml` (polr, nginx, optional mysql, scheduled GeoIP update),
    nginx config, and install/upgrade docs (cron for `geoip:update`, never edit `.env`

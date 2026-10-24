@@ -1,0 +1,29 @@
+# Baseline replay steps that are allowed to differ from Polr 2.3.0
+# (dev/compare.py --allow). Each one is explained under "Accepted differences"
+# in MODERNIZATION.md. Format: "group: step name".
+
+# Unexpected-error page: Polr's errors/500 page instead of Lumen's generic
+# "Whoops" page (same 500 status). CSRF failures and the existing stats crash.
+admin_ajax: ajax without CSRF
+auth: login without CSRF
+methods: PUT /login
+web_shorten: POST /shorten without CSRF
+web_shorten: POST /shorten bad CSRF
+stats: bounds reversed
+stats: invalid date
+
+# New password hashes use bcrypt cost 12 instead of 10 (DB snapshots).
+admin_ajax: db
+signup: db
+
+# Non-AJAX validation failure on an AJAX endpoint: redirect-back URL keeps the
+# query parameters in their original order.
+admin_ajax: edit long url invalid
+
+# /index.php serves the home page (Lumen: 404).
+methods: index.php front controller
+methods: index.php with path
+
+# Web-server level (Apache in the baseline, PHP's built-in server in dev).
+methods: trailing slash on short link
+methods: static asset

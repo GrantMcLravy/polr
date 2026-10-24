@@ -1,6 +1,7 @@
 """Compare scenario recordings of the port against the Polr 2.3.0 baseline.
 
   python dev/compare.py baseline/golden OUT_DIR [--group NAME ...] [-v]
+      [--allow dev/accepted-differences.txt]
 
 Prints one line per differing step (status, headers, body/JSON, mails, DB
 state) and a summary. -v shows a unified diff of each differing body.
@@ -113,11 +114,29 @@ def main():
     ap.add_argument("--group", nargs="*")
     ap.add_argument("-v", "--verbose", action="store_true")
     ap.add_argument("--strict", action="store_true", help="do not normalize accepted header differences")
+    ap.add_argument("--allow", help='file listing steps ("group: step name") that may differ')
     args = ap.parse_args()
     global STRICT
     STRICT = args.strict
 
+    allowed = set()
+    if args.allow:
+        with open(args.allow, encoding="utf-8") as f:
+            allowed = {l.strip() for l in f if l.strip() and not l.startswith("#")}
+
     total = differing = 0
+    unexpected = []
+    seen_allowed = set()
+
+    def report(group, label, message):
+        key = f"{group}: {label}"
+        if key in allowed:
+            seen_allowed.add(key)
+            print(f"[{group}] {message}  (accepted)")
+        else:
+            unexpected.append(key)
+            print(f"[{group}] {message}")
+
     for name in sorted(os.listdir(args.golden)):
         group = name[:-5]
         if not name.endswith(".json") or (args.group and group not in args.group):
@@ -134,15 +153,21 @@ def main():
             other = steps_b[i] if i < len(steps_b) else {}
             if other.get("name") != step["name"]:
                 differing += 1
-                print(f"[{group}] #{i} {step['name']}: step mismatch (port: {other.get('name')})")
+                report(group, step["name"], f"#{i} {step['name']}: step mismatch (port: {other.get('name')})")
                 continue
             problems = compare_step(step, other, args.verbose)
             if problems:
                 differing += 1
-                print(f"[{group}] #{i} {step['name']}: " + "; ".join(problems))
+                report(group, step["name"], f"#{i} {step['name']}: " + "; ".join(problems))
         for extra in steps_b[len(a["steps"]):]:
-            print(f"[{group}] extra step in port: {extra.get('name')}: {extra.get('value', '')}")
+            report(group, "extra step", f"extra step in port: {extra.get('name')}: {extra.get('value', '')}")
     print(f"\n{total - differing}/{total} steps identical")
+    if args.allow:
+        for key in sorted(allowed - seen_allowed):
+            if not args.group or key.split(":")[0] in args.group:
+                print(f"note: accepted difference no longer differs: {key}")
+        print(f"{len(unexpected)} unexpected difference(s)")
+        return 1 if unexpected else 0
     return 0 if differing == 0 else 1
 
 
