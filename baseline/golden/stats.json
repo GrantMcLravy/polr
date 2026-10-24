@@ -1,0 +1,654 @@
+{
+  "group": "stats",
+  "env": {},
+  "steps": [
+    {
+      "name": "stats anonymous",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "login alice",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "alice",
+          "password": "AlicePass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "own link stats (default range)",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/datatables.min.css'>\n<link rel='stylesheet' href='/css/stats.css'>\n<link rel='stylesheet' href='/css/jquery-jvectormap.css'>\n<link rel='stylesheet' href='/css/bootstrap-datetimepicker.min.css'>\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/admin\">Dashboard</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/admin#settings\">Settings</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/logout\">Logout</a></li>\n                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                            <div class='nav pull-right navbar-nav'>\n                    <li class='dropdown'>\n                    <a class=\"dropdown-toggle login-name\" href=\"#\" data-toggle=\"dropdown\">alice <strong class=\"caret\"></strong></a>\n                        <ul class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin\">Dashboard</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin#settings\">Settings</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/logout\">Logout</a></li>\n                        </ul>\n                    </li>\n                </div>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  \">\n            <div ng-controller=\"StatsCtrl\" class=\"ng-root\">\n    <div class=\"stats-header bottom-padding\">\n        <h3>Stats</h3>\n        <div class=\"row\">\n            <div class=\"col-md-3 col-md-offset-3 link-meta\">\n                <p>\n                    <b>Short Link: </b>\n                    <a target=\"_blank\" href=\"http:///polr.test/alice-custom\">\n                        polr.test/alice-custom\n                    </a>\n                </p>\n                <p>\n                    <b>Long Link: </b>\n                    <a target=\"_blank\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n                </p>\n                            </div>\n            <div class=\"col-md-3\">\n                <form action=\"\" method=\"GET\">\n                    <div class=\"form-group\">\n                        <div class='input-group date' id='left-bound-picker'>\n                            <input type=\"text\" class=\"form-control\" name=\"left_bound\">\n                            <span class=\"input-group-addon\">\n                                <span class=\"glyphicon glyphicon-calendar\"></span>\n                            </span>\n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <div class='input-group date' id='right-bound-picker'>\n                            <input type=\"text\" class=\"form-control\" name=\"right_bound\">\n                            <span class=\"input-group-addon\">\n                                <span class=\"glyphicon glyphicon-calendar\"></span>\n                            </span>\n                        </div>\n                    </div>\n\n                    <input type=\"submit\" value=\"Refresh\" class=\"form-control\">\n                </form>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"row bottom-padding\">\n        <div class=\"col-md-8\">\n            <h4>Traffic over Time</h4> (total: 10)\n            <canvas id=\"dayChart\"></canvas>\n        </div>\n        <div class=\"col-md-4\">\n            <h4>Traffic sources</h4>\n            <canvas id=\"refererChart\"></canvas>\n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <h4>Map</h4>\n            <div id=\"mapChart\"></div>\n        </div>\n        <div class=\"col-md-6\">\n            <h4>Referers</h4>\n            <table class=\"table table-hover\" id=\"refererTable\">\n                <thead>\n                    <tr>\n                        <th>Host</th>\n                        <th>Clicks</th>\n                    </tr>\n                </thead>\n                <tbody>\n                                    </tbody>\n            </table>\n\n        </div>\n    </div>\n</div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script>\n// Load data\nvar dayData = JSON.parse('[]');\nvar refererData = JSON.parse('[]');\nvar countryData = JSON.parse('[]');\n\n// Load datepicker dates\nvar datePickerLeftBound = '<NOW>';\nvar datePickerRightBound = '<NOW>';\n</script>\n\n<script src='/js/lodash.min.js'></script>\n<script src='/js/chart.bundle.min.js'></script>\n<script src='/js/datatables.min.js'></script>\n<script src='/js/jquery-jvectormap.min.js'></script>\n<script src='/js/jquery-jvectormap-world-mill.js'></script>\n<script src='/js/moment.min.js'></script>\n<script src='/js/bootstrap-datetimepicker.min.js'></script>\n<script src='/js/StatsCtrl.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "own link stats with bounds",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/datatables.min.css'>\n<link rel='stylesheet' href='/css/stats.css'>\n<link rel='stylesheet' href='/css/jquery-jvectormap.css'>\n<link rel='stylesheet' href='/css/bootstrap-datetimepicker.min.css'>\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/admin\">Dashboard</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/admin#settings\">Settings</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/logout\">Logout</a></li>\n                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                            <div class='nav pull-right navbar-nav'>\n                    <li class='dropdown'>\n                    <a class=\"dropdown-toggle login-name\" href=\"#\" data-toggle=\"dropdown\">alice <strong class=\"caret\"></strong></a>\n                        <ul class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin\">Dashboard</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin#settings\">Settings</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/logout\">Logout</a></li>\n                        </ul>\n                    </li>\n                </div>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  \">\n            <div ng-controller=\"StatsCtrl\" class=\"ng-root\">\n    <div class=\"stats-header bottom-padding\">\n        <h3>Stats</h3>\n        <div class=\"row\">\n            <div class=\"col-md-3 col-md-offset-3 link-meta\">\n                <p>\n                    <b>Short Link: </b>\n                    <a target=\"_blank\" href=\"http:///polr.test/alice-custom\">\n                        polr.test/alice-custom\n                    </a>\n                </p>\n                <p>\n                    <b>Long Link: </b>\n                    <a target=\"_blank\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n                </p>\n                            </div>\n            <div class=\"col-md-3\">\n                <form action=\"\" method=\"GET\">\n                    <div class=\"form-group\">\n                        <div class='input-group date' id='left-bound-picker'>\n                            <input type=\"text\" class=\"form-control\" name=\"left_bound\">\n                            <span class=\"input-group-addon\">\n                                <span class=\"glyphicon glyphicon-calendar\"></span>\n                            </span>\n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <div class='input-group date' id='right-bound-picker'>\n                            <input type=\"text\" class=\"form-control\" name=\"right_bound\">\n                            <span class=\"input-group-addon\">\n                                <span class=\"glyphicon glyphicon-calendar\"></span>\n                            </span>\n                        </div>\n                    </div>\n\n                    <input type=\"submit\" value=\"Refresh\" class=\"form-control\">\n                </form>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"row bottom-padding\">\n        <div class=\"col-md-8\">\n            <h4>Traffic over Time</h4> (total: 10)\n            <canvas id=\"dayChart\"></canvas>\n        </div>\n        <div class=\"col-md-4\">\n            <h4>Traffic sources</h4>\n            <canvas id=\"refererChart\"></canvas>\n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <h4>Map</h4>\n            <div id=\"mapChart\"></div>\n        </div>\n        <div class=\"col-md-6\">\n            <h4>Referers</h4>\n            <table class=\"table table-hover\" id=\"refererTable\">\n                <thead>\n                    <tr>\n                        <th>Host</th>\n                        <th>Clicks</th>\n                    </tr>\n                </thead>\n                <tbody>\n                                            <tr>\n                            <td>news.example.com</td>\n                            <td>4</td>\n                        </tr>\n                                            <tr>\n                            <td>www.google.com</td>\n                            <td>3</td>\n                        </tr>\n                                            <tr>\n                            <td>Direct</td>\n                            <td>2</td>\n                        </tr>\n                                            <tr>\n                            <td>intranet.local</td>\n                            <td>1</td>\n                        </tr>\n                                    </tbody>\n            </table>\n\n        </div>\n    </div>\n</div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script>\n// Load data\nvar dayData = JSON.parse('[{\"x\":\"2020-02-08\",\"y\":2},{\"x\":\"2020-02-09\",\"y\":4},{\"x\":\"2020-02-10\",\"y\":3},{\"x\":\"2020-02-11\",\"y\":1}]');\nvar refererData = JSON.parse('[{\"label\":\"news.example.com\",\"clicks\":4},{\"label\":\"www.google.com\",\"clicks\":3},{\"label\":\"Direct\",\"clicks\":2},{\"label\":\"intranet.local\",\"clicks\":1}]');\nvar countryData = JSON.parse('[{\"label\":\"GB\",\"clicks\":4},{\"label\":\"US\",\"clicks\":3},{\"label\":\"SE\",\"clicks\":2}]');\n\n// Load datepicker dates\nvar datePickerLeftBound = '2020-02-01 00:00:00';\nvar datePickerRightBound = '2020-03-01 00:00:00';\n</script>\n\n<script src='/js/lodash.min.js'></script>\n<script src='/js/chart.bundle.min.js'></script>\n<script src='/js/datatables.min.js'></script>\n<script src='/js/jquery-jvectormap.min.js'></script>\n<script src='/js/jquery-jvectormap-world-mill.js'></script>\n<script src='/js/moment.min.js'></script>\n<script src='/js/bootstrap-datetimepicker.min.js'></script>\n<script src='/js/StatsCtrl.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "other's link stats",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/custom-one",
+        "params": {
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/admin"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/admin\" />\n\n        <title>Redirecting to <BASE>/admin</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/admin\"><BASE>/admin</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "unknown link stats",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/nope",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/admin"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/admin\" />\n\n        <title>Redirecting to <BASE>/admin</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/admin\"><BASE>/admin</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "bounds reversed",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "2020-03-01",
+          "right_bound": "2020-02-01"
+        },
+        "data": null,
+        "headers": {
+          "Referer": "http://polr.test/admin"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache, private"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n                        .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }\n            .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }\n            .sf-reset .clear_fix:after { display:block; height:0; clear:both; visibility:hidden; }\n            .sf-reset .clear_fix { display:inline-block; }\n            .sf-reset * html .clear_fix { height:1%; }\n            .sf-reset .clear_fix { display:block; }\n            .sf-reset, .sf-reset .block { margin: auto }\n            .sf-reset abbr { border-bottom: 1px dotted #000; cursor: help; }\n            .sf-reset p { font-size:14px; line-height:20px; color:#868686; padding-bottom:20px }\n            .sf-reset strong { font-weight:bold; }\n            .sf-reset a { color:#6c6159; cursor: default; }\n            .sf-reset a img { border:none; }\n            .sf-reset a:hover { text-decoration:underline; }\n            .sf-reset em { font-style:italic; }\n            .sf-reset h1, .sf-reset h2 { font: 20px Georgia, \"Times New Roman\", Times, serif }\n            .sf-reset .exception_counter { background-color: #fff; color: #333; padding: 6px; float: left; margin-right: 10px; float: left; display: block; }\n            .sf-reset .exception_title { margin-left: 3em; margin-bottom: 0.7em; display: block; }\n            .sf-reset .exception_message { margin-left: 3em; display: block; }\n            .sf-reset .traces li { font-size:12px; padding: 2px 4px; list-style-type:decimal; margin-left:20px; }\n            .sf-reset .block { background-color:#FFFFFF; padding:10px 28px; margin-bottom:20px;\n                -webkit-border-bottom-right-radius: 16px;\n                -webkit-border-bottom-left-radius: 16px;\n                -moz-border-radius-bottomright: 16px;\n                -moz-border-radius-bottomleft: 16px;\n                border-bottom-right-radius: 16px;\n                border-bottom-left-radius: 16px;\n                border-bottom:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                word-wrap: break-word;\n            }\n            .sf-reset .block_exception { background-color:#ddd; color: #333; padding:20px;\n                -webkit-border-top-left-radius: 16px;\n                -webkit-border-top-right-radius: 16px;\n                -moz-border-radius-topleft: 16px;\n                -moz-border-radius-topright: 16px;\n                border-top-left-radius: 16px;\n                border-top-right-radius: 16px;\n                border-top:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                overflow: hidden;\n                word-wrap: break-word;\n            }\n            .sf-reset a { background:none; color:#868686; text-decoration:none; }\n            .sf-reset a:hover { background:none; color:#313131; text-decoration:underline; }\n            .sf-reset ol { padding: 10px 0; }\n            .sf-reset h1 { background-color:#FFFFFF; padding: 15px 28px; margin-bottom: 20px;\n                -webkit-border-radius: 10px;\n                -moz-border-radius: 10px;\n                border-radius: 10px;\n                border: 1px solid #ccc;\n            }\n        </style>\n    </head>\n    <body>\n                    <div id=\"sf-resetcontent\" class=\"sf-reset\">\n                <h1>Whoops, looks like something went wrong.</h1>\n                \n            </div>\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "bounds too broad",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "2018-01-01",
+          "right_bound": "2020-02-01"
+        },
+        "data": null,
+        "headers": {
+          "Referer": "http://polr.test/admin"
+        }
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "http://polr.test/admin"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=http://polr.test/admin\" />\n\n        <title>Redirecting to http://polr.test/admin</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"http://polr.test/admin\">http://polr.test/admin</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "invalid date",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "garbage"
+        },
+        "data": null,
+        "headers": {
+          "Referer": "http://polr.test/admin"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache, private"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n                        .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }\n            .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }\n            .sf-reset .clear_fix:after { display:block; height:0; clear:both; visibility:hidden; }\n            .sf-reset .clear_fix { display:inline-block; }\n            .sf-reset * html .clear_fix { height:1%; }\n            .sf-reset .clear_fix { display:block; }\n            .sf-reset, .sf-reset .block { margin: auto }\n            .sf-reset abbr { border-bottom: 1px dotted #000; cursor: help; }\n            .sf-reset p { font-size:14px; line-height:20px; color:#868686; padding-bottom:20px }\n            .sf-reset strong { font-weight:bold; }\n            .sf-reset a { color:#6c6159; cursor: default; }\n            .sf-reset a img { border:none; }\n            .sf-reset a:hover { text-decoration:underline; }\n            .sf-reset em { font-style:italic; }\n            .sf-reset h1, .sf-reset h2 { font: 20px Georgia, \"Times New Roman\", Times, serif }\n            .sf-reset .exception_counter { background-color: #fff; color: #333; padding: 6px; float: left; margin-right: 10px; float: left; display: block; }\n            .sf-reset .exception_title { margin-left: 3em; margin-bottom: 0.7em; display: block; }\n            .sf-reset .exception_message { margin-left: 3em; display: block; }\n            .sf-reset .traces li { font-size:12px; padding: 2px 4px; list-style-type:decimal; margin-left:20px; }\n            .sf-reset .block { background-color:#FFFFFF; padding:10px 28px; margin-bottom:20px;\n                -webkit-border-bottom-right-radius: 16px;\n                -webkit-border-bottom-left-radius: 16px;\n                -moz-border-radius-bottomright: 16px;\n                -moz-border-radius-bottomleft: 16px;\n                border-bottom-right-radius: 16px;\n                border-bottom-left-radius: 16px;\n                border-bottom:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                word-wrap: break-word;\n            }\n            .sf-reset .block_exception { background-color:#ddd; color: #333; padding:20px;\n                -webkit-border-top-left-radius: 16px;\n                -webkit-border-top-right-radius: 16px;\n                -moz-border-radius-topleft: 16px;\n                -moz-border-radius-topright: 16px;\n                border-top-left-radius: 16px;\n                border-top-right-radius: 16px;\n                border-top:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                overflow: hidden;\n                word-wrap: break-word;\n            }\n            .sf-reset a { background:none; color:#868686; text-decoration:none; }\n            .sf-reset a:hover { background:none; color:#313131; text-decoration:underline; }\n            .sf-reset ol { padding: 10px 0; }\n            .sf-reset h1 { background-color:#FFFFFF; padding: 15px 28px; margin-bottom: 20px;\n                -webkit-border-radius: 10px;\n                -moz-border-radius: 10px;\n                border-radius: 10px;\n                border: 1px solid #ccc;\n            }\n        </style>\n    </head>\n    <body>\n                    <div id=\"sf-resetcontent\" class=\"sf-reset\">\n                <h1>Whoops, looks like something went wrong.</h1>\n                \n            </div>\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "future right bound",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "2020-02-01",
+          "right_bound": "2099-01-01"
+        },
+        "data": null,
+        "headers": {
+          "Referer": "http://polr.test/admin"
+        }
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "http://polr.test/admin"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=http://polr.test/admin\" />\n\n        <title>Redirecting to http://polr.test/admin</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"http://polr.test/admin\">http://polr.test/admin</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "login polradmin",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "polradmin",
+          "password": "AdminPass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "admin views any link stats",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/custom-one",
+        "params": {
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/datatables.min.css'>\n<link rel='stylesheet' href='/css/stats.css'>\n<link rel='stylesheet' href='/css/jquery-jvectormap.css'>\n<link rel='stylesheet' href='/css/bootstrap-datetimepicker.min.css'>\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/admin\">Dashboard</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/admin#settings\">Settings</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/logout\">Logout</a></li>\n                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                            <div class='nav pull-right navbar-nav'>\n                    <li class='dropdown'>\n                    <a class=\"dropdown-toggle login-name\" href=\"#\" data-toggle=\"dropdown\">polradmin <strong class=\"caret\"></strong></a>\n                        <ul class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin\">Dashboard</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin#settings\">Settings</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/logout\">Logout</a></li>\n                        </ul>\n                    </li>\n                </div>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  \">\n            <div ng-controller=\"StatsCtrl\" class=\"ng-root\">\n    <div class=\"stats-header bottom-padding\">\n        <h3>Stats</h3>\n        <div class=\"row\">\n            <div class=\"col-md-3 col-md-offset-3 link-meta\">\n                <p>\n                    <b>Short Link: </b>\n                    <a target=\"_blank\" href=\"http:///polr.test/custom-one\">\n                        polr.test/custom-one\n                    </a>\n                </p>\n                <p>\n                    <b>Long Link: </b>\n                    <a target=\"_blank\" href=\"https://example.com/custom\">https://example.com/custom</a>\n                </p>\n                            </div>\n            <div class=\"col-md-3\">\n                <form action=\"\" method=\"GET\">\n                    <div class=\"form-group\">\n                        <div class='input-group date' id='left-bound-picker'>\n                            <input type=\"text\" class=\"form-control\" name=\"left_bound\">\n                            <span class=\"input-group-addon\">\n                                <span class=\"glyphicon glyphicon-calendar\"></span>\n                            </span>\n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <div class='input-group date' id='right-bound-picker'>\n                            <input type=\"text\" class=\"form-control\" name=\"right_bound\">\n                            <span class=\"input-group-addon\">\n                                <span class=\"glyphicon glyphicon-calendar\"></span>\n                            </span>\n                        </div>\n                    </div>\n\n                    <input type=\"submit\" value=\"Refresh\" class=\"form-control\">\n                </form>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"row bottom-padding\">\n        <div class=\"col-md-8\">\n            <h4>Traffic over Time</h4> (total: 10)\n            <canvas id=\"dayChart\"></canvas>\n        </div>\n        <div class=\"col-md-4\">\n            <h4>Traffic sources</h4>\n            <canvas id=\"refererChart\"></canvas>\n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <h4>Map</h4>\n            <div id=\"mapChart\"></div>\n        </div>\n        <div class=\"col-md-6\">\n            <h4>Referers</h4>\n            <table class=\"table table-hover\" id=\"refererTable\">\n                <thead>\n                    <tr>\n                        <th>Host</th>\n                        <th>Clicks</th>\n                    </tr>\n                </thead>\n                <tbody>\n                                            <tr>\n                            <td>news.example.com</td>\n                            <td>4</td>\n                        </tr>\n                                            <tr>\n                            <td>www.google.com</td>\n                            <td>3</td>\n                        </tr>\n                                            <tr>\n                            <td>Direct</td>\n                            <td>2</td>\n                        </tr>\n                                            <tr>\n                            <td>intranet.local</td>\n                            <td>1</td>\n                        </tr>\n                                    </tbody>\n            </table>\n\n        </div>\n    </div>\n</div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script>\n// Load data\nvar dayData = JSON.parse('[{\"x\":\"2020-02-02\",\"y\":2},{\"x\":\"2020-02-03\",\"y\":3},{\"x\":\"2020-02-04\",\"y\":4},{\"x\":\"2020-02-05\",\"y\":1}]');\nvar refererData = JSON.parse('[{\"label\":\"news.example.com\",\"clicks\":4},{\"label\":\"www.google.com\",\"clicks\":3},{\"label\":\"Direct\",\"clicks\":2},{\"label\":\"intranet.local\",\"clicks\":1}]');\nvar countryData = JSON.parse('[{\"label\":\"GB\",\"clicks\":4},{\"label\":\"US\",\"clicks\":3},{\"label\":\"SE\",\"clicks\":2}]');\n\n// Load datepicker dates\nvar datePickerLeftBound = '2020-02-01 00:00:00';\nvar datePickerRightBound = '2020-03-01 00:00:00';\n</script>\n\n<script src='/js/lodash.min.js'></script>\n<script src='/js/chart.bundle.min.js'></script>\n<script src='/js/datatables.min.js'></script>\n<script src='/js/jquery-jvectormap.min.js'></script>\n<script src='/js/jquery-jvectormap-world-mill.js'></script>\n<script src='/js/moment.min.js'></script>\n<script src='/js/bootstrap-datetimepicker.min.js'></script>\n<script src='/js/StatsCtrl.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "admin links table shows stats icons",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 18,
+          "recordsFiltered": 18,
+          "data": [
+            {
+              "short_url": "0",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/1\" href=\"https://example.com/page/1\">https://example.com/page/1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('0', 'https://example.com/page/1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/0\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:01:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '0')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '0')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "1",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/2\" href=\"https://example.com/page/2\">https://example.com/page/2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('1', 'https://example.com/page/2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/1\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:02:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '1')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '1')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "2",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/3\" href=\"https://example.com/page/3\">https://example.com/page/3</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('2', 'https://example.com/page/3')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/2\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:03:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '2')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '2')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "3",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/4\" href=\"https://example.com/page/4\">https://example.com/page/4</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('3', 'https://example.com/page/4')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/3\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:04:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '3')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '3')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "4",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/5\" href=\"https://example.com/page/5\">https://example.com/page/5</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('4', 'https://example.com/page/5')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/4\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:05:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '4')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '4')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "5",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/secret\" href=\"https://example.com/secret\">https://example.com/secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('5', 'https://example.com/secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/5\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:07:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '5')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '5')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "6",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-link\" href=\"https://example.net/admin-link\">https://example.net/admin-link</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('6', 'https://example.net/admin-link')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/6\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:10:00",
+              "creator": "polradmin",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '6')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '6')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "7",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-web\" href=\"https://example.org/alice-web\">https://example.org/alice-web</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('7', 'https://example.org/alice-web')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/7\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:12:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '7')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '7')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "8",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-1\" href=\"https://example.org/alice-api-1\">https://example.org/alice-api-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('8', 'https://example.org/alice-api-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/8\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:13:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '8')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '8')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "9",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-2\" href=\"https://example.org/alice-api-2\">https://example.org/alice-api-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('9', 'https://example.org/alice-api-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/9\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:14:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '9')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '9')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,2752 @@
+{
+  "group": "admin_ajax",
+  "env": {},
+  "steps": [
+    {
+      "name": "login polradmin",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "polradmin",
+          "password": "AdminPass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "admin users",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_users",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "username",
+          "columns[0][name]": "username",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "email",
+          "columns[1][name]": "email",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "created_at",
+          "columns[2][name]": "created_at",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "toggle_active",
+          "columns[3][name]": "toggle_active",
+          "columns[3][searchable]": "false",
+          "columns[3][orderable]": "false",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "api_action",
+          "columns[4][name]": "api_action",
+          "columns[4][searchable]": "false",
+          "columns[4][orderable]": "false",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "change_role",
+          "columns[5][name]": "change_role",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 6,
+          "recordsFiltered": 6,
+          "data": [
+            {
+              "username": "alice",
+              "email": "alice@example.com",
+              "created_at": "2020-02-01 10:02:00",
+              "active": "1",
+              "api_key": "00000000000000000000000a11ce01",
+              "api_active": 1,
+              "api_quota": "60",
+              "role": "",
+              "id": 2,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'alice', '00000000000000000000000a11ce01', '1', '60', '2')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 2)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u2 = ''\"\n            ng-model=\"changeUserRole.u2\" ng-change=\"changeUserRole(changeUserRole.u2, 2)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '2')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "bob",
+              "email": "bob@example.com",
+              "created_at": "2020-02-01 10:03:00",
+              "active": "1",
+              "api_key": "0",
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "admin",
+              "id": 3,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'bob', '0', '0', '60', '3')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 3)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u3 = 'admin'\"\n            ng-model=\"changeUserRole.u3\" ng-change=\"changeUserRole(changeUserRole.u3, 3)\"\n            class=\"form-control\"><option value=\"admin\" selected>admin</option><option value=\"\">default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '3')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "carol",
+              "email": "carol@example.org",
+              "created_at": "2020-02-01 10:06:00",
+              "active": "1",
+              "api_key": null,
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "",
+              "id": 6,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'carol', '', '0', '60', '6')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 6)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u6 = ''\"\n            ng-model=\"changeUserRole.u6\" ng-change=\"changeUserRole(changeUserRole.u6, 6)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '6')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "dave",
+              "email": "dave@example.com",
+              "created_at": "2020-02-01 10:05:00",
+              "active": "0",
+              "api_key": "0",
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "",
+              "id": 5,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'dave', '0', '0', '60', '5')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-danger\" ng-click=\"toggleUserActiveStatus($event, 5)\">Inactive</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u5 = ''\"\n            ng-model=\"changeUserRole.u5\" ng-change=\"changeUserRole(changeUserRole.u5, 5)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '5')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "polradmin",
+              "email": "admin@polr.test",
+              "created_at": "2020-02-01 10:01:00",
+              "active": "1",
+              "api_key": "0000000000000000000000000ad001",
+              "api_active": 1,
+              "api_quota": "60",
+              "role": "admin",
+              "id": 1,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'polradmin', '0000000000000000000000000ad001', '1', '60', '1')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success disabled\" ng-click=\"toggleUserActiveStatus($event, 1)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u1 = 'admin'\"\n            ng-model=\"changeUserRole.u1\" ng-change=\"changeUserRole(changeUserRole.u1, 1)\"\n            class=\"form-control\" disabled><option value=\"admin\" selected>admin</option><option value=\"\">default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '1')\" class=\"btn btn-sm btn-danger disabled\">\n            Delete\n        </a>"
+            },
+            {
+              "username": "quota",
+              "email": "quota@example.com",
+              "created_at": "2020-02-01 10:04:00",
+              "active": "1",
+              "api_key": "00000000000000000000000000ff01",
+              "api_active": 1,
+              "api_quota": "1",
+              "role": "",
+              "id": 4,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'quota', '00000000000000000000000000ff01', '1', '1', '4')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 4)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u4 = ''\"\n            ng-model=\"changeUserRole.u4\" ng-change=\"changeUserRole(changeUserRole.u4, 4)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '4')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin users search",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_users",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "example.org",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "username",
+          "columns[0][name]": "username",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "email",
+          "columns[1][name]": "email",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "created_at",
+          "columns[2][name]": "created_at",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "toggle_active",
+          "columns[3][name]": "toggle_active",
+          "columns[3][searchable]": "false",
+          "columns[3][orderable]": "false",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "api_action",
+          "columns[4][name]": "api_action",
+          "columns[4][searchable]": "false",
+          "columns[4][orderable]": "false",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "change_role",
+          "columns[5][name]": "change_role",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 6,
+          "recordsFiltered": 1,
+          "data": [
+            {
+              "username": "carol",
+              "email": "carol@example.org",
+              "created_at": "2020-02-01 10:06:00",
+              "active": "1",
+              "api_key": null,
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "",
+              "id": 6,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'carol', '', '0', '60', '6')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 6)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u6 = ''\"\n            ng-model=\"changeUserRole.u6\" ng-change=\"changeUserRole(changeUserRole.u6, 6)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '6')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin users order by email desc",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_users",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 1,
+          "order[0][dir]": "desc",
+          "columns[0][data]": "username",
+          "columns[0][name]": "username",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "email",
+          "columns[1][name]": "email",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "created_at",
+          "columns[2][name]": "created_at",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "toggle_active",
+          "columns[3][name]": "toggle_active",
+          "columns[3][searchable]": "false",
+          "columns[3][orderable]": "false",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "api_action",
+          "columns[4][name]": "api_action",
+          "columns[4][searchable]": "false",
+          "columns[4][orderable]": "false",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "change_role",
+          "columns[5][name]": "change_role",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 6,
+          "recordsFiltered": 6,
+          "data": [
+            {
+              "username": "quota",
+              "email": "quota@example.com",
+              "created_at": "2020-02-01 10:04:00",
+              "active": "1",
+              "api_key": "00000000000000000000000000ff01",
+              "api_active": 1,
+              "api_quota": "1",
+              "role": "",
+              "id": 4,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'quota', '00000000000000000000000000ff01', '1', '1', '4')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 4)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u4 = ''\"\n            ng-model=\"changeUserRole.u4\" ng-change=\"changeUserRole(changeUserRole.u4, 4)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '4')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "dave",
+              "email": "dave@example.com",
+              "created_at": "2020-02-01 10:05:00",
+              "active": "0",
+              "api_key": "0",
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "",
+              "id": 5,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'dave', '0', '0', '60', '5')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-danger\" ng-click=\"toggleUserActiveStatus($event, 5)\">Inactive</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u5 = ''\"\n            ng-model=\"changeUserRole.u5\" ng-change=\"changeUserRole(changeUserRole.u5, 5)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '5')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "carol",
+              "email": "carol@example.org",
+              "created_at": "2020-02-01 10:06:00",
+              "active": "1",
+              "api_key": null,
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "",
+              "id": 6,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'carol', '', '0', '60', '6')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 6)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u6 = ''\"\n            ng-model=\"changeUserRole.u6\" ng-change=\"changeUserRole(changeUserRole.u6, 6)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '6')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "bob",
+              "email": "bob@example.com",
+              "created_at": "2020-02-01 10:03:00",
+              "active": "1",
+              "api_key": "0",
+              "api_active": 0,
+              "api_quota": "60",
+              "role": "admin",
+              "id": 3,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'bob', '0', '0', '60', '3')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 3)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u3 = 'admin'\"\n            ng-model=\"changeUserRole.u3\" ng-change=\"changeUserRole(changeUserRole.u3, 3)\"\n            class=\"form-control\"><option value=\"admin\" selected>admin</option><option value=\"\">default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '3')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "alice",
+              "email": "alice@example.com",
+              "created_at": "2020-02-01 10:02:00",
+              "active": "1",
+              "api_key": "00000000000000000000000a11ce01",
+              "api_active": 1,
+              "api_quota": "60",
+              "role": "",
+              "id": 2,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'alice', '00000000000000000000000a11ce01', '1', '60', '2')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success\" ng-click=\"toggleUserActiveStatus($event, 2)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u2 = ''\"\n            ng-model=\"changeUserRole.u2\" ng-change=\"changeUserRole(changeUserRole.u2, 2)\"\n            class=\"form-control\"><option value=\"admin\">admin</option><option value=\"\" selected>default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '2')\" class=\"btn btn-sm btn-danger \">\n            Delete\n        </a>"
+            },
+            {
+              "username": "polradmin",
+              "email": "admin@polr.test",
+              "created_at": "2020-02-01 10:01:00",
+              "active": "1",
+              "api_key": "0000000000000000000000000ad001",
+              "api_active": 1,
+              "api_quota": "60",
+              "role": "admin",
+              "id": 1,
+              "api_action": "<a class=\"activate-api-modal btn btn-sm btn-info\"\n            ng-click=\"openAPIModal($event, 'polradmin', '0000000000000000000000000ad001', '1', '60', '1')\">\n            API info\n        </a>",
+              "toggle_active": "<a class=\"btn btn-sm status-display btn-success disabled\" ng-click=\"toggleUserActiveStatus($event, 1)\">Active</a>",
+              "change_role": "<select ng-init=\"changeUserRole.u1 = 'admin'\"\n            ng-model=\"changeUserRole.u1\" ng-change=\"changeUserRole(changeUserRole.u1, 1)\"\n            class=\"form-control\" disabled><option value=\"admin\" selected>admin</option><option value=\"\">default</option></select>",
+              "delete": "<a ng-click=\"deleteUser($event, '1')\" class=\"btn btn-sm btn-danger disabled\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin links",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 18,
+          "recordsFiltered": 18,
+          "data": [
+            {
+              "short_url": "0",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/1\" href=\"https://example.com/page/1\">https://example.com/page/1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('0', 'https://example.com/page/1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/0\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:01:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '0')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '0')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "1",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/2\" href=\"https://example.com/page/2\">https://example.com/page/2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('1', 'https://example.com/page/2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/1\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:02:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '1')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '1')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "2",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/3\" href=\"https://example.com/page/3\">https://example.com/page/3</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('2', 'https://example.com/page/3')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/2\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:03:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '2')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '2')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "3",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/4\" href=\"https://example.com/page/4\">https://example.com/page/4</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('3', 'https://example.com/page/4')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/3\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:04:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '3')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '3')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "4",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/5\" href=\"https://example.com/page/5\">https://example.com/page/5</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('4', 'https://example.com/page/5')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/4\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:05:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '4')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '4')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "5",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/secret\" href=\"https://example.com/secret\">https://example.com/secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('5', 'https://example.com/secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/5\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:07:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '5')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '5')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "6",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-link\" href=\"https://example.net/admin-link\">https://example.net/admin-link</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('6', 'https://example.net/admin-link')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/6\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:10:00",
+              "creator": "polradmin",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '6')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '6')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "7",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-web\" href=\"https://example.org/alice-web\">https://example.org/alice-web</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('7', 'https://example.org/alice-web')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/7\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:12:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '7')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '7')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "8",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-1\" href=\"https://example.org/alice-api-1\">https://example.org/alice-api-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('8', 'https://example.org/alice-api-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/8\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:13:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '8')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '8')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "9",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-2\" href=\"https://example.org/alice-api-2\">https://example.org/alice-api-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('9', 'https://example.org/alice-api-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/9\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:14:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '9')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '9')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin links page 2",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 2,
+          "start": 10,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 2,
+          "recordsTotal": 18,
+          "recordsFiltered": 18,
+          "data": [
+            {
+              "short_url": "a",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-secret\" href=\"https://example.org/alice-api-secret\">https://example.org/alice-api-secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('a', 'https://example.org/alice-api-secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/a\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:16:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'a')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'a')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "admin-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-custom-edited\" href=\"https://example.net/admin-custom-edited\">https://example.net/admin-custom-edited</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('admin-custom', 'https://example.net/admin-custom-edited')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/admin-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:11:00",
+              "creator": "polradmin",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'admin-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'admin-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "alice-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-custom\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('alice-custom', 'https://example.org/alice-api-custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/alice-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:15:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'alice-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'alice-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "b",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-1\" href=\"https://example.org/bulk-1\">https://example.org/bulk-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('b', 'https://example.org/bulk-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/b\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:17:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'b')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'b')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "bulk-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-2\" href=\"https://example.org/bulk-2\">https://example.org/bulk-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('bulk-custom', 'https://example.org/bulk-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/bulk-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:18:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'bulk-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'bulk-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "c",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/anon-api\" href=\"https://example.com/anon-api\">https://example.com/anon-api</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('c', 'https://example.com/anon-api')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/c\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:19:00",
+              "creator": "ANONIP-203.0.113.7",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'c')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'c')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "custom-one",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/custom\" href=\"https://example.com/custom\">https://example.com/custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('custom-one', 'https://example.com/custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/custom-one\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:06:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'custom-one')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'custom-one')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "disabled-link",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/to-disable\" href=\"https://example.com/to-disable\">https://example.com/to-disable</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('disabled-link', 'https://example.com/to-disable')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/disabled-link\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:08:00",
+              "creator": "",
+              "is_disabled": 1,
+              "disable": "<a ng-click=\"toggleLink($event, 'disabled-link')\" class=\"btn btn-sm btn-success\">\n            Enable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'disabled-link')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin links search",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "alice",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 18,
+          "recordsFiltered": 7,
+          "data": [
+            {
+              "short_url": "7",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-web\" href=\"https://example.org/alice-web\">https://example.org/alice-web</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('7', 'https://example.org/alice-web')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/7\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:12:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '7')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '7')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "8",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-1\" href=\"https://example.org/alice-api-1\">https://example.org/alice-api-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('8', 'https://example.org/alice-api-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/8\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:13:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '8')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '8')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "9",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-2\" href=\"https://example.org/alice-api-2\">https://example.org/alice-api-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('9', 'https://example.org/alice-api-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/9\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:14:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '9')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '9')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "a",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-secret\" href=\"https://example.org/alice-api-secret\">https://example.org/alice-api-secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('a', 'https://example.org/alice-api-secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/a\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:16:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'a')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'a')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "alice-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-custom\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('alice-custom', 'https://example.org/alice-api-custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/alice-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:15:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'alice-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'alice-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "b",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-1\" href=\"https://example.org/bulk-1\">https://example.org/bulk-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('b', 'https://example.org/bulk-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/b\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:17:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'b')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'b')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "bulk-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-2\" href=\"https://example.org/bulk-2\">https://example.org/bulk-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('bulk-custom', 'https://example.org/bulk-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/bulk-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:18:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'bulk-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'bulk-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin links order by clicks",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 2,
+          "order[0][dir]": "desc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 18,
+          "recordsFiltered": 18,
+          "data": [
+            {
+              "short_url": "1",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/2\" href=\"https://example.com/page/2\">https://example.com/page/2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('1', 'https://example.com/page/2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/1\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:02:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '1')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '1')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "custom-one",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/custom\" href=\"https://example.com/custom\">https://example.com/custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('custom-one', 'https://example.com/custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/custom-one\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:06:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'custom-one')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'custom-one')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "alice-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-custom\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('alice-custom', 'https://example.org/alice-api-custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/alice-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:15:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'alice-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'alice-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "0",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/1\" href=\"https://example.com/page/1\">https://example.com/page/1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('0', 'https://example.com/page/1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/0\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:01:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '0')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '0')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "2",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/3\" href=\"https://example.com/page/3\">https://example.com/page/3</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('2', 'https://example.com/page/3')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/2\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:03:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '2')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '2')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "3",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/4\" href=\"https://example.com/page/4\">https://example.com/page/4</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('3', 'https://example.com/page/4')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/3\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:04:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '3')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '3')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "4",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/5\" href=\"https://example.com/page/5\">https://example.com/page/5</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('4', 'https://example.com/page/5')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/4\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:05:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '4')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '4')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "5",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/secret\" href=\"https://example.com/secret\">https://example.com/secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('5', 'https://example.com/secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/5\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:07:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '5')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '5')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "disabled-link",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/to-disable\" href=\"https://example.com/to-disable\">https://example.com/to-disable</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('disabled-link', 'https://example.com/to-disable')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/disabled-link\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:08:00",
+              "creator": "",
+              "is_disabled": 1,
+              "disable": "<a ng-click=\"toggleLink($event, 'disabled-link')\" class=\"btn btn-sm btn-success\">\n            Enable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'disabled-link')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "6",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-link\" href=\"https://example.net/admin-link\">https://example.net/admin-link</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('6', 'https://example.net/admin-link')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/6\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:10:00",
+              "creator": "polradmin",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '6')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '6')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin links length -1",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": -1,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 18,
+          "recordsFiltered": 18,
+          "data": [
+            {
+              "short_url": "0",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/1\" href=\"https://example.com/page/1\">https://example.com/page/1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('0', 'https://example.com/page/1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/0\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:01:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '0')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '0')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "1",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/2\" href=\"https://example.com/page/2\">https://example.com/page/2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('1', 'https://example.com/page/2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/1\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:02:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '1')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '1')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "2",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/3\" href=\"https://example.com/page/3\">https://example.com/page/3</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('2', 'https://example.com/page/3')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/2\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:03:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '2')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '2')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "3",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/4\" href=\"https://example.com/page/4\">https://example.com/page/4</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('3', 'https://example.com/page/4')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/3\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:04:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '3')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '3')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "4",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/page/5\" href=\"https://example.com/page/5\">https://example.com/page/5</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('4', 'https://example.com/page/5')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/4\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:05:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '4')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '4')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "5",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/secret\" href=\"https://example.com/secret\">https://example.com/secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('5', 'https://example.com/secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/5\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:07:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '5')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '5')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "6",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-link\" href=\"https://example.net/admin-link\">https://example.net/admin-link</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('6', 'https://example.net/admin-link')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/6\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:10:00",
+              "creator": "polradmin",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '6')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '6')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "7",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-web\" href=\"https://example.org/alice-web\">https://example.org/alice-web</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('7', 'https://example.org/alice-web')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/7\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:12:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '7')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '7')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "8",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-1\" href=\"https://example.org/alice-api-1\">https://example.org/alice-api-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('8', 'https://example.org/alice-api-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/8\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:13:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '8')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '8')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "9",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-2\" href=\"https://example.org/alice-api-2\">https://example.org/alice-api-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('9', 'https://example.org/alice-api-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/9\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:14:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, '9')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, '9')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "a",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-secret\" href=\"https://example.org/alice-api-secret\">https://example.org/alice-api-secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('a', 'https://example.org/alice-api-secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/a\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:16:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'a')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'a')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "admin-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-custom-edited\" href=\"https://example.net/admin-custom-edited\">https://example.net/admin-custom-edited</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('admin-custom', 'https://example.net/admin-custom-edited')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/admin-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:11:00",
+              "creator": "polradmin",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'admin-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'admin-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "alice-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-custom\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('alice-custom', 'https://example.org/alice-api-custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/alice-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:15:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'alice-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'alice-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "b",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-1\" href=\"https://example.org/bulk-1\">https://example.org/bulk-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('b', 'https://example.org/bulk-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/b\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:17:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'b')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'b')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "bulk-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-2\" href=\"https://example.org/bulk-2\">https://example.org/bulk-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('bulk-custom', 'https://example.org/bulk-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/bulk-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:18:00",
+              "creator": "alice",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'bulk-custom')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'bulk-custom')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "c",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/anon-api\" href=\"https://example.com/anon-api\">https://example.com/anon-api</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('c', 'https://example.com/anon-api')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/c\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:19:00",
+              "creator": "ANONIP-203.0.113.7",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'c')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'c')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "custom-one",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/custom\" href=\"https://example.com/custom\">https://example.com/custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('custom-one', 'https://example.com/custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/custom-one\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:06:00",
+              "creator": "",
+              "is_disabled": 0,
+              "disable": "<a ng-click=\"toggleLink($event, 'custom-one')\" class=\"btn btn-sm btn-danger\">\n            Disable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'custom-one')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            },
+            {
+              "short_url": "disabled-link",
+              "long_url": "<a target=\"_blank\" title=\"https://example.com/to-disable\" href=\"https://example.com/to-disable\">https://example.com/to-disable</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('disabled-link', 'https://example.com/to-disable')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/disabled-link\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:08:00",
+              "creator": "",
+              "is_disabled": 1,
+              "disable": "<a ng-click=\"toggleLink($event, 'disabled-link')\" class=\"btn btn-sm btn-success\">\n            Enable\n        </a>",
+              "delete": "<a ng-click=\"deleteLink($event, 'disabled-link')\"\n            class=\"btn btn-sm btn-warning delete-link\">\n            Delete\n        </a>"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "own links",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_user_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 2,
+          "recordsFiltered": 2,
+          "data": [
+            {
+              "id": 10,
+              "short_url": "6",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-link\" href=\"https://example.net/admin-link\">https://example.net/admin-link</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('6', 'https://example.net/admin-link')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/6\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:10:00"
+            },
+            {
+              "id": 11,
+              "short_url": "admin-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.net/admin-custom-edited\" href=\"https://example.net/admin-custom-edited\">https://example.net/admin-custom-edited</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('admin-custom', 'https://example.net/admin-custom-edited')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/admin-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:11:00"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "link available",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/link_avail_check",
+        "params": null,
+        "data": {
+          "link_ending": "free-one"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "available"
+      }
+    },
+    {
+      "name": "link unavailable",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/link_avail_check",
+        "params": null,
+        "data": {
+          "link_ending": "custom-one"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "unavailable"
+      }
+    },
+    {
+      "name": "link invalid",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/link_avail_check",
+        "params": null,
+        "data": {
+          "link_ending": "bad ending"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "invalid"
+      }
+    },
+    {
+      "name": "toggle api active (carol)",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_api_active",
+        "params": null,
+        "data": {
+          "user_id": 6
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 1,
+        "body": null
+      }
+    },
+    {
+      "name": "generate api key (carol)",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/generate_new_api_key",
+        "params": null,
+        "data": {
+          "user_id": 6
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<API_KEY>"
+      }
+    },
+    {
+      "name": "edit quota",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/edit_api_quota",
+        "params": null,
+        "data": {
+          "user_id": 6,
+          "new_quota": "15"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "toggle user active (carol)",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_user_active",
+        "params": null,
+        "data": {
+          "user_id": 6
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 0,
+        "body": null
+      }
+    },
+    {
+      "name": "toggle user active again",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_user_active",
+        "params": null,
+        "data": {
+          "user_id": 6
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 1,
+        "body": null
+      }
+    },
+    {
+      "name": "change role",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/change_user_role",
+        "params": null,
+        "data": {
+          "user_id": 6,
+          "role": "admin"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "change role back",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/change_user_role",
+        "params": null,
+        "data": {
+          "user_id": 6,
+          "role": ""
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "add user",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/add_new_user",
+        "params": null,
+        "data": {
+          "username": "erin",
+          "user_password": "ErinPass1",
+          "user_email": "erin@example.com",
+          "user_role": ""
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "delete user",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/delete_user",
+        "params": null,
+        "data": {
+          "user_id": 5
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "toggle link",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_link",
+        "params": null,
+        "data": {
+          "link_ending": "custom-one"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "Enable"
+      }
+    },
+    {
+      "name": "toggle link back",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_link",
+        "params": null,
+        "data": {
+          "link_ending": "custom-one"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "Disable"
+      }
+    },
+    {
+      "name": "edit long url",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/edit_link_long_url",
+        "params": null,
+        "data": {
+          "link_ending": "0",
+          "new_long_url": "https://example.com/edited"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "edit long url invalid",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/edit_link_long_url",
+        "params": null,
+        "data": {
+          "link_ending": "0",
+          "new_long_url": "not a url"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/api/v2/admin/get_user_links?columns%5B0%5D%5Bdata%5D=short_url&columns%5B0%5D%5Bname%5D=short_url&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B1%5D%5Bdata%5D=long_url&columns%5B1%5D%5Bname%5D=long_url&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearchable%5D=true&columns%5B2%5D%5Bdata%5D=clicks&columns%5B2%5D%5Bname%5D=clicks&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B3%5D%5Bdata%5D=created_at&columns%5B3%5D%5Bname%5D=created_at&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearchable%5D=true&draw=1&length=10&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&search%5Bregex%5D=false&search%5Bvalue%5D=&start=0"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/api/v2/admin/get_user_links?columns%5B0%5D%5Bdata%5D=short_url&amp;columns%5B0%5D%5Bname%5D=short_url&amp;columns%5B0%5D%5Borderable%5D=true&amp;columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B0%5D%5Bsearchable%5D=true&amp;columns%5B1%5D%5Bdata%5D=long_url&amp;columns%5B1%5D%5Bname%5D=long_url&amp;columns%5B1%5D%5Borderable%5D=true&amp;columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B1%5D%5Bsearchable%5D=true&amp;columns%5B2%5D%5Bdata%5D=clicks&amp;columns%5B2%5D%5Bname%5D=clicks&amp;columns%5B2%5D%5Borderable%5D=true&amp;columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B2%5D%5Bsearchable%5D=true&amp;columns%5B3%5D%5Bdata%5D=created_at&amp;columns%5B3%5D%5Bname%5D=created_at&amp;columns%5B3%5D%5Borderable%5D=true&amp;columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B3%5D%5Bsearchable%5D=true&amp;draw=1&amp;length=10&amp;order%5B0%5D%5Bcolumn%5D=0&amp;order%5B0%5D%5Bdir%5D=asc&amp;search%5Bregex%5D=false&amp;search%5Bvalue%5D=&amp;start=0\" />\n\n        <title>Redirecting to <BASE>/api/v2/admin/get_user_links?columns%5B0%5D%5Bdata%5D=short_url&amp;columns%5B0%5D%5Bname%5D=short_url&amp;columns%5B0%5D%5Borderable%5D=true&amp;columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B0%5D%5Bsearchable%5D=true&amp;columns%5B1%5D%5Bdata%5D=long_url&amp;columns%5B1%5D%5Bname%5D=long_url&amp;columns%5B1%5D%5Borderable%5D=true&amp;columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B1%5D%5Bsearchable%5D=true&amp;columns%5B2%5D%5Bdata%5D=clicks&amp;columns%5B2%5D%5Bname%5D=clicks&amp;columns%5B2%5D%5Borderable%5D=true&amp;columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B2%5D%5Bsearchable%5D=true&amp;columns%5B3%5D%5Bdata%5D=created_at&amp;columns%5B3%5D%5Bname%5D=created_at&amp;columns%5B3%5D%5Borderable%5D=true&amp;columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B3%5D%5Bsearchable%5D=true&amp;draw=1&amp;length=10&amp;order%5B0%5D%5Bcolumn%5D=0&amp;order%5B0%5D%5Bdir%5D=asc&amp;search%5Bregex%5D=false&amp;search%5Bvalue%5D=&amp;start=0</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/api/v2/admin/get_user_links?columns%5B0%5D%5Bdata%5D=short_url&amp;columns%5B0%5D%5Bname%5D=short_url&amp;columns%5B0%5D%5Borderable%5D=true&amp;columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B0%5D%5Bsearchable%5D=true&amp;columns%5B1%5D%5Bdata%5D=long_url&amp;columns%5B1%5D%5Bname%5D=long_url&amp;columns%5B1%5D%5Borderable%5D=true&amp;columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B1%5D%5Bsearchable%5D=true&amp;columns%5B2%5D%5Bdata%5D=clicks&amp;columns%5B2%5D%5Bname%5D=clicks&amp;columns%5B2%5D%5Borderable%5D=true&amp;columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B2%5D%5Bsearchable%5D=true&amp;columns%5B3%5D%5Bdata%5D=created_at&amp;columns%5B3%5D%5Bname%5D=created_at&amp;columns%5B3%5D%5Borderable%5D=true&amp;columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B3%5D%5Bsearchable%5D=true&amp;draw=1&amp;length=10&amp;order%5B0%5D%5Bcolumn%5D=0&amp;order%5B0%5D%5Bdir%5D=asc&amp;search%5Bregex%5D=false&amp;search%5Bvalue%5D=&amp;start=0\"><BASE>/api/v2/admin/get_user_links?columns%5B0%5D%5Bdata%5D=short_url&amp;columns%5B0%5D%5Bname%5D=short_url&amp;columns%5B0%5D%5Borderable%5D=true&amp;columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B0%5D%5Bsearchable%5D=true&amp;columns%5B1%5D%5Bdata%5D=long_url&amp;columns%5B1%5D%5Bname%5D=long_url&amp;columns%5B1%5D%5Borderable%5D=true&amp;columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B1%5D%5Bsearchable%5D=true&amp;columns%5B2%5D%5Bdata%5D=clicks&amp;columns%5B2%5D%5Bname%5D=clicks&amp;columns%5B2%5D%5Borderable%5D=true&amp;columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B2%5D%5Bsearchable%5D=true&amp;columns%5B3%5D%5Bdata%5D=created_at&amp;columns%5B3%5D%5Bname%5D=created_at&amp;columns%5B3%5D%5Borderable%5D=true&amp;columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&amp;columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&amp;columns%5B3%5D%5Bsearchable%5D=true&amp;draw=1&amp;length=10&amp;order%5B0%5D%5Bcolumn%5D=0&amp;order%5B0%5D%5Bdir%5D=asc&amp;search%5Bregex%5D=false&amp;search%5Bvalue%5D=&amp;start=0</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "delete link",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/delete_link",
+        "params": null,
+        "data": {
+          "link_ending": "4"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "OK"
+      }
+    },
+    {
+      "name": "unknown user",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_user_active",
+        "params": null,
+        "data": {
+          "user_id": 999
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/admin\">Dashboard</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/admin#settings\">Settings</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/logout\">Logout</a></li>\n                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                            <div class='nav pull-right navbar-nav'>\n                    <li class='dropdown'>\n                    <a class=\"dropdown-toggle login-name\" href=\"#\" data-toggle=\"dropdown\">polradmin <strong class=\"caret\"></strong></a>\n                        <ul class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin\">Dashboard</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin#settings\">Settings</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/logout\">Logout</a></li>\n                        </ul>\n                    </li>\n                </div>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "unknown link",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_link",
+        "params": null,
+        "data": {
+          "link_ending": "nope"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/admin\">Dashboard</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/admin#settings\">Settings</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/logout\">Logout</a></li>\n                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                            <div class='nav pull-right navbar-nav'>\n                    <li class='dropdown'>\n                    <a class=\"dropdown-toggle login-name\" href=\"#\" data-toggle=\"dropdown\">polradmin <strong class=\"caret\"></strong></a>\n                        <ul class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin\">Dashboard</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin#settings\">Settings</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/logout\">Logout</a></li>\n                        </ul>\n                    </li>\n                </div>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "ajax without CSRF",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_link",
+        "params": null,
+        "data": {
+          "link_ending": "0"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 500,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache, private"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n                        .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }\n            .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }\n            .sf-reset .clear_fix:after { display:block; height:0; clear:both; visibility:hidden; }\n            .sf-reset .clear_fix { display:inline-block; }\n            .sf-reset * html .clear_fix { height:1%; }\n            .sf-reset .clear_fix { display:block; }\n            .sf-reset, .sf-reset .block { margin: auto }\n            .sf-reset abbr { border-bottom: 1px dotted #000; cursor: help; }\n            .sf-reset p { font-size:14px; line-height:20px; color:#868686; padding-bottom:20px }\n            .sf-reset strong { font-weight:bold; }\n            .sf-reset a { color:#6c6159; cursor: default; }\n            .sf-reset a img { border:none; }\n            .sf-reset a:hover { text-decoration:underline; }\n            .sf-reset em { font-style:italic; }\n            .sf-reset h1, .sf-reset h2 { font: 20px Georgia, \"Times New Roman\", Times, serif }\n            .sf-reset .exception_counter { background-color: #fff; color: #333; padding: 6px; float: left; margin-right: 10px; float: left; display: block; }\n            .sf-reset .exception_title { margin-left: 3em; margin-bottom: 0.7em; display: block; }\n            .sf-reset .exception_message { margin-left: 3em; display: block; }\n            .sf-reset .traces li { font-size:12px; padding: 2px 4px; list-style-type:decimal; margin-left:20px; }\n            .sf-reset .block { background-color:#FFFFFF; padding:10px 28px; margin-bottom:20px;\n                -webkit-border-bottom-right-radius: 16px;\n                -webkit-border-bottom-left-radius: 16px;\n                -moz-border-radius-bottomright: 16px;\n                -moz-border-radius-bottomleft: 16px;\n                border-bottom-right-radius: 16px;\n                border-bottom-left-radius: 16px;\n                border-bottom:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                word-wrap: break-word;\n            }\n            .sf-reset .block_exception { background-color:#ddd; color: #333; padding:20px;\n                -webkit-border-top-left-radius: 16px;\n                -webkit-border-top-right-radius: 16px;\n                -moz-border-radius-topleft: 16px;\n                -moz-border-radius-topright: 16px;\n                border-top-left-radius: 16px;\n                border-top-right-radius: 16px;\n                border-top:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                overflow: hidden;\n                word-wrap: break-word;\n            }\n            .sf-reset a { background:none; color:#868686; text-decoration:none; }\n            .sf-reset a:hover { background:none; color:#313131; text-decoration:underline; }\n            .sf-reset ol { padding: 10px 0; }\n            .sf-reset h1 { background-color:#FFFFFF; padding: 15px 28px; margin-bottom: 20px;\n                -webkit-border-radius: 10px;\n                -moz-border-radius: 10px;\n                border-radius: 10px;\n                border: 1px solid #ccc;\n            }\n        </style>\n    </head>\n    <body>\n                    <div id=\"sf-resetcontent\" class=\"sf-reset\">\n                <h1>Whoops, looks like something went wrong.</h1>\n                \n            </div>\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "redirect to edited link",
+      "request": {
+        "method": "GET",
+        "path": "/0",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 301,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "https://example.com/edited"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=https://example.com/edited\" />\n\n        <title>Redirecting to https://example.com/edited</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"https://example.com/edited\">https://example.com/edited</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "deleted link",
+      "request": {
+        "method": "GET",
+        "path": "/4",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "new user logs in",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "erin",
+          "password": "ErinPass1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "db",
+      "value": {
+        "users": [
+          {
+            "id": "1",
+            "username": "polradmin",
+            "email": "admin@polr.test",
+            "ip": "198.51.100.1",
+            "role": "admin",
+            "active": "1",
+            "api_key": "0000000000000000000000000ad001",
+            "api_active": "1",
+            "api_quota": "60",
+            "created_at": "2020-02-01 10:01:00",
+            "updated_at": "2020-02-01 10:01:00",
+            "deleted_at": "NULL",
+            "password_prefix": "$2y$10$"
+          },
+          {
+            "id": "2",
+            "username": "alice",
+            "email": "alice@example.com",
+            "ip": "198.51.100.1",
+            "role": "",
+            "active": "1",
+            "api_key": "00000000000000000000000a11ce01",
+            "api_active": "1",
+            "api_quota": "60",
+            "created_at": "2020-02-01 10:02:00",
+            "updated_at": "2020-02-01 10:02:00",
+            "deleted_at": "NULL",
+            "password_prefix": "$2y$10$"
+          },
+          {
+            "id": "3",
+            "username": "bob",
+            "email": "bob@example.com",
+            "ip": "198.51.100.1",
+            "role": "admin",
+            "active": "1",
+            "api_key": "0",
+            "api_active": "0",
+            "api_quota": "60",
+            "created_at": "2020-02-01 10:03:00",
+            "updated_at": "2020-02-01 10:03:00",
+            "deleted_at": "NULL",
+            "password_prefix": "$2y$10$"
+          },
+          {
+            "id": "4",
+            "username": "quota",
+            "email": "quota@example.com",
+            "ip": "198.51.100.1",
+            "role": "",
+            "active": "1",
+            "api_key": "00000000000000000000000000ff01",
+            "api_active": "1",
+            "api_quota": "1",
+            "created_at": "2020-02-01 10:04:00",
+            "updated_at": "2020-02-01 10:04:00",
+            "deleted_at": "NULL",
+            "password_prefix": "$2y$10$"
+          },
+          {
+            "id": "6",
+            "username": "carol",
+            "email": "carol@example.org",
+            "ip": "198.51.100.1",
+            "role": "",
+            "active": "1",
+            "api_key": "<API_KEY>",
+            "api_active": "1",
+            "api_quota": "15",
+            "created_at": "2020-02-01 10:06:00",
+            "updated_at": "<NOW>",
+            "deleted_at": "NULL",
+            "password_prefix": "$2y$10$"
+          },
+          {
+            "id": "7",
+            "username": "erin",
+            "email": "erin@example.com",
+            "ip": "198.51.100.20",
+            "role": "",
+            "active": "1",
+            "api_key": "0",
+            "api_active": "0",
+            "api_quota": "60",
+            "created_at": "<NOW>",
+            "updated_at": "<NOW>",
+            "deleted_at": "NULL",
+            "password_prefix": "$2y$10$"
+          }
+        ],
+        "links": [
+          {
+            "id": "1",
+            "short_url": "0",
+            "long_url": "https://example.com/edited",
+            "long_url_hash": "399331198",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "1",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:01:00",
+            "updated_at": "<NOW>"
+          },
+          {
+            "id": "2",
+            "short_url": "1",
+            "long_url": "https://example.com/page/2",
+            "long_url_hash": "4187209244",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "10",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:02:00",
+            "updated_at": "2020-02-01 12:02:00"
+          },
+          {
+            "id": "3",
+            "short_url": "2",
+            "long_url": "https://example.com/page/3",
+            "long_url_hash": "2392100490",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:03:00",
+            "updated_at": "2020-02-01 12:03:00"
+          },
+          {
+            "id": "4",
+            "short_url": "3",
+            "long_url": "https://example.com/page/4",
+            "long_url_hash": "284171049",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:04:00",
+            "updated_at": "2020-02-01 12:04:00"
+          },
+          {
+            "id": "6",
+            "short_url": "custom-one",
+            "long_url": "https://example.com/custom",
+            "long_url_hash": "545518980",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "10",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "1",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:06:00",
+            "updated_at": "<NOW>"
+          },
+          {
+            "id": "7",
+            "short_url": "5",
+            "long_url": "https://example.com/secret",
+            "long_url_hash": "2309295098",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "0",
+            "secret_key_len": "4",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:07:00",
+            "updated_at": "2020-02-01 12:07:00"
+          },
+          {
+            "id": "8",
+            "short_url": "disabled-link",
+            "long_url": "https://example.com/to-disable",
+            "long_url_hash": "898531301",
+            "ip": "198.51.100.1",
+            "creator": "",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "1",
+            "is_custom": "1",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:08:00",
+            "updated_at": "2020-02-01 12:08:00"
+          },
+          {
+            "id": "10",
+            "short_url": "6",
+            "long_url": "https://example.net/admin-link",
+            "long_url_hash": "2476077058",
+            "ip": "198.51.100.1",
+            "creator": "polradmin",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:10:00",
+            "updated_at": "2020-02-01 12:10:00"
+          },
+          {
+            "id": "11",
+            "short_url": "admin-custom",
+            "long_url": "https://example.net/admin-custom-edited",
+            "long_url_hash": "2573573492",
+            "ip": "198.51.100.1",
+            "creator": "polradmin",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "1",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:11:00",
+            "updated_at": "2020-02-01 12:11:00"
+          },
+          {
+            "id": "12",
+            "short_url": "7",
+            "long_url": "https://example.org/alice-web",
+            "long_url_hash": "1173811867",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "0",
+            "created_at": "2020-02-01 12:12:00",
+            "updated_at": "2020-02-01 12:12:00"
+          },
+          {
+            "id": "13",
+            "short_url": "8",
+            "long_url": "https://example.org/alice-api-1",
+            "long_url_hash": "1964631891",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:13:00",
+            "updated_at": "2020-02-01 12:13:00"
+          },
+          {
+            "id": "14",
+            "short_url": "9",
+            "long_url": "https://example.org/alice-api-2",
+            "long_url_hash": "3960518377",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:14:00",
+            "updated_at": "2020-02-01 12:14:00"
+          },
+          {
+            "id": "15",
+            "short_url": "alice-custom",
+            "long_url": "https://example.org/alice-api-custom",
+            "long_url_hash": "954617339",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "10",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "1",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:15:00",
+            "updated_at": "2020-02-01 12:15:00"
+          },
+          {
+            "id": "16",
+            "short_url": "a",
+            "long_url": "https://example.org/alice-api-secret",
+            "long_url_hash": "2445325189",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "0",
+            "secret_key_len": "4",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:16:00",
+            "updated_at": "2020-02-01 12:16:00"
+          },
+          {
+            "id": "17",
+            "short_url": "b",
+            "long_url": "https://example.org/bulk-1",
+            "long_url_hash": "2185161885",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:17:00",
+            "updated_at": "2020-02-01 12:17:00"
+          },
+          {
+            "id": "18",
+            "short_url": "bulk-custom",
+            "long_url": "https://example.org/bulk-2",
+            "long_url_hash": "456637735",
+            "ip": "198.51.100.1",
+            "creator": "alice",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "1",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:18:00",
+            "updated_at": "2020-02-01 12:18:00"
+          },
+          {
+            "id": "19",
+            "short_url": "c",
+            "long_url": "https://example.com/anon-api",
+            "long_url_hash": "2299470578",
+            "ip": "203.0.113.7",
+            "creator": "ANONIP-203.0.113.7",
+            "clicks": "0",
+            "secret_key_len": "0",
+            "is_disabled": "0",
+            "is_custom": "0",
+            "is_api": "1",
+            "created_at": "2020-02-01 12:19:00",
+            "updated_at": "2020-02-01 12:19:00"
+          }
+        ]
+      }
+    }
+  ]
+}

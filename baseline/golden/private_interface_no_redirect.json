@@ -1,0 +1,46 @@
+{
+  "group": "private_interface_no_redirect",
+  "env": {
+    "SETTING_PUBLIC_INTERFACE": "false",
+    "SETTING_INDEX_REDIRECT": ""
+  },
+  "steps": [
+    {
+      "name": "index -> login when no redirect URL",
+      "request": {
+        "method": "GET",
+        "path": "/",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    }
+  ]
+}

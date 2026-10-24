@@ -1,0 +1,987 @@
+{
+  "group": "web_shorten",
+  "env": {},
+  "steps": [
+    {
+      "name": "new link",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/d' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "same long URL returns existing",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/d' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "existing anonymous link",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/page/2",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/1' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "custom ending",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-2",
+          "custom-ending": "my-end",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/my-end' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "custom ending in use",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-3",
+          "custom-ending": "custom-one",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "custom ending invalid chars",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-4",
+          "custom-ending": "bad ending!",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "secret link",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-5",
+          "options": "s",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/e/<SECRET>' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n            // Handle Lumen validation errors\n                    toastr[\"error\"](`The custom-ending may only contain letters, numbers, and dashes.`, \"Error\")\n                </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "already shortened",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://bit.ly/abc",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "own domain",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "http://polr.test/1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "invalid URL",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "not a url",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "missing URL",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "URL with spaces",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/a b",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "URL with unicode host",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://bücher.example/",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "URL with underscore host",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://my_host.example.com/",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "ftp URL",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "ftp://example.com/file",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/f' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n            // Handle Lumen validation errors\n                    toastr[\"error\"](`The link URL format is invalid.`, \"Error\")\n                </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "mailto URL",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "mailto:someone@example.com",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/g' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "javascript URL",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "javascript:alert(1)",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "index after validation error",
+      "request": {
+        "method": "GET",
+        "path": "/",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='css/index.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding   jumbotron large-content-div \">\n            <h1 class='title'>Polr Baseline</h1>\n\n<form method='POST' action='/shorten' role='form'>\n    <input type='url' autocomplete='off'\n        class='form-control long-link-input' placeholder='http://' name='link-url' />\n\n    <div class='row' id='options' ng-cloak>\n        <p>Customize link</p>\n\n                        <div class='btn-group btn-toggle visibility-toggler' data-toggle='buttons'>\n            <label class='btn btn-primary btn-sm active'>\n                <input type='radio' name='options' value='p' checked /> Public\n            </label>\n            <label class='btn btn-sm btn-default'>\n                <input type='radio' name='options' value='s' /> Secret\n            </label>\n        </div>\n        \n        <div>\n            <div class='custom-link-text'>\n                <h2 class='site-url-field'>polr.test/</h2>\n                <input type='text' autocomplete=\"off\" class='form-control custom-url-field' name='custom-ending' />\n            </div>\n            <div>\n                <a href='#' class='btn btn-success btn-xs check-btn' id='check-link-availability'>Check Availability</a>\n                <div id='link-availability-status'></div>\n            </div>\n        </div>\n    </div>\n    <input type='submit' class='btn btn-info' id='shorten' value='Shorten' />\n    <a href='#' class='btn btn-warning' id='show-link-options'>Link Options</a>\n    <input type=\"hidden\" name='_token' value='<CSRF>' />\n</form>\n\n<div id='tips' class='text-muted tips'>\n    <i class='fa fa-spinner'></i> Loading Tips...\n</div>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n            // Handle Lumen validation errors\n                    toastr[\"error\"](`The link URL format is invalid.`, \"Error\")\n                </script>\n\n    <script src='js/index.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "POST /shorten without CSRF",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/no-csrf"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 500,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache, private"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n                        .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }\n            .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }\n            .sf-reset .clear_fix:after { display:block; height:0; clear:both; visibility:hidden; }\n            .sf-reset .clear_fix { display:inline-block; }\n            .sf-reset * html .clear_fix { height:1%; }\n            .sf-reset .clear_fix { display:block; }\n            .sf-reset, .sf-reset .block { margin: auto }\n            .sf-reset abbr { border-bottom: 1px dotted #000; cursor: help; }\n            .sf-reset p { font-size:14px; line-height:20px; color:#868686; padding-bottom:20px }\n            .sf-reset strong { font-weight:bold; }\n            .sf-reset a { color:#6c6159; cursor: default; }\n            .sf-reset a img { border:none; }\n            .sf-reset a:hover { text-decoration:underline; }\n            .sf-reset em { font-style:italic; }\n            .sf-reset h1, .sf-reset h2 { font: 20px Georgia, \"Times New Roman\", Times, serif }\n            .sf-reset .exception_counter { background-color: #fff; color: #333; padding: 6px; float: left; margin-right: 10px; float: left; display: block; }\n            .sf-reset .exception_title { margin-left: 3em; margin-bottom: 0.7em; display: block; }\n            .sf-reset .exception_message { margin-left: 3em; display: block; }\n            .sf-reset .traces li { font-size:12px; padding: 2px 4px; list-style-type:decimal; margin-left:20px; }\n            .sf-reset .block { background-color:#FFFFFF; padding:10px 28px; margin-bottom:20px;\n                -webkit-border-bottom-right-radius: 16px;\n                -webkit-border-bottom-left-radius: 16px;\n                -moz-border-radius-bottomright: 16px;\n                -moz-border-radius-bottomleft: 16px;\n                border-bottom-right-radius: 16px;\n                border-bottom-left-radius: 16px;\n                border-bottom:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                word-wrap: break-word;\n            }\n            .sf-reset .block_exception { background-color:#ddd; color: #333; padding:20px;\n                -webkit-border-top-left-radius: 16px;\n                -webkit-border-top-right-radius: 16px;\n                -moz-border-radius-topleft: 16px;\n                -moz-border-radius-topright: 16px;\n                border-top-left-radius: 16px;\n                border-top-right-radius: 16px;\n                border-top:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                overflow: hidden;\n                word-wrap: break-word;\n            }\n            .sf-reset a { background:none; color:#868686; text-decoration:none; }\n            .sf-reset a:hover { background:none; color:#313131; text-decoration:underline; }\n            .sf-reset ol { padding: 10px 0; }\n            .sf-reset h1 { background-color:#FFFFFF; padding: 15px 28px; margin-bottom: 20px;\n                -webkit-border-radius: 10px;\n                -moz-border-radius: 10px;\n                border-radius: 10px;\n                border: 1px solid #ccc;\n            }\n        </style>\n    </head>\n    <body>\n                    <div id=\"sf-resetcontent\" class=\"sf-reset\">\n                <h1>Whoops, looks like something went wrong.</h1>\n                \n            </div>\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "POST /shorten bad CSRF",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/no-csrf",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 500,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache, private"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n                        .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }\n            .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }\n            .sf-reset .clear_fix:after { display:block; height:0; clear:both; visibility:hidden; }\n            .sf-reset .clear_fix { display:inline-block; }\n            .sf-reset * html .clear_fix { height:1%; }\n            .sf-reset .clear_fix { display:block; }\n            .sf-reset, .sf-reset .block { margin: auto }\n            .sf-reset abbr { border-bottom: 1px dotted #000; cursor: help; }\n            .sf-reset p { font-size:14px; line-height:20px; color:#868686; padding-bottom:20px }\n            .sf-reset strong { font-weight:bold; }\n            .sf-reset a { color:#6c6159; cursor: default; }\n            .sf-reset a img { border:none; }\n            .sf-reset a:hover { text-decoration:underline; }\n            .sf-reset em { font-style:italic; }\n            .sf-reset h1, .sf-reset h2 { font: 20px Georgia, \"Times New Roman\", Times, serif }\n            .sf-reset .exception_counter { background-color: #fff; color: #333; padding: 6px; float: left; margin-right: 10px; float: left; display: block; }\n            .sf-reset .exception_title { margin-left: 3em; margin-bottom: 0.7em; display: block; }\n            .sf-reset .exception_message { margin-left: 3em; display: block; }\n            .sf-reset .traces li { font-size:12px; padding: 2px 4px; list-style-type:decimal; margin-left:20px; }\n            .sf-reset .block { background-color:#FFFFFF; padding:10px 28px; margin-bottom:20px;\n                -webkit-border-bottom-right-radius: 16px;\n                -webkit-border-bottom-left-radius: 16px;\n                -moz-border-radius-bottomright: 16px;\n                -moz-border-radius-bottomleft: 16px;\n                border-bottom-right-radius: 16px;\n                border-bottom-left-radius: 16px;\n                border-bottom:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                word-wrap: break-word;\n            }\n            .sf-reset .block_exception { background-color:#ddd; color: #333; padding:20px;\n                -webkit-border-top-left-radius: 16px;\n                -webkit-border-top-right-radius: 16px;\n                -moz-border-radius-topleft: 16px;\n                -moz-border-radius-topright: 16px;\n                border-top-left-radius: 16px;\n                border-top-right-radius: 16px;\n                border-top:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                overflow: hidden;\n                word-wrap: break-word;\n            }\n            .sf-reset a { background:none; color:#868686; text-decoration:none; }\n            .sf-reset a:hover { background:none; color:#313131; text-decoration:underline; }\n            .sf-reset ol { padding: 10px 0; }\n            .sf-reset h1 { background-color:#FFFFFF; padding: 15px 28px; margin-bottom: 20px;\n                -webkit-border-radius: 10px;\n                -moz-border-radius: 10px;\n                border-radius: 10px;\n                border: 1px solid #ccc;\n            }\n        </style>\n    </head>\n    <body>\n                    <div id=\"sf-resetcontent\" class=\"sf-reset\">\n                <h1>Whoops, looks like something went wrong.</h1>\n                \n            </div>\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "login alice",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "alice",
+          "password": "AlicePass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "alice shortens",
+      "request": {
+        "method": "POST",
+        "path": "/shorten",
+        "params": null,
+        "data": {
+          "link-url": "https://example.com/new-1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/shorten_result.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/admin\">Dashboard</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/admin#settings\">Settings</a></li>\n                <li class=\"visible-xs\"><a href=\"<BASE>/logout\">Logout</a></li>\n                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                            <div class='nav pull-right navbar-nav'>\n                    <li class='dropdown'>\n                    <a class=\"dropdown-toggle login-name\" href=\"#\" data-toggle=\"dropdown\">alice <strong class=\"caret\"></strong></a>\n                        <ul class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin\">Dashboard</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/admin#settings\">Settings</a></li>\n                            <li><a tabindex=\"-1\" href=\"<BASE>/logout\">Logout</a></li>\n                        </ul>\n                    </li>\n                </div>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h3>Shortened URL</h3>\n<div class=\"input-group\">\n    <input type='text' class='result-box form-control' value='http://polr.test/h' id='short_url' />\n    <div class='input-group-addon' id='clipboard-copy' data-clipboard-target='#short_url' data-toggle='tooltip' data-placement='bottom' data-title='Copied!'>\n        <i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i>\n    </div>\n</div>\n<a id=\"generate-qr-code\" class='btn btn-primary'>Generate QR Code</a>\n<a href='<BASE>' class='btn btn-info'>Shorten another</a>\n\n<div class=\"qr-code-container\"></div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='/js/qrcode.min.js'></script>\n<script src='/js/clipboard.min.js'></script>\n<script src='/js/shorten_result.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "db",
+      "value": [
+        {
+          "id": "18",
+          "short_url": "bulk-custom",
+          "long_url": "https://example.org/bulk-2",
+          "long_url_hash": "456637735",
+          "ip": "198.51.100.1",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "1",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:18:00",
+          "updated_at": "2020-02-01 12:18:00"
+        },
+        {
+          "id": "19",
+          "short_url": "c",
+          "long_url": "https://example.com/anon-api",
+          "long_url_hash": "2299470578",
+          "ip": "203.0.113.7",
+          "creator": "ANONIP-203.0.113.7",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:19:00",
+          "updated_at": "2020-02-01 12:19:00"
+        },
+        {
+          "id": "20",
+          "short_url": "d",
+          "long_url": "https://example.com/new-1",
+          "long_url_hash": "2872108578",
+          "ip": "198.51.100.20",
+          "creator": "",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "0",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "21",
+          "short_url": "my-end",
+          "long_url": "https://example.com/new-2",
+          "long_url_hash": "842643352",
+          "ip": "198.51.100.20",
+          "creator": "",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "1",
+          "is_api": "0",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "22",
+          "short_url": "e",
+          "long_url": "https://example.com/new-5",
+          "long_url_hash": "2891784763",
+          "ip": "198.51.100.20",
+          "creator": "",
+          "clicks": "0",
+          "secret_key_len": "4",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "0",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "23",
+          "short_url": "f",
+          "long_url": "ftp://example.com/file",
+          "long_url_hash": "3459736573",
+          "ip": "198.51.100.20",
+          "creator": "",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "0",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "24",
+          "short_url": "g",
+          "long_url": "mailto:someone@example.com",
+          "long_url_hash": "753589618",
+          "ip": "198.51.100.20",
+          "creator": "",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "0",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "25",
+          "short_url": "h",
+          "long_url": "https://example.com/new-1",
+          "long_url_hash": "2872108578",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "0",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        }
+      ]
+    }
+  ]
+}

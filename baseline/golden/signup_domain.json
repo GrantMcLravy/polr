@@ -1,0 +1,135 @@
+{
+  "group": "signup_domain",
+  "env": {
+    "SETTING_RESTRICT_EMAIL_DOMAIN": "true",
+    "SETTING_ALLOWED_EMAIL_DOMAINS": "\"example.org,example.com\""
+  },
+  "steps": [
+    {
+      "name": "allowed domain",
+      "request": {
+        "method": "POST",
+        "path": "/signup",
+        "params": null,
+        "data": {
+          "username": "ivy",
+          "password": "IvyPass1",
+          "email": "ivy@example.org",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "second allowed domain (with space)",
+      "request": {
+        "method": "POST",
+        "path": "/signup",
+        "params": null,
+        "data": {
+          "username": "ivy2",
+          "password": "IvyPass1",
+          "email": "ivy2@example.com",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "disallowed domain",
+      "request": {
+        "method": "POST",
+        "path": "/signup",
+        "params": null,
+        "data": {
+          "username": "jack",
+          "password": "JackPass1",
+          "email": "jack@other.net",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/signup"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/signup\" />\n\n        <title>Redirecting to <BASE>/signup</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/signup\"><BASE>/signup</a>.\n    </body>\n</html>"
+      }
+    }
+  ]
+}

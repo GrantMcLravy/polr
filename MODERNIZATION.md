@@ -53,8 +53,18 @@ listed under "Deliberate changes".
 
 ## Behavior that must be pinned (silent breakage otherwise)
 
-- **MySQL strict mode off** (`'strict' => false`). Link inserts omit the NOT NULL
-  columns `creator` and `secret_key`, which have no default.
+- **MySQL session settings exactly as Lumen 5.1 set them:** `sql_mode=''` (use
+  `'modes' => []`; Laravel's `strict => false` would set `NO_ENGINE_SUBSTITUTION`) and
+  `time_zone='+00:00'` (`'timezone' => '+00:00'`). Link inserts omit the NOT NULL
+  columns `creator` and `secret_key`, which have no default. The timezone matters
+  because `created_at`/`updated_at` are `TIMESTAMP` columns, which MySQL converts using
+  the session time zone.
+- **Mail encryption default:** Lumen's mail config defaults `MAIL_ENCRYPTION` to
+  `tls` (STARTTLS required), and setup-written `.env` files don't set it. Map this to the
+  equivalent Symfony Mailer behavior.
+- **phpdotenv 1.1 does not expand `${VAR}`** in double-quoted values; phpdotenv 5
+  does. The setup wizard writes passwords in double quotes, so a `${` in a password
+  would change meaning. See `baseline/fixtures/env/*.parsed.json`.
 - **`PDO::ATTR_STRINGIFY_FETCHES => true`.** PHP 8.1+ returns integers, which would turn
   `"clicks":"5"` into `5` in API, stats and DataTables JSON.
 - **API lookup `created_at` / `updated_at`** keep the DateTime object form
@@ -82,6 +92,19 @@ listed under "Deliberate changes".
   `$request->user = …` in `ApiMiddleware`.
 - **Carbon 3:** `diffIn*()` returns signed floats; audit the stats bound checks.
 - **Removed helpers:** `str_random`, `array_get`, `str_limit`.
+
+## Recorded edge cases (see `baseline/README.md`)
+
+The baseline recordings show behavior where Laravel's defaults differ. Unless noted,
+the port reproduces the recorded behavior:
+
+- A CSRF failure returns **500** (generic error page), not Laravel's 419. **Open
+  question:** keep 500, or accept 419?
+- `PUT /login` returns 500, because CSRF runs before routing in Lumen. Laravel will
+  return 405 (accepted difference).
+- `/index.php` returns 404 in Lumen. Laravel serves `/` (accepted difference).
+- Stats page with reversed bounds or an invalid date returns 500 (existing bug, kept).
+- Admin-created users without API access are stored with `api_key = "0"`.
 
 ## Known issues kept as-is (faithful port)
 
@@ -127,10 +150,10 @@ Public API, prefix `/api/v2`, `api` middleware, no CSRF: GET|POST `action/shorte
 
 ## Phases (one commit each)
 
-0. **Baseline.** A Docker environment running the current code (PHP 7.1, Lumen 5.1,
-   MySQL 5.7) that records reference responses for every route above and for the setup
-   wizard, plus a 2.3.0 database dump and `.env` fixtures written by the real wizard.
-   Lives in `baseline/`.
+0. **Baseline** (done). `baseline/`: a Docker environment running the original code
+   (PHP 7.1, Lumen 5.1, MySQL 5.7, mail catcher), a 2.3.0 database dump created
+   through the real setup wizard, `.env` fixtures plus how phpdotenv 1.1 parses them,
+   and 26 recorded scenario groups (~260 requests) covering every route above.
 1. **Skeleton.** A fresh Laravel 13 app with Polr's code moved in; composer; config
    (strict off, stringify fetches, bcrypt verify off, legacy env fallbacks, file/file/sync
    defaults); Laravel's default migrations deleted.

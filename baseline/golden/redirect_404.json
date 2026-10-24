@@ -1,0 +1,120 @@
+{
+  "group": "redirect_404",
+  "env": {
+    "SETTING_REDIRECT_404": "true"
+  },
+  "steps": [
+    {
+      "name": "unknown link redirects",
+      "request": {
+        "method": "GET",
+        "path": "/does-not-exist",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "https://example.com/home"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=https://example.com/home\" />\n\n        <title>Redirecting to https://example.com/home</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"https://example.com/home\">https://example.com/home</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "disabled link redirects",
+      "request": {
+        "method": "GET",
+        "path": "/disabled-link",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "https://example.com/home"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=https://example.com/home\" />\n\n        <title>Redirecting to https://example.com/home</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"https://example.com/home\">https://example.com/home</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "secret link wrong key",
+      "request": {
+        "method": "GET",
+        "path": "/5/0000",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 403,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 403,
+        "body": null
+      }
+    },
+    {
+      "name": "unknown nested path",
+      "request": {
+        "method": "GET",
+        "path": "/a/b/c",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "https://example.com/home"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=https://example.com/home\" />\n\n        <title>Redirecting to https://example.com/home</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"https://example.com/home\">https://example.com/home</a>.\n    </body>\n</html>"
+      }
+    }
+  ]
+}
