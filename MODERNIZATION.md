@@ -83,9 +83,23 @@ listed under "Deliberate changes".
 - **phpdotenv 1 → 5:** `.env` files written by the setup wizard must read back to the
   same values. `env.blade.php` uses `{{{ }}}`, which current Blade no longer supports;
   change it to `{{ }}` (same escaping).
-- **Migration `2017_02_08_003907`:** without DBAL, `->change()` drops `default(0)` on
-  `clicks` for fresh installs. Restate the default in the migration body (file and class
-  unchanged).
+- **Fresh-install migrations** (file and class names unchanged; bodies adjusted so a
+  fresh install gets exactly the 2.3.0 schema):
+  - `timestamps()` is written out as `NOT NULL DEFAULT '0000-00-00 00:00:00'` columns,
+    as Laravel 5.1 created them (Laravel 13 makes them nullable).
+  - `2017_02_04_025727`: `chunk()` now requires `orderBy('id')`.
+  - `2017_02_08_003907`: without DBAL, `->change()` drops `default(0)` on `clicks`, so
+    the default is restated.
+  - Laravel creates the `migrations` table with an `id` column on fresh installs.
+    Existing installs keep theirs without one; both work.
+- **Laravel's global middleware that Lumen didn't have** (remove in phase 3):
+  `TrimStrings` (would trim passwords, breaking logins for passwords with leading or
+  trailing spaces), `ConvertEmptyStringsToNull` (changes `""` inputs such as
+  `custom_ending`), and `HandleCors` (would answer API `OPTIONS` with 204; Lumen
+  returned 405, and Polr sets `Access-Control-Allow-Origin` itself).
+- **No `/up` health route:** it would shadow a short link named `up`.
+- **Session cookie** keeps Lumen's name `laravel_session`. Laravel adds
+  `SameSite=Lax`, which is accepted (all Polr requests are same-origin).
 - **Route order:** register `/{short_url}` and `/{short_url}/{secret_key}` last.
 - **PHP 8.4:** `ApiException` (parameter order, implicit nullable, wrong `Exception`
   namespace, dynamic properties), dynamic properties in `StatsHelper`, and
@@ -154,9 +168,11 @@ Public API, prefix `/api/v2`, `api` middleware, no CSRF: GET|POST `action/shorte
    (PHP 7.1, Lumen 5.1, MySQL 5.7, mail catcher), a 2.3.0 database dump created
    through the real setup wizard, `.env` fixtures plus how phpdotenv 1.1 parses them,
    and 26 recorded scenario groups (~260 requests) covering every route above.
-1. **Skeleton.** A fresh Laravel 13 app with Polr's code moved in; composer; config
-   (strict off, stringify fetches, bcrypt verify off, legacy env fallbacks, file/file/sync
-   defaults); Laravel's default migrations deleted.
+1. **Skeleton** (done). Laravel 13 skeleton files (artisan, bootstrap, framework config,
+   `public/index.php`, `.htaccess`, storage layout), Composer packages resolved for PHP 8.3+
+   (laravel/framework 13.38, yajra 13.3, torann/geoip 3.0.10, geoip2 3.4,
+   google/recaptcha 1.3), framework config pinned as above, fresh-install migrations
+   fixed. `dev/` has a PHP 8.4 + MySQL 5.7 development environment.
 2. **Routing.** `routes/web.php` per the inventory above.
 3. **Bootstrap, middleware, exceptions.** `bootstrap/app.php`, the CSRF exclusions,
    trusted proxies, and the exception handler with identical rendering.
