@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
-use Laravel\Lumen\Routing\Controller as BaseController;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
+abstract class Controller {
+    // Provides $this->validate(), which Lumen's base controller used to supply.
+    use ValidatesRequests;
 
-class Controller extends BaseController {
     protected static function currIsAdmin() {
         $role = session('role');
         if ($role == 'admin') {

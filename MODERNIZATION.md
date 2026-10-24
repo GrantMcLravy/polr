@@ -98,6 +98,14 @@ listed under "Deliberate changes".
   `custom_ending`), and `HandleCors` (would answer API `OPTIONS` with 204; Lumen
   returned 405, and Polr sets `Access-Control-Allow-Origin` itself).
 - **No `/up` health route:** it would shadow a short link named `up`.
+- **No `/storage/{path}` route:** Laravel 12+ serves the private `local` disk there by
+  default (`'serve' => false`), which would shadow secret links with the ending `storage`.
+- **`GET /shorten` stays a 405.** Lumen's router let a static path registered for another
+  method win over `/{short_url}`. The catch-all excludes `shorten` so Laravel also answers
+  405 instead of looking up a short link called `shorten`.
+- **Public API middleware is referenced by class.** The Lumen alias `api` can't be reused,
+  because Laravel's built-in `api` middleware group takes precedence over an alias of the
+  same name.
 - **Session cookie** keeps Lumen's name `laravel_session`. Laravel adds
   `SameSite=Lax`, which is accepted (all Polr requests are same-origin).
 - **Route order:** register `/{short_url}` and `/{short_url}/{secret_key}` last.
@@ -173,7 +181,8 @@ Public API, prefix `/api/v2`, `api` middleware, no CSRF: GET|POST `action/shorte
    (laravel/framework 13.38, yajra 13.3, torann/geoip 3.0.10, geoip2 3.4,
    google/recaptcha 1.3), framework config pinned as above, fresh-install migrations
    fixed. `dev/` has a PHP 8.4 + MySQL 5.7 development environment.
-2. **Routing.** `routes/web.php` per the inventory above.
+2. **Routing** (done). `routes/web.php` per the inventory above, checked by
+   `dev/check_routes.py` against `route:list` (cached and uncached).
 3. **Bootstrap, middleware, exceptions.** `bootstrap/app.php`, the CSRF exclusions,
    trusted proxies, and the exception handler with identical rendering.
 4. **Code fixes.** Removed helpers, Carbon 3, PHP 8.4, DataTables, mail, `env()` →
