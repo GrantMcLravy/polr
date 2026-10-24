@@ -65,8 +65,15 @@ listed under "Deliberate changes".
 - **phpdotenv 1.1 does not expand `${VAR}`** in double-quoted values; phpdotenv 5
   does. The setup wizard writes passwords in double quotes, so a `${` in a password
   would change meaning. See `baseline/fixtures/env/*.parsed.json`.
-- **`PDO::ATTR_STRINGIFY_FETCHES => true`.** PHP 8.1+ returns integers, which would turn
-  `"clicks":"5"` into `5` in API, stats and DataTables JSON.
+- **Native integer fetches, no `PDO::ATTR_STRINGIFY_FETCHES`.** Lumen 5.1 disabled
+  emulated prepares, so INT columns already came back as PHP ints (`"clicks": 10`,
+  `"api_active": 1`, stats counts) and VARCHAR columns as strings (`"active": "1"`).
+  Laravel 13 does the same. (Phase 1 wrongly added `STRINGIFY_FETCHES`; the baseline
+  replay caught it and Phase 3 removed it.)
+- **Short-link redirects keep `Cache-Control: no-cache`.** Newer Symfony strips
+  Cache-Control from 301 responses so browsers cache them indefinitely. Then edits,
+  disabling, and click counting would no longer reach repeat visitors. Set it explicitly
+  in `LinkController::performRedirect` (phase 4).
 - **API lookup `created_at` / `updated_at`** keep the DateTime object form
   `{"date":"…","timezone_type":3,"timezone":"UTC"}` (see `docs/developer-guide/api.md`),
   not Carbon 3's ISO string.
@@ -92,11 +99,35 @@ listed under "Deliberate changes".
     the default is restated.
   - Laravel creates the `migrations` table with an `id` column on fresh installs.
     Existing installs keep theirs without one; both work.
-- **Laravel's global middleware that Lumen didn't have** (remove in phase 3):
-  `TrimStrings` (would trim passwords, breaking logins for passwords with leading or
-  trailing spaces), `ConvertEmptyStringsToNull` (changes `""` inputs such as
-  `custom_ending`), and `HandleCors` (would answer API `OPTIONS` with 204; Lumen
-  returned 405, and Polr sets `Access-Control-Allow-Origin` itself).
+- **Middleware stack as Lumen ran it** (`bootstrap/app.php`):
+  - Cookies, session, shared errors and CSRF run as **global** middleware, before
+    routing, as in Lumen. So every response, including 404s for unmatched paths, has a
+    session and CSRF token, and `PUT /login` without a token is a CSRF 500 as before.
+  - Not used, because Lumen didn't have them: `TrimStrings` (would trim passwords,
+    breaking logins for passwords with leading or trailing spaces),
+    `ConvertEmptyStringsToNull` (changes `""` inputs such as `custom_ending`), and
+    `HandleCors` (would answer API `OPTIONS` with 204).
+  - `App\Http\Middleware\VerifyCsrfToken` extends Laravel's CSRF middleware. Excluded
+    paths skip it entirely, so the public API gets no `XSRF-TOKEN` cookie, as before.
+    The token is always required: Laravel 13 also accepts `Sec-Fetch-Site: same-origin`
+    without a token, which is turned off.
+  - `NoCookiesOnErrorResponses`: in Lumen an exception skipped the rest of the
+    middleware, so error responses carried no cookies (the session was still saved).
+    Laravel renders exceptions inside the stack, so this outermost middleware removes
+    the cookies again. Validation failures are exempt: Lumen turned those into
+    responses inside the controller, so they did get cookies.
+  - `NoAutomaticOptionsResponses`: Laravel's router answers `OPTIONS` itself with 200
+    and an `Allow` header. Lumen returned 405 (404 for unknown paths).
+  - Trusted proxies: `config/trustedproxy.php` (`TRUSTED_PROXIES`), read by Laravel's
+    `TrustProxies` middleware.
+- **Exception rendering** (`App\Exceptions\Renderer`, ported from the Lumen handler):
+  404 → redirect to `SETTING_INDEX_REDIRECT` or `errors.404`; other HTTP exceptions →
+  `errors.500` / `errors.generic`; `ApiException` → JSON or plain text with CORS header;
+  nothing special when `APP_DEBUG` is on. Additions needed under Laravel:
+  - a CSRF failure (which Laravel turns into a 419) is a 500;
+  - 405 pages have an empty message (Laravel's names the route and allowed methods);
+  - AJAX/JSON validation failures return the bare error bag with 422, as Lumen 5.1's
+    `validate()` did, not Laravel's `{"message", "errors"}`.
 - **No `/up` health route:** it would shadow a short link named `up`.
 - **No `/storage/{path}` route:** Laravel 12+ serves the private `local` disk there by
   default (`'serve' => false`), which would shadow secret links with the ending `storage`.
@@ -120,13 +151,29 @@ listed under "Deliberate changes".
 The baseline recordings show behavior where Laravel's defaults differ. Unless noted,
 the port reproduces the recorded behavior:
 
-- A CSRF failure returns **500** (generic error page), not Laravel's 419. **Open
-  question:** keep 500, or accept 419?
-- `PUT /login` returns 500, because CSRF runs before routing in Lumen. Laravel will
-  return 405 (accepted difference).
-- `/index.php` returns 404 in Lumen. Laravel serves `/` (accepted difference).
+- A CSRF failure returns **500**, not Laravel's 419 (decided: keep 500). So does
+  `PUT /login`, because CSRF runs before routing.
 - Stats page with reversed bounds or an invalid date returns 500 (existing bug, kept).
 - Admin-created users without API access are stored with `api_key = "0"`.
+
+## Accepted differences
+
+`dev/compare.py` normalizes the formatting-only ones (`--strict` shows them all):
+
+- **Unexpected-error page body.** For a 500 caused by something other than an HTTP
+  exception (CSRF failure, crash), Lumen showed Symfony's generic "Whoops, looks like
+  something went wrong." page. The port shows Polr's own `errors/500` page. Same status.
+- Set-Cookie attribute case (`httponly`) and `SameSite=Lax`; `Cache-Control: no-cache,
+  private` instead of `no-cache`; `charset=utf-8` case; the quoted URL in redirect pages'
+  `<meta http-equiv="refresh">`; Blade whitespace around directives.
+- New password hashes use bcrypt cost 12 (Laravel's default) instead of 10. Old hashes
+  verify unchanged.
+- `/index.php` serves the home page (Lumen: 404).
+- Web-server level (depends on Apache/nginx, not Polr): `Vary`, `ETag`/`Last-Modified` on
+  static files, the trailing-slash 301 from `.htaccess`.
+- A non-AJAX validation failure on an AJAX endpoint redirects back to the previous URL
+  with its query parameters in their original order (Lumen sorted them). Browsers always
+  send AJAX requests with `X-Requested-With`, which gets the JSON response instead.
 
 ## Known issues kept as-is (faithful port)
 
@@ -166,7 +213,7 @@ Internal admin AJAX, prefix `/api/v2` (session + CSRF): POST `link_avail_check`,
 `admin/get_admin_links`, `admin/get_user_links` → AdminPaginationController. Existing
 `api_*` names kept.
 
-Public API, prefix `/api/v2`, `api` middleware, no CSRF: GET|POST `action/shorten`
+Public API, prefix `/api/v2`, `ApiMiddleware`, no CSRF: GET|POST `action/shorten`
 (`api_shorten_url`), POST `action/shorten_bulk` (`api_shorten_url_bulk`), GET|POST
 `action/lookup` (`api_lookup_url`), GET|POST `data/link` (`api_link_analytics`).
 
@@ -183,8 +230,10 @@ Public API, prefix `/api/v2`, `api` middleware, no CSRF: GET|POST `action/shorte
    fixed. `dev/` has a PHP 8.4 + MySQL 5.7 development environment.
 2. **Routing** (done). `routes/web.php` per the inventory above, checked by
    `dev/check_routes.py` against `route:list` (cached and uncached).
-3. **Bootstrap, middleware, exceptions.** `bootstrap/app.php`, the CSRF exclusions,
-   trusted proxies, and the exception handler with identical rendering.
+3. **Bootstrap, middleware, exceptions** (done). Middleware stack and exception rendering
+   as above. The app now serves requests. `dev/replay.sh` replays the baseline against the
+   dev environment and `dev/compare.py` diffs the results: 207/264 steps identical,
+   with the rest belonging to phases 4–5 or listed as accepted differences.
 4. **Code fixes.** Removed helpers, Carbon 3, PHP 8.4, DataTables, mail, `env()` →
    `config()`, and the pinned behavior above.
 5. **GeoIP, setup wizard, admin command.** torann v3, hardened lookups, the

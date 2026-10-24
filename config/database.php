@@ -64,13 +64,12 @@ return [
             'modes' => [],
             'timezone' => env('DB_TIMEZONE', '+00:00'),
             'engine' => null,
+            // Like Lumen 5.1, Laravel disables emulated prepares, so INT columns
+            // come back as PHP ints (e.g. "clicks": 10 in API responses), as
+            // they always have. Do not add PDO::ATTR_STRINGIFY_FETCHES.
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) + [
-                // PHP 8.1+ returns native ints; Polr's JSON output (API, stats,
-                // admin tables) has always contained strings.
-                PDO::ATTR_STRINGIFY_FETCHES => true,
-            ] : [],
+            ]) : [],
         ],
 
         'mariadb' => [

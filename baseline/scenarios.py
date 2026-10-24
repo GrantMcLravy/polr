@@ -39,8 +39,9 @@ SECRET_LINK = ("5", "5ec7")          # anonymous secret link
 ALICE_SECRET_LINK = ("a", "a5ec")    # alice's secret API link
 STATS_BOUNDS = {"left_bound": "2020-02-01 00:00:00", "right_bound": "2020-03-01 00:00:00"}
 
+# Web-server level headers ("host" is echoed by PHP's built-in server)
 DROP_HEADERS = {"date", "server", "x-powered-by", "connection", "keep-alive",
-                "content-length", "transfer-encoding"}
+                "content-length", "transfer-encoding", "host"}
 DATETIME_RE = re.compile(r"\b(?!2020-)\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?")
 CSRF_RES = [
     re.compile(r"(name=['\"]_token['\"] value=['\"])[^'\"]+"),
@@ -62,6 +63,10 @@ class Env:
         self.db_user, self.db_pass, self.db_name = "root", "rootpw", "polr"
         with open(BASE_ENV, encoding="utf-8") as f:
             self.base_env = f.read()
+        # Settings the instance under test needs on top of the fixture, e.g.
+        # TRUSTED_PROXIES so the port honours X-Forwarded-For like the
+        # baseline's Apache (mod_remoteip) did.
+        self.extra_env = dict(kv.split("=", 1) for kv in (args.extra_env or []))
 
     def _run(self, cmd, stdin=None):
         p = subprocess.run(cmd, input=stdin, capture_output=True)
@@ -82,7 +87,7 @@ class Env:
 
     def write_env(self, overrides):
         lines = self.base_env.splitlines()
-        for key, value in overrides.items():
+        for key, value in {**self.extra_env, **overrides}.items():
             new = f"{key}={value}"
             for i, line in enumerate(lines):
                 if line.startswith(key + "="):
@@ -753,6 +758,8 @@ def main():
     ap.add_argument("--app-dir", default="/var/www/html")
     ap.add_argument("--mail-url", required=True)
     ap.add_argument("--only", nargs="*", help="run only these groups")
+    ap.add_argument("--extra-env", action="append", metavar="KEY=VALUE",
+                    help="extra .env setting for the instance under test (repeatable)")
     args = ap.parse_args()
 
     env = Env(args)

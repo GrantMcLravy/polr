@@ -13,3 +13,17 @@ docker compose -f dev/docker-compose.yml run --rm app php artisan migrate --pret
 
 The app is served on http://127.0.0.1:18081 and the mail catcher on
 http://127.0.0.1:18026. In Git Bash on Windows, set `MSYS_NO_PATHCONV=1` first.
+
+## Checking behavior against Polr 2.3.0
+
+```sh
+dev/replay.sh                       # all scenario groups
+dev/replay.sh /tmp/run --only api   # selected groups
+python dev/compare.py baseline/golden dev/.skel/replay --group api -v   # diffs
+python dev/check_routes.py routes.json   # after: php artisan route:list --json > routes.json
+```
+
+`dev/replay.sh` restores the 2.3.0 database before each scenario group, writes the
+group's `.env`, replays the recorded requests against http://127.0.0.1:18081 and
+compares with `baseline/golden`. `dev/compare.py` normalizes the accepted
+formatting-only differences listed in `MODERNIZATION.md` (`--strict` disables that).

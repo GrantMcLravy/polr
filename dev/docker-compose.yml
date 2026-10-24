@@ -1,5 +1,9 @@
 # Development environment for the Laravel 13 port: PHP 8.4 (repo mounted at
-# /app, served by `php artisan serve`), MySQL 5.7 and a mail catcher.
+# /app, served by PHP's built-in server), MySQL 5.7 and a mail catcher.
+#
+# Not `php artisan serve`: it restarts whenever .env changes, which the
+# baseline scenario replay does before every group. vendor/ lives in a volume
+# because reading it through a Windows bind mount is slow.
 name: polr-dev
 
 services:
@@ -7,7 +11,11 @@ services:
     build: .
     volumes:
       - ..:/app
-    command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+      - vendor:/app/vendor
+    environment:
+      PHP_CLI_SERVER_WORKERS: "4"
+    # Laravel's router script for the built-in server must run from public/.
+    command: ["sh", "-c", "cd public && exec php -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"]
     ports:
       - "127.0.0.1:${DEV_HTTP_PORT:-18081}:8000"
     depends_on:
@@ -32,3 +40,6 @@ services:
     image: axllent/mailpit:latest
     ports:
       - "127.0.0.1:${DEV_MAIL_PORT:-18026}:8025"
+
+volumes:
+  vendor:
