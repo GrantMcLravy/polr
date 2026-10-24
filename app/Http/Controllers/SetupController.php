@@ -37,7 +37,15 @@ class SetupController extends Controller {
     private static function updateGeoIP() {
         // Output GeoIP database for advanced
         // analytics
-        $exitCode = Artisan::call('geoip:update', []);
+        // torann/geoip 3 throws when the download fails; show the setup
+        // page's error message instead of an error page.
+        try {
+            $exitCode = Artisan::call('geoip:update', []);
+        }
+        catch (\Throwable $e) {
+            report($e);
+            return false;
+        }
         return self::parseExitCode($exitCode);
     }
 
@@ -187,16 +195,28 @@ class SetupController extends Controller {
             'ST_PSEUDOR_ENDING' => $st_pseudor_ending,
             'ST_ADV_ANALYTICS' => $st_adv_analytics,
 
-            'TMP_SETUP_AUTH_KEY' => $setup_auth_key
+            'TMP_SETUP_AUTH_KEY' => $setup_auth_key,
+
+            // Escape values the way Polr 2.x's Blade did (htmlentities, no
+            // double encoding) so the generated .env is unchanged.
+            'escape' => function ($value) {
+                return htmlentities((string) $value, ENT_QUOTES, 'UTF-8', false);
+            },
         ])->render();
 
-        $handle = fopen('../.env', 'w');
+        // (Polr 2.x opened '../.env' relative to public/; same file.)
+        $handle = fopen(base_path('.env'), 'w');
         if (fwrite($handle, $compiled_configuration) === FALSE) {
             $response = view('error', [
                 'message' => 'Could not write configuration to disk.'
             ]);
         } else {
             Cache::flush();
+
+            // Make the next request read the new .env, also if the
+            // configuration or routes (which depend on it) were cached.
+            Artisan::call('config:clear');
+            Artisan::call('route:clear');
 
             $setup_finish_arguments = json_encode([
                 'acct_username' => $acct_username,

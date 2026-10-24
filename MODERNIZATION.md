@@ -62,9 +62,14 @@ listed under "Deliberate changes".
 - **Mail encryption default:** Lumen's mail config defaults `MAIL_ENCRYPTION` to
   `tls` (STARTTLS required), and setup-written `.env` files don't set it. Map this to the
   equivalent Symfony Mailer behavior.
-- **phpdotenv 1.1 does not expand `${VAR}`** in double-quoted values; phpdotenv 5
-  does. The setup wizard writes passwords in double quotes, so a `${` in a password
-  would change meaning. See `baseline/fixtures/env/*.parsed.json`.
+- **`.env` is read with phpdotenv 1.1's rules** (`App\Bootstrap\LoadEnvironmentVariables`,
+  a port of phpdotenv 1.1.1 bound in place of Laravel's loader). phpdotenv 5 cannot
+  parse some existing files at all: unquoted values with spaces (`APP_NAME=Polr CI`,
+  as in the repo's own `tests/test_env`), or backslashes in the double-quoted passwords
+  the setup wizard writes. The application would not boot. It also expands `${VAR}`,
+  which phpdotenv 1 left alone. With the port, all fixtures in
+  `baseline/fixtures/env` read back exactly as under 2.3.0 (`dev/envprobe.php`). As
+  before, real environment variables take precedence over `.env`.
 - **Native integer fetches, no `PDO::ATTR_STRINGIFY_FETCHES`.** Lumen 5.1 disabled
   emulated prepares, so INT columns already came back as PHP ints (`"clicks": 10`,
   `"api_active": 1`, stats counts) and VARCHAR columns as strings (`"active": "1"`).
@@ -87,9 +92,11 @@ listed under "Deliberate changes".
 - **Legacy env names:** `CACHE_DRIVER` → `CACHE_STORE`, `QUEUE_DRIVER` →
   `QUEUE_CONNECTION`, `MAIL_DRIVER` → `MAIL_MAILER`. Defaults: file session, file cache,
   sync queue, `DB_CONNECTION=mysql`.
-- **phpdotenv 1 → 5:** `.env` files written by the setup wizard must read back to the
-  same values. `env.blade.php` uses `{{{ }}}`, which current Blade no longer supports;
-  change it to `{{ }}` (same escaping).
+- **Setup wizard output:** `env.blade.php` used `{{{ }}}`, which current Blade no longer
+  supports, and Laravel 13's `e()` escapes differently (`htmlspecialchars` with double
+  encoding vs `htmlentities` without). The template now uses an `$escape` helper with
+  Polr 2.x's escaping, so the wizard writes byte-identical `.env` files (checked
+  against both wizard fixtures).
 - **Fresh-install migrations** (file and class names unchanged; bodies adjusted so a
   fresh install gets exactly the 2.3.0 schema):
   - `timestamps()` is written out as `NOT NULL DEFAULT '0000-00-00 00:00:00'` columns,
@@ -163,6 +170,7 @@ the port reproduces the recorded behavior:
 - **Unexpected-error page body.** For a 500 caused by something other than an HTTP
   exception (CSRF failure, crash), Lumen showed Symfony's generic "Whoops, looks like
   something went wrong." page. The port shows Polr's own `errors/500` page. Same status.
+  (Decided: keep Polr's page.)
 - Set-Cookie attribute case (`httponly`) and `SameSite=Lax`; `Cache-Control: no-cache,
   private` instead of `no-cache`; `charset=utf-8` case; the quoted URL in redirect pages'
   `<meta http-equiv="refresh">`; Blade whitespace around directives.
@@ -254,8 +262,26 @@ Public API, prefix `/api/v2`, `ApiMiddleware`, no CSRF: GET|POST `action/shorten
 
    Replay: 250/264 steps identical, no PHP deprecations logged. The remaining 14 are
    all listed under "Accepted differences".
-5. **GeoIP, setup wizard, admin command.** torann v3, hardened lookups, the
-   `geoip:update` script, setup wizard port, `polr:create-admin`.
+5. **GeoIP, setup wizard, admin command** (done).
+   - GeoIP: `ClickHelper::getCountry()` catches any failure, records the click without
+     a country and logs one warning per request. torann/geoip 3 does not catch a
+     corrupt or unreadable database (tested: redirect still 301). If the file is
+     missing, torann copies its bundled test database into place, as before.
+   - `util/update-geoip.sh` runs `php artisan geoip:update` (for cron; tested against
+     a locally served GeoLite2-style archive). A failed download during setup now shows
+     the wizard's own error message instead of an error page.
+   - MaxMind attribution on the about page (when analytics is on) and the stats page.
+   - Setup wizard: `.env` written to `base_path('.env')` with Polr 2.x's escaping;
+     config and route caches cleared after writing. End to end on the port, the wizard
+     produces byte-identical `.env` files. Seeding through it then gives a database
+     identical to 2.3.0's (links, clicks, users, schema), apart from the accepted
+     `migrations.id` and bcrypt cost.
+   - `.env` loading with phpdotenv 1.1 rules (see above).
+   - `php artisan polr:create-admin {username} {email} [--password=]` (prompts for the
+     password when interactive). It creates the account like the wizard's first admin
+     and uses the signup validation rules.
+
+   Replay: still 250/264, no warnings or deprecations logged.
 6. **Tests.** PHPUnit on MySQL: feature tests (per spec §5 Phase 6), replay of the
    baseline responses, `migrate --pretend` on the 2.3.0 dump, old bcrypt hash and old
    APP_KEY checks; GitHub Actions matrix on 8.3/8.4/8.5.

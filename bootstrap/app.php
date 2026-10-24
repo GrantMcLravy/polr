@@ -20,7 +20,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 // No health-check route: Polr owns every top-level path (/{short_url}), so a
 // framework route such as /up would shadow a short link.
-return Application::configure(basePath: dirname(__DIR__))
+$app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
@@ -67,3 +67,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(fn (Throwable $e, $request) => (new Renderer)->render($e, $request));
     })->create();
+
+// Read .env exactly as Polr 2.x did (phpdotenv 1.1 rules); phpdotenv 5 cannot
+// parse some existing .env files. See App\Bootstrap\LoadEnvironmentVariables.
+$app->singleton(
+    \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+    \App\Bootstrap\LoadEnvironmentVariables::class
+);
+
+return $app;

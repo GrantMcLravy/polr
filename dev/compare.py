@@ -28,6 +28,8 @@ def load(path):
 #  - Vary: Accept-Encoding was added by the baseline's Apache (mod_deflate).
 #  - HTML bodies: whitespace-only line differences (Blade output) and the
 #    quoted URL in Symfony's redirect page (<meta http-equiv="refresh">).
+#  - The MaxMind attribution line (deliberate change) on the about and stats
+#    pages.
 STRICT = False
 
 
@@ -61,6 +63,8 @@ def body_text(resp):
         # Newer Blade emits slightly different whitespace around directives
         # (@section, @if, ...); compare HTML line by line without it.
         body = "\n".join(l.strip() for l in body.splitlines() if l.strip())
+        # Deliberate change: MaxMind attribution on the about and stats pages.
+        body = "\n".join(l for l in body.splitlines() if "GeoLite2 data created by MaxMind" not in l)
         # Symfony's redirect page now quotes the URL in the meta refresh tag.
         body = re.sub(r"""(<meta http-equiv="refresh" content="0;url=)'([^']*)'" />""", r'\1\2" />', body)
     return body

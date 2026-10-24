@@ -25,6 +25,9 @@
         Learn more at <a href='https://github.com/Cydrobolt/polr'>its Github page</a> or its <a href="//project.polr.me">project site</a>.
         <br />Polr is licensed under the GNU GPL License.
     </p>
+    @if (config('polr.setting_adv_analytics'))
+    <p>This product includes GeoLite2 data created by MaxMind, available from <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>
+    @endif
 </div>
 
 @endsection
