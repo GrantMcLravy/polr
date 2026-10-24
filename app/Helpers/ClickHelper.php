@@ -13,7 +13,7 @@ class ClickHelper {
     static private function getHost($url) {
         // Return host given URL; NULL if host is
         // not found.
-        return parse_url($url, PHP_URL_HOST);
+        return parse_url((string) $url, PHP_URL_HOST);
     }
 
     static public function recordClick(Link $link, Request $request) {

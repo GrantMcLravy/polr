@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class StatsHelper {
+    public $link_id;
+    public $left_bound_parsed;
+    public $right_bound_parsed;
+
     function __construct($link_id, $left_bound, $right_bound) {
         $this->link_id = $link_id;
         $this->left_bound_parsed = Carbon::parse($left_bound);
@@ -18,8 +22,10 @@ class StatsHelper {
             throw new \Exception('Invalid bounds.');
         }
 
-        $days_diff = $this->left_bound_parsed->diffInDays($this->right_bound_parsed);
-        $max_days_diff = env('_ANALYTICS_MAX_DAYS_DIFF') ?: 365;
+        // Carbon 3 returns a fractional, signed number of days; Carbon 1
+        // returned whole days (e.g. 365.5 days counted as 365).
+        $days_diff = (int) abs($this->left_bound_parsed->diffInDays($this->right_bound_parsed));
+        $max_days_diff = config('polr.analytics_max_days_diff') ?: 365;
 
         if ($days_diff > $max_days_diff) {
             throw new \Exception('Bounds too broad.');

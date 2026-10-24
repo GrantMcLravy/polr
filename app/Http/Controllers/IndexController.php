@@ -10,13 +10,13 @@ class IndexController extends Controller {
      * @return Response
      */
     public function showIndexPage(Request $request) {
-        if (env('POLR_SETUP_RAN') != true) {
+        if (config('polr.setup_ran') != true) {
             return redirect(route('setup'));
         }
 
-        if (!env('SETTING_PUBLIC_INTERFACE') && !self::isLoggedIn()) {
-            if (env('SETTING_INDEX_REDIRECT')) {
-                return redirect()->to(env('SETTING_INDEX_REDIRECT'));
+        if (!config('polr.setting_public_interface') && !self::isLoggedIn()) {
+            if (config('polr.setting_index_redirect')) {
+                return redirect()->to(config('polr.setting_index_redirect'));
             }
             else {
                 return redirect()->to(route('login'));

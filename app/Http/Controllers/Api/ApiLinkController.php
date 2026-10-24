@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 use App\Factories\LinkFactory;
 use App\Helpers\LinkHelper;
@@ -21,10 +22,10 @@ class ApiLinkController extends ApiController {
 
     public function shortenLink(Request $request) {
         $response_type = $request->input('response_type');
-        $user = $request->user;
+        $user = $request->attributes->get('polr_api_user');
 
         $validator = \Validator::make(array_merge([
-            'url' => str_replace(' ', '%20', $request->input('url'))
+            'url' => str_replace(' ', '%20', $request->input('url') ?? '')
         ], $request->except('url')), [
             'url' => 'required|url'
         ]);
@@ -49,7 +50,7 @@ class ApiLinkController extends ApiController {
         $response_type = $request->input('response_type', 'json');
         $request_data = $request->input('data');
 
-        $user = $request->user;
+        $user = $request->attributes->get('polr_api_user');
         $link_ip = $request->ip();
         $username = $user->username;
 
@@ -80,8 +81,8 @@ class ApiLinkController extends ApiController {
         foreach ($links_array as $link) {
             $formatted_link = $this->getShortenedLink(
                 $link['url'],
-                (array_get($link, 'is_secret') == 'true' ? true : false),
-                array_get($link, 'custom_ending'),
+                (Arr::get($link, 'is_secret') == 'true' ? true : false),
+                Arr::get($link, 'custom_ending'),
                 $link_ip,
                 $username,
                 $response_type
@@ -99,7 +100,7 @@ class ApiLinkController extends ApiController {
     }
 
     public function lookupLink(Request $request) {
-        $user = $request->user;
+        $user = $request->attributes->get('polr_api_user');
         $response_type = $request->input('response_type');
 
         // Validate URL form data
@@ -118,7 +119,8 @@ class ApiLinkController extends ApiController {
 
         $link = LinkHelper::linkExists($url_ending);
 
-        if ($link['secret_key']) {
+        // ($link is false for unknown endings; PHP 8 warns on false['...'].)
+        if ($link && $link['secret_key']) {
             if ($url_key != $link['secret_key']) {
                 throw new ApiException('ACCESS_DENIED', 'Invalid URL code for secret URL.', 401, $response_type);
             }
@@ -127,10 +129,10 @@ class ApiLinkController extends ApiController {
         if ($link) {
             return self::encodeResponse([
                 'long_url' => $link['long_url'],
-                'created_at' => $link['created_at'],
+                'created_at' => self::encodeDate($link['created_at']),
                 'clicks' => $link['clicks'],
-                'updated_at' => $link['updated_at'],
-                'created_at' => $link['created_at']
+                'updated_at' => self::encodeDate($link['updated_at']),
+                'created_at' => self::encodeDate($link['created_at'])
             ], 'lookup', $response_type, $link['long_url']);
         }
         else {

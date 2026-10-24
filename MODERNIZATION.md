@@ -234,8 +234,26 @@ Public API, prefix `/api/v2`, `ApiMiddleware`, no CSRF: GET|POST `action/shorten
    as above. The app now serves requests. `dev/replay.sh` replays the baseline against the
    dev environment and `dev/compare.py` diffs the results: 207/264 steps identical,
    with the rest belonging to phases 4–5 or listed as accepted differences.
-4. **Code fixes.** Removed helpers, Carbon 3, PHP 8.4, DataTables, mail, `env()` →
-   `config()`, and the pinned behavior above.
+4. **Code fixes** (done).
+   - All `env()` calls in app code, views and routes now read `config('polr.*')`
+     (`config/polr.php`, same variable names) or `mail.from.*`, so `config:cache` and
+     `route:cache` work.
+   - Removed helpers replaced (`Str::random`, `Arr::get`, `Str::limit`).
+   - DataTables: new facade namespace, first-class callables for cell renderers (yajra 13
+     reflects on closures), and yajra's extra `disableOrdering` key removed.
+   - Model dates serialize as `Y-m-d H:i:s`; API lookup dates in the DateTime object form.
+   - Lumen's `url` rule (`FILTER_VALIDATE_URL`) restored via `App\Validation\Validator`.
+   - Short-link 301s send `Cache-Control: no-cache`.
+   - PHP 8.4: `ApiException`, `StatsHelper` properties, the API user moved to a request
+     attribute, null passed to string functions. Carbon 3 day differences truncated to
+     whole days as before.
+   - API lookup of an unknown link returns 404 again.
+   - Pulled forward from phase 5: `config/geoip.php` sets `cache_tags` to `null`.
+     torann/geoip 3 otherwise uses cache tags, which the file cache can't do, so every
+     redirect failed.
+
+   Replay: 250/264 steps identical, no PHP deprecations logged. The remaining 14 are
+   all listed under "Accepted differences".
 5. **GeoIP, setup wizard, admin command.** torann v3, hardened lookups, the
    `geoip:update` script, setup wizard port, `polr:create-admin`.
 6. **Tests.** PHPUnit on MySQL: feature tests (per spec §5 Phase 6), replay of the

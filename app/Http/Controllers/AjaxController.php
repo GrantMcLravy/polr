@@ -90,7 +90,7 @@ class AjaxController extends Controller {
             }
         }
 
-        $new_api_key = CryptoHelper::generateRandomHex(env('_API_KEY_LENGTH'));
+        $new_api_key = CryptoHelper::generateRandomHex(config('polr.api_key_length'));
         $user->api_key = $new_api_key;
         $user->save();
 

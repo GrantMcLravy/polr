@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 /* Optional endpoints */
-if (env('POLR_ALLOW_ACCT_CREATION')) {
+if (config('polr.polr_allow_acct_creation')) {
     Route::get('/signup', [UserController::class, 'displaySignupPage'])->name('signup');
     Route::post('/signup', [UserController::class, 'performSignup'])->name('psignup');
 }

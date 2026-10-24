@@ -280,11 +280,11 @@ Setup
     License</a>.
 
     <div>
-        Polr Version {{env('VERSION')}} released {{env('VERSION_RELMONTH')}} {{env('VERSION_RELDAY')}}, {{env('VERSION_RELYEAR')}} -
+        Polr Version {{config('polr.version')}} released {{config('polr.version_relmonth')}} {{config('polr.version_relday')}}, {{config('polr.version_relyear')}} -
         <a href='//github.com/cydrobolt/polr' target='_blank'>Github</a>
 
         <div class='footer-well'>
-            &copy; Copyright {{env('VERSION_RELYEAR')}}
+            &copy; Copyright {{config('polr.version_relyear')}}
             <a class='footer-link' href='//cydrobolt.com' target='_blank'>Chaoyi Zha</a> &amp;
             <a class='footer-link' href='//github.com/Cydrobolt/polr/graphs/contributors' target='_blank'>other Polr contributors</a>
         </div>

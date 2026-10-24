@@ -17,7 +17,7 @@ class LinkFactory {
         * @param boolean $secret_ending
         * @return string
         */
-        $short_url = env('APP_PROTOCOL') . env('APP_ADDRESS') . '/' . $link_ending;
+        $short_url = config('polr.app_protocol') . config('polr.app_address') . '/' . $link_ending;
 
         if ($secret_ending) {
             $short_url .= '/' . $secret_ending;
@@ -78,7 +78,7 @@ class LinkFactory {
             $link_ending = $custom_ending;
         }
         else {
-            if (env('SETTING_PSEUDORANDOM_ENDING')) {
+            if (config('polr.setting_pseudorandom_ending')) {
                 // generate a pseudorandom ending
                 $link_ending = LinkHelper::findPseudoRandomEnding();
             }
@@ -101,7 +101,7 @@ class LinkFactory {
         }
 
         if ($is_secret) {
-            $rand_bytes_num = intval(env('POLR_SECRET_BYTES'));
+            $rand_bytes_num = intval(config('polr.polr_secret_bytes'));
             $secret_key = CryptoHelper::generateRandomHex($rand_bytes_num);
             $link->secret_key = $secret_key;
         }

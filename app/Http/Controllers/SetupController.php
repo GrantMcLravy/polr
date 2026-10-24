@@ -49,7 +49,7 @@ class SetupController extends Controller {
     }
 
     public static function displaySetupPage(Request $request) {
-        if (env('POLR_SETUP_RAN')) {
+        if (config('polr.setup_ran')) {
             return self::setupAlreadyRan();
         }
 
@@ -57,7 +57,7 @@ class SetupController extends Controller {
     }
 
     public static function performSetup(Request $request) {
-        if (env('POLR_SETUP_RAN')) {
+        if (config('polr.setup_ran')) {
             return self::setupAlreadyRan();
         }
 
@@ -230,7 +230,7 @@ class SetupController extends Controller {
         // unset cookie
         setcookie('setup_arguments', '', time()-3600);
 
-        $transaction_authorised = env('TMP_SETUP_AUTH_KEY') === $setup_finish_args->setup_auth_key;
+        $transaction_authorised = config('polr.tmp_setup_auth_key') === $setup_finish_args->setup_auth_key;
 
         if ($transaction_authorised != true) {
             abort(403, 'Transaction unauthorised.');
@@ -248,7 +248,7 @@ class SetupController extends Controller {
             return redirect(route('setup'))->with('error', 'Could not create database. Perhaps your credentials were incorrect?');
         }
 
-        if (env('SETTING_ADV_ANALYTICS')) {
+        if (config('polr.setting_adv_analytics')) {
             $geoip_db_created = self::updateGeoIP();
             if (!$geoip_db_created) {
                 return redirect(route('setup'))->with('error', 'Could not fetch GeoIP database for advanced analytics. Perhaps your server is not connected to the internet or your MAXMIND_LICENSE_KEY is incorrect?');

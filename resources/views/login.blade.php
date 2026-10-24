@@ -16,11 +16,11 @@
             <input type="submit" value="Login" class="login-submit btn btn-success" />
 
             <p class='login-prompts'>
-            @if (env('POLR_ALLOW_ACCT_CREATION') == true)
+            @if (config('polr.polr_allow_acct_creation') == true)
                 <small>Don't have an account? <a href='{{route('signup')}}'>Register</a></small>
             @endif
 
-            @if (env('SETTING_PASSWORD_RECOV') == true)
+            @if (config('polr.setting_password_recov') == true)
                 <small>Forgot your password? <a href='{{route('lost_password')}}'>Reset</a></small>
             @endif
             </p>

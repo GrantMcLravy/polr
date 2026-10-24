@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<h1 class='title'>{{env('APP_NAME')}}</h1>
+<h1 class='title'>{{config('polr.app_name')}}</h1>
 
 <form method='POST' action='/shorten' role='form'>
     <input type='url' autocomplete='off'
@@ -14,7 +14,7 @@
     <div class='row' id='options' ng-cloak>
         <p>Customize link</p>
 
-        @if (!env('SETTING_PSEUDORANDOM_ENDING'))
+        @if (!config('polr.setting_pseudorandom_ending'))
         {{-- Show secret toggle only if using counter-based ending --}}
         <div class='btn-group btn-toggle visibility-toggler' data-toggle='buttons'>
             <label class='btn btn-primary btn-sm active'>
@@ -28,7 +28,7 @@
 
         <div>
             <div class='custom-link-text'>
-                <h2 class='site-url-field'>{{env('APP_ADDRESS')}}/</h2>
+                <h2 class='site-url-field'>{{config('polr.app_address')}}/</h2>
                 <input type='text' autocomplete="off" class='form-control custom-url-field' name='custom-ending' />
             </div>
             <div>

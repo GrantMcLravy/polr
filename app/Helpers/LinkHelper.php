@@ -2,6 +2,7 @@
 namespace App\Helpers;
 use App\Models\Link;
 use App\Helpers\BaseHelper;
+use Illuminate\Support\Str;
 
 class LinkHelper {
     static public function checkIfAlreadyShortened($long_link) {
@@ -21,7 +22,7 @@ class LinkHelper {
             'ow.ly',
             'j.mp',
             't.co',
-            env('APP_ADDRESS')
+            config('polr.app_address')
         ];
 
         foreach ($shortener_domains as $shortener_domain) {
@@ -103,7 +104,7 @@ class LinkHelper {
 
         while ($in_use) {
             // Generate a new string until the ending is not in use
-            $pr_str = str_random(env('_PSEUDO_RANDOM_KEY_LENGTH'));
+            $pr_str = Str::random((int) config('polr.pseudo_random_key_length'));
             $in_use = LinkHelper::linkExists($pr_str);
         }
 
@@ -116,7 +117,7 @@ class LinkHelper {
          * find the next available base-32/62 ending.
          * @return string
          */
-        $base = env('POLR_BASE');
+        $base = config('polr.polr_base');
 
         $link = Link::where('is_custom', 0)
             ->orderBy('created_at', 'desc')

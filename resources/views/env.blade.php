@@ -142,8 +142,8 @@ _PSEUDO_RANDOM_KEY_LENGTH=5
 POLR_BASE={{$ST_BASE}}
 
 # Do not touch
-POLR_RELDATE="{{env('VERSION_RELMONTH')}} {{env('VERSION_RELDAY')}}, {{env('VERSION_RELYEAR')}}"
-POLR_VERSION="{{env('VERSION')}}"
+POLR_RELDATE="{{config('polr.version_relmonth')}} {{config('polr.version_relday')}}, {{config('polr.version_relyear')}}"
+POLR_VERSION="{{config('polr.version')}}"
 POLR_SECRET_BYTES=2
 
 TMP_SETUP_AUTH_KEY="{{$TMP_SETUP_AUTH_KEY}}"
