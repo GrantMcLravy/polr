@@ -12,6 +12,29 @@ Polr's `Dockerfile` builds two images:
 
 `docker-compose.example.yml` runs both, plus MySQL.
 
+## Prebuilt images
+
+Each push to `master` that passes the tests publishes both images to the GitHub
+Container Registry, tagged `latest` and with the short commit hash (e.g. `sha-1f64226`);
+`v*` release tags are also published as `1.2.3` and `1.2`:
+
+ - `ghcr.io/grantmclravy/polr-app`
+ - `ghcr.io/grantmclravy/polr-web`
+
+To use them instead of building, replace each `build:` section in your
+`docker-compose.yml` with the matching `image:`:
+
+```yaml
+  polr:
+    image: ghcr.io/grantmclravy/polr-app:latest
+  web:
+    image: ghcr.io/grantmclravy/polr-web:latest
+```
+
+Update with `docker compose pull && docker compose up -d`. To stay on a known
+version, use a commit or release tag instead of `latest`, and keep `polr` and `web`
+on the same tag.
+
 ## Getting started
 
 ```bash
@@ -119,8 +142,11 @@ Only use `*` if the `web` container cannot be reached except through the proxy.
 ## Upgrading
 
 ```bash
-git pull
-docker compose up -d --build
+# prebuilt images:
+docker compose pull && docker compose up -d
+# or, when building from source:
+git pull && docker compose up -d --build
+
 docker compose exec polr php artisan migrate --force
 ```
 
