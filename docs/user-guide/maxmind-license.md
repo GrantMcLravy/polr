@@ -5,16 +5,23 @@ If you would like to use "advanced analytics" in order to get more insights on y
 
 To obtain a license key, create an account on [MaxMind's website](https://www.maxmind.com/en/geolite2/signup). After you create your account and confirm your email, go to your [MaxMind account page](https://www.maxmind.com/en/accounts/current/license-key) to generate a license key for use with Polr. If you are asked whether your license key will be used for "GeoIP Update", answer no.
 
-Copy your newly generated license key and input it into Polr. 
+Copy your newly generated license key and input it into Polr.
+
+The GeoLite2 database must be kept up to date: see
+[Advanced analytics](installation.md#advanced-analytics-geoip) (or
+[GeoIP database updates](docker.md#geoip-database-updates) for Docker) for the
+update script and the cron job that runs it.
 
 ## Troubleshooting
 
-### I'm having trouble running `php artisan geoip:update`, and I'm using an older version of Polr
+### `util/update-geoip.sh` or `php artisan geoip:update` fails
 
-If you are on an older version of Polr, your installation may be updated. Update Polr by running `git pull` and then add a new entry to your `.env` configuration file:
+Make sure your `.env` contains your license key:
 
 ```
 MAXMIND_LICENSE_KEY="LICENSE_KEY_GOES_HERE"
 ```
 
-Then, run `php artisan config:cache` and `php artisan geoip:update` again.
+If you cache the configuration (`php artisan config:cache`), run that command again
+after changing `.env`. Then run the update again. "401 Unauthorized" in the output
+means the license key is missing or wrong.

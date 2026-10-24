@@ -1,0 +1,68 @@
+# Example Docker Compose setup for Polr. Copy to docker-compose.yml and adjust.
+# See docs/user-guide/docker.md.
+#
+# Secrets are not stored here: create a .env file next to this file (it is
+# read by Docker Compose, not by Polr) containing, for example:
+#
+#   POLR_DB_PASSWORD=<a long random password>
+#   MYSQL_ROOT_PASSWORD=<another long random password>
+#
+# Polr's own configuration (written by the setup wizard at /setup) lives in the
+# polr-storage volume as storage/.env.
+
+name: polr
+
+services:
+  polr:
+    build:
+      context: .
+      target: app
+    image: polr-app
+    restart: unless-stopped
+    environment:
+      # IPs/CIDRs of reverse proxies in front of the "web" service, if any, so
+      # that client IPs come from X-Forwarded-For (see the installation guide).
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-}
+    volumes:
+      - polr-storage:/var/www/html/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      target: web
+    image: polr-web
+    restart: unless-stopped
+    ports:
+      - "${POLR_HTTP_PORT:-8080}:80"
+    depends_on:
+      - polr
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/about-polr"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Optional: remove this service (and "depends_on" above) to use an existing
+  # MySQL or MariaDB server instead.
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: polr
+      MYSQL_USER: polr
+      MYSQL_PASSWORD: ${POLR_DB_PASSWORD:?Set POLR_DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - polr-mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  polr-storage:
+  polr-mysql:

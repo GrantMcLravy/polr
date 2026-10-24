@@ -29,7 +29,7 @@ listed under "Deliberate changes".
 |---|---|
 | Web setup wizard | **Kept.** `/setup`, `/setup/finish`, `setup`/`psetup`/`setup_finish` unchanged. |
 | GeoIP | **Kept as-is**: `torann/geoip` 1.0 → 3.x, GeoLite2-City, `storage/app/geoip.mmdb`, in-app `geoip:update`, MaxMind license field in setup. Hardened: lookup errors return `null` and never break a redirect. |
-| GeoIP updates | A script runs `php artisan geoip:update` on a schedule; the install docs explain how to set it up with system cron. In Docker, the same script runs on a schedule. |
+| GeoIP updates | `util/update-geoip.sh` runs `php artisan geoip:update` (license key redacted from its output). It is run from the system's cron, as the docs explain. In Docker it is run from the **host's** cron via `docker compose exec -T polr util/update-geoip.sh`; the containers have no scheduler. |
 | MaxMind attribution | Added to the about and link stats pages when `SETTING_ADV_ANALYTICS` is on (required by the GeoLite2 license). |
 | Trusted proxies | `TRUSTED_PROXIES` (comma-separated CIDRs or `*`); default is none, so behavior is unchanged unless configured. |
 | Public API session | **Kept**: the public API still runs the session middleware and sends the session cookie, as today. |
@@ -65,7 +65,7 @@ listed under "Deliberate changes".
 - **`.env` is read with phpdotenv 1.1's rules** (`App\Bootstrap\LoadEnvironmentVariables`,
   a port of phpdotenv 1.1.1 bound in place of Laravel's loader). phpdotenv 5 cannot
   parse some existing files at all: unquoted values with spaces (`APP_NAME=Polr CI`,
-  as in the repo's own `tests/test_env`), or backslashes in the double-quoted passwords
+  as in Polr 2.3.0's own `tests/test_env`), or backslashes in the double-quoted passwords
   the setup wizard writes. The application would not boot. It also expands `${VAR}`,
   which phpdotenv 1 left alone. With the port, all fixtures in
   `baseline/fixtures/env` read back exactly as under 2.3.0 (`dev/envprobe.php`). As
@@ -303,19 +303,42 @@ Public API, prefix `/api/v2`, `ApiMiddleware`, no CSRF: GET|POST `action/shorten
        `route:cache`, no `env()` outside `config/`, no Lumen code;
      - the baseline replay, which fails on differences not in
        `dev/accepted-differences.txt`.
-7. **Packaging and docs.** Dockerfile (php-fpm, non-root, `.env` symlink),
-   `docker-compose.example.yml` (polr, nginx, optional mysql, scheduled GeoIP update),
-   nginx config, and install/upgrade docs (cron for `geoip:update`, never edit `.env`
-   without clearing the caches).
+7. **Packaging and docs** (done).
+   - `Dockerfile` with two targets:
+     - `app`: PHP-FPM on Alpine, running as `www-data`. The code is owned by root, and
+       only `storage/` and `bootstrap/cache/` are writable (the base image's writable
+       `/var/www/html` is locked down). `.env` is a symlink to `storage/.env`, created
+       from `.env.setup` with mode 600 by the entrypoint.
+     - `web`: nginx with `public/`.
+   - `.dockerignore` keeps `.env`, `.git`, `vendor`, `storage` and the dev/test/baseline
+     files out of images.
+   - `docker/nginx.conf.template`: front controller only, dotfiles denied, trailing-slash
+     redirect, relative redirects.
+   - `docker-compose.example.yml`: polr, web, optional MySQL. No secrets in the file;
+     they come from Compose's own `.env`.
+   - Tested end to end: setup wizard in Docker, login, shortening, redirects, admin
+     table, persistence across recreation, `polr:create-admin`, `migrate --pretend`,
+     the environment-variable configuration path, and the GeoIP update script
+     (including license-key redaction).
+   - Docs: installation (PHP 8.3+, nginx/Apache, permissions, `TRUSTED_PROXIES`, GeoIP
+     with system cron, config caching), new Docker guide (host cron with `docker
+     compose exec`), upgrade guide from 2.x, MaxMind page, README. Removed the
+     obsolete `.travis.yml` and `tests/test_env`.
+   - CI builds both images and checks the app image's user and permissions.
 
 ## Exit checklist
 
-- `composer audit` clean.
-- Tests pass on PHP 8.3, 8.4 and 8.5.
-- `migrate --pretend` against the 2.3.0 dump: nothing to run.
-- On a copy of a 2.3.0 database: an existing admin logs in, existing links redirect, the
-  stats page renders, the admin tables load, and an existing API key works.
-- `route:list` matches the inventory above.
-- `grep -rn "env(" app/ resources/` returns nothing.
-- No references to Lumen remain.
-- `config:cache` and `route:cache` succeed, and the app works with them.
+All checked locally; CI (`.github/workflows/tests.yml`) runs them on every push.
+
+- [x] `composer audit` clean.
+- [x] Tests pass on PHP 8.3, 8.4 and 8.5 (and on MySQL 8.4 and MariaDB 11.4).
+- [x] `migrate --pretend` against the 2.3.0 dump: nothing to run.
+- [x] On a copy of a 2.3.0 database: an existing admin logs in, existing links redirect,
+  the stats page renders, the admin tables load, and an existing API key works.
+- [x] `route:list` matches the inventory above.
+- [x] `grep -rn "env(" app/ resources/ routes/` returns nothing.
+- [x] No Lumen code or dependency remains. (Comments still mention Lumen, to explain
+  behavior that is kept on purpose.)
+- [x] `config:cache` and `route:cache` succeed, and the app works with them.
+- [x] Baseline replay: 250/264 steps identical; the other 14 are the accepted
+  differences listed above.

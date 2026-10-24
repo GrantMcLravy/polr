@@ -8,7 +8,7 @@ used to check that the Laravel 13 port behaves the same. See `../MODERNIZATION.m
 | Path | What |
 |---|---|
 | `fixtures/polr-2.3.0.sql` | A Polr 2.3.0 database created by the real setup wizard and populated over HTTP: 6 users (admin, regular, panel-created admin, signup, inactive, low-quota), links of every kind (counter, custom, secret, disabled, API, bulk, anonymous API, edited, deleted), clicks with GeoIP countries and referers. Timestamps and keys are fixed by `fixtures/normalize.sql`. |
-| `fixtures/env/*.env` | `.env` files written by the real setup wizard (`setup-default`, `setup-quirks` with awkward values), the analytics-enabled `baseline.env` used by the scenarios, plus the repo's `.env.setup` and `tests/test_env`. |
+| `fixtures/env/*.env` | `.env` files written by the real setup wizard (`setup-default`, `setup-quirks` with awkward values), the analytics-enabled `baseline.env` used by the scenarios, plus Polr 2.3.0's `.env.setup` and `tests/test_env`. |
 | `fixtures/env/*.parsed.json` | What `env()` returned for each key of each file under phpdotenv 1.1. |
 | `golden/*.json` | One file per scenario group: every request with its normalized response (status, headers, body or JSON), sent mails, and database state where relevant. |
 

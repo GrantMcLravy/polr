@@ -1,0 +1,26 @@
+# Keep local configuration, secrets and development files out of images.
+.git
+.github
+.env
+.env.*
+!.env.setup
+auth.json
+vendor
+node_modules
+storage
+bootstrap/cache/*.php
+baseline
+dev
+docs
+tests
+phpunit.xml
+.phpunit.cache
+.phpunit.result.cache
+docker-compose*.yml
+*.log
+.idea
+.vscode
+MODERNIZATION.md
+Dockerfile
+.dockerignore
+.travis.yml
