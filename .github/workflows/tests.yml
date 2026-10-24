@@ -96,6 +96,52 @@ jobs:
           test "$(docker run --rm --entrypoint id polr-app -un)" = www-data
           docker run --rm --entrypoint sh polr-app -c '! touch /var/www/html/x 2>/dev/null && ! touch /var/www/html/app/x 2>/dev/null'
 
+  publish:
+    name: Publish images (${{ matrix.target }})
+    # Only from master or a v* tag, and only when every test job passed.
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
+    needs: [phpunit, checks, docker, baseline-replay]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        target: [app, web]
+    steps:
+      # Actions in this job are pinned to commits because it can write packages.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Image name
+        id: image
+        # Registry names must be lower case (owner GrantMcLravy -> grantmclravy).
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/polr-${{ matrix.target }}" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ${{ steps.image.outputs.name }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=short
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          target: ${{ matrix.target }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.target }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.target }}
+
   baseline-replay:
     name: Replay of recorded Polr 2.3.0 behavior
     runs-on: ubuntu-latest
