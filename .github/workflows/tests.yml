@@ -40,7 +40,7 @@ jobs:
       # phpunit.xml defaults to the dev environment's "mysql" host.
       DB_HOST: 127.0.0.1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -57,7 +57,7 @@ jobs:
       POLR_SETUP_RAN: 'true'
       POLR_ALLOW_ACCT_CREATION: 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
@@ -88,7 +88,7 @@ jobs:
     name: Docker images build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: docker build --target app -t polr-app .
       - run: docker build --target web -t polr-web .
       - name: App image runs as www-data and cannot write its code
@@ -102,7 +102,7 @@ jobs:
     env:
       PYTHON: python3
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Prepare dev environment
         run: |
           cp baseline/fixtures/env/baseline.env .env
