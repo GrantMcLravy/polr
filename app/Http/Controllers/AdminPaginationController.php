@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Yajra\Datatables\Facades\Datatables;
+use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 use App\Models\Link;
 use App\Models\User;
@@ -17,12 +18,12 @@ class AdminPaginationController extends Controller {
     /* Cell rendering functions */
 
     public function renderLongUrlCell($link) {
-        return '<a target="_blank" title="' . e($link->long_url) . '" href="'. e($link->long_url) .'">' . e(str_limit($link->long_url, 50)) . '</a>
+        return '<a target="_blank" title="' . e($link->long_url) . '" href="'. e($link->long_url) .'">' . e(Str::limit($link->long_url, 50)) . '</a>
             <a class="btn btn-primary btn-xs edit-long-link-btn" ng-click="editLongLink(\'' . e($link->short_url) . '\', \'' . e($link->long_url) . '\')"><i class="fa fa-edit edit-link-icon"></i></a>';
     }
 
     public function renderClicksCell($link) {
-        if (env('SETTING_ADV_ANALYTICS')) {
+        if (config('polr.setting_adv_analytics')) {
             return $link->clicks . ' <a target="_blank" class="stats-icon" href="/admin/stats/' . e($link->short_url) . '">
                 <i class="fa fa-area-chart" aria-hidden="true"></i>
             </a>';
@@ -125,30 +126,38 @@ class AdminPaginationController extends Controller {
 
     /* DataTables bindings */
 
+    private static function respond($response) {
+        // yajra/laravel-datatables 13 adds "disableOrdering" to responses for
+        // query-based tables; Polr 2.x's responses did not have it.
+        $data = $response->getData(true);
+        unset($data['disableOrdering']);
+        return $response->setData($data);
+    }
+
     public function paginateAdminUsers(Request $request) {
         self::ensureAdmin();
 
         $admin_users = User::select(['username', 'email', 'created_at', 'active', 'api_key', 'api_active', 'api_quota', 'role', 'id']);
-        return Datatables::of($admin_users)
-            ->addColumn('api_action', [$this, 'renderAdminApiActionCell'])
-            ->addColumn('toggle_active', [$this, 'renderToggleUserActiveCell'])
-            ->addColumn('change_role', [$this, 'renderChangeUserRoleCell'])
-            ->addColumn('delete', [$this, 'renderDeleteUserCell'])
+        return self::respond(DataTables::of($admin_users)
+            ->addColumn('api_action', $this->renderAdminApiActionCell(...))
+            ->addColumn('toggle_active', $this->renderToggleUserActiveCell(...))
+            ->addColumn('change_role', $this->renderChangeUserRoleCell(...))
+            ->addColumn('delete', $this->renderDeleteUserCell(...))
             ->escapeColumns(['username', 'email'])
-            ->make(true);
+            ->make(true));
     }
 
     public function paginateAdminLinks(Request $request) {
         self::ensureAdmin();
 
         $admin_links = Link::select(['short_url', 'long_url', 'clicks', 'created_at', 'creator', 'is_disabled']);
-        return Datatables::of($admin_links)
-            ->addColumn('disable', [$this, 'renderToggleLinkActiveCell'])
-            ->addColumn('delete', [$this, 'renderDeleteLinkCell'])
-            ->editColumn('clicks', [$this, 'renderClicksCell'])
-            ->editColumn('long_url', [$this, 'renderLongUrlCell'])
+        return self::respond(DataTables::of($admin_links)
+            ->addColumn('disable', $this->renderToggleLinkActiveCell(...))
+            ->addColumn('delete', $this->renderDeleteLinkCell(...))
+            ->editColumn('clicks', $this->renderClicksCell(...))
+            ->editColumn('long_url', $this->renderLongUrlCell(...))
             ->escapeColumns(['short_url', 'creator'])
-            ->make(true);
+            ->make(true));
     }
 
     public function paginateUserLinks(Request $request) {
@@ -158,10 +167,10 @@ class AdminPaginationController extends Controller {
         $user_links = Link::where('creator', $username)
             ->select(['id', 'short_url', 'long_url', 'clicks', 'created_at']);
 
-        return Datatables::of($user_links)
-            ->editColumn('clicks', [$this, 'renderClicksCell'])
-            ->editColumn('long_url', [$this, 'renderLongUrlCell'])
+        return self::respond(DataTables::of($user_links)
+            ->editColumn('clicks', $this->renderClicksCell(...))
+            ->editColumn('long_url', $this->renderLongUrlCell(...))
             ->escapeColumns(['short_url'])
-            ->make(true);
+            ->make(true));
     }
 }

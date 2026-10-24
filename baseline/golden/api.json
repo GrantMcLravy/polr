@@ -1,0 +1,2516 @@
+{
+  "group": "api",
+  "env": {},
+  "steps": [
+    {
+      "name": "shorten plain GET",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-1"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "http://polr.test/d"
+      }
+    },
+    {
+      "name": "shorten json GET",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-2",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/e"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten json POST",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/shorten",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-3",
+          "response_type": "json"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/f"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten existing",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-1",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/d"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten custom",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-4",
+          "custom_ending": "api-custom",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/api-custom"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten custom taken",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-5",
+          "custom_ending": "custom-one",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "CREATION_ERROR",
+          "error": "This URL ending is already in use."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten custom taken plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-5",
+          "custom_ending": "custom-one"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "400 This URL ending is already in use."
+      }
+    },
+    {
+      "name": "shorten custom invalid",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-6",
+          "custom_ending": "bad end",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "CREATION_ERROR",
+          "error": "Custom endings\n                    can only contain alphanumeric characters, hyphens, and underscores."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten secret",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-7",
+          "is_secret": "true",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/g/<SECRET>"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten invalid url",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "not a url",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "MISSING_PARAMETERS",
+          "error": "Invalid or missing parameters."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten invalid url plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "not a url"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "400 Invalid or missing parameters."
+      }
+    },
+    {
+      "name": "shorten missing url",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "MISSING_PARAMETERS",
+          "error": "Invalid or missing parameters."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten url with spaces",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/a b c",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/h"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten already short",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://goo.gl/x",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "CREATION_ERROR",
+          "error": "Sorry, but your link already\n                looks like a shortened URL."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten bad key",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "wrong",
+          "url": "https://example.com/x",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 401,
+          "error_code": "AUTH_ERROR",
+          "error": "Authentication token invalid."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten bad key plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "wrong",
+          "url": "https://example.com/x"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 Authentication token invalid."
+      }
+    },
+    {
+      "name": "shorten inactive api user",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "0",
+          "url": "https://example.com/x",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/i"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten anonymous",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-1",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/j"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "shorten anonymous plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-2"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "http://polr.test/k"
+      }
+    },
+    {
+      "name": "shorten unknown response_type",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/api-8",
+          "response_type": "xml"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "http://polr.test/l"
+      }
+    },
+    {
+      "name": "bulk",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/shorten_bulk",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "data": "{\"links\": [{\"url\": \"https://example.com/bulk-a\"}, {\"url\": \"https://example.com/bulk-b\", \"custom_ending\": \"bulk-b\"}, {\"url\": \"https://example.com/bulk-c\", \"is_secret\": \"true\"}]}"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten_bulk",
+          "result": {
+            "shortened_links": [
+              {
+                "long_url": "https://example.com/bulk-a",
+                "short_url": "http://polr.test/m"
+              },
+              {
+                "long_url": "https://example.com/bulk-b",
+                "short_url": "http://polr.test/bulk-b"
+              },
+              {
+                "long_url": "https://example.com/bulk-c",
+                "short_url": "http://polr.test/n/<SECRET>"
+              }
+            ]
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "bulk plain refused",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/shorten_bulk",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "data": "{\"links\": [{\"url\": \"https://example.com/bulk-a\"}, {\"url\": \"https://example.com/bulk-b\", \"custom_ending\": \"bulk-b\"}, {\"url\": \"https://example.com/bulk-c\", \"is_secret\": \"true\"}]}",
+          "response_type": "plain_text"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 Only JSON-encoded responses are available for this endpoint."
+      }
+    },
+    {
+      "name": "bulk invalid json",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/shorten_bulk",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "data": "{nope"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "INVALID_PARAMETERS",
+          "error": "Invalid JSON."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "bulk invalid url",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/shorten_bulk",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "data": "{\"links\": [{\"url\": \"nope\"}]}"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "MISSING_PARAMETERS",
+          "error": "Invalid or missing parameters."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "bulk GET not allowed",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten_bulk",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "data": "{\"links\": [{\"url\": \"https://example.com/bulk-a\"}, {\"url\": \"https://example.com/bulk-b\", \"custom_ending\": \"bulk-b\"}, {\"url\": \"https://example.com/bulk-c\", \"is_secret\": \"true\"}]}"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 405,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 405,
+        "body": null
+      }
+    },
+    {
+      "name": "lookup json",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "custom-one",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "lookup",
+          "result": {
+            "long_url": "https://example.com/custom",
+            "created_at": {
+              "date": "2020-02-01 12:06:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "clicks": 10,
+            "updated_at": {
+              "date": "2020-02-01 12:06:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            }
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "lookup plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "custom-one"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "https://example.com/custom"
+      }
+    },
+    {
+      "name": "lookup POST",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/lookup",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "1",
+          "response_type": "json"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "lookup",
+          "result": {
+            "long_url": "https://example.com/page/2",
+            "created_at": {
+              "date": "2020-02-01 12:02:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "clicks": 10,
+            "updated_at": {
+              "date": "2020-02-01 12:02:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            }
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "lookup secret without key",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "a",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 401,
+          "error_code": "ACCESS_DENIED",
+          "error": "Invalid URL code for secret URL."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "lookup secret with key",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "a",
+          "url_key": "a5ec",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "lookup",
+          "result": {
+            "long_url": "https://example.org/alice-api-secret",
+            "created_at": {
+              "date": "2020-02-01 12:16:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "clicks": 0,
+            "updated_at": {
+              "date": "2020-02-01 12:16:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            }
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "lookup disabled link",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "disabled-link",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "lookup",
+          "result": {
+            "long_url": "https://example.com/to-disable",
+            "created_at": {
+              "date": "2020-02-01 12:08:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "clicks": 0,
+            "updated_at": {
+              "date": "2020-02-01 12:08:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            }
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "lookup missing ending",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "MISSING_PARAMETERS",
+          "error": "Invalid or missing parameters."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "lookup anonymous",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "url_ending": "custom-one",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "lookup",
+          "result": {
+            "long_url": "https://example.com/custom",
+            "created_at": {
+              "date": "2020-02-01 12:06:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "clicks": 10,
+            "updated_at": {
+              "date": "2020-02-01 12:06:00.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            }
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats day",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "data_link_day",
+          "result": {
+            "url_ending": "alice-custom",
+            "data": [
+              {
+                "x": "2020-02-08",
+                "y": 2
+              },
+              {
+                "x": "2020-02-09",
+                "y": 4
+              },
+              {
+                "x": "2020-02-10",
+                "y": 3
+              },
+              {
+                "x": "2020-02-11",
+                "y": 1
+              }
+            ]
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats country",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "country",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "data_link_country",
+          "result": {
+            "url_ending": "alice-custom",
+            "data": [
+              {
+                "label": "GB",
+                "clicks": 4
+              },
+              {
+                "label": "US",
+                "clicks": 3
+              },
+              {
+                "label": "SE",
+                "clicks": 2
+              }
+            ]
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats referer",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "referer",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "data_link_referer",
+          "result": {
+            "url_ending": "alice-custom",
+            "data": [
+              {
+                "label": "news.example.com",
+                "clicks": 4
+              },
+              {
+                "label": "www.google.com",
+                "clicks": 3
+              },
+              {
+                "label": "Direct",
+                "clicks": 2
+              },
+              {
+                "label": "intranet.local",
+                "clicks": 1
+              }
+            ]
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats POST",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/data/link",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "data_link_day",
+          "result": {
+            "url_ending": "alice-custom",
+            "data": [
+              {
+                "x": "2020-02-08",
+                "y": 2
+              },
+              {
+                "x": "2020-02-09",
+                "y": 4
+              },
+              {
+                "x": "2020-02-10",
+                "y": 3
+              },
+              {
+                "x": "2020-02-11",
+                "y": 1
+              }
+            ]
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats default bounds",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "data_link_day",
+          "result": {
+            "url_ending": "alice-custom",
+            "data": []
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats plain refused",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day",
+          "response_type": "plain_text"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 Only JSON-encoded data is available for this endpoint."
+      }
+    },
+    {
+      "name": "stats bad type",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "bogus",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "INVALID_ANALYTICS_TYPE",
+          "error": "Invalid analytics type requested."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats missing type",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "INVALID_ANALYTICS_TYPE",
+          "error": "Invalid analytics type requested."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats other's link",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "custom-one",
+          "stats_type": "day",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 401,
+          "error_code": "ACCESS_DENIED",
+          "error": "Unauthorized."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats admin any link",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "0000000000000000000000000ad001",
+          "url_ending": "custom-one",
+          "stats_type": "country",
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "data_link_country",
+          "result": {
+            "url_ending": "custom-one",
+            "data": [
+              {
+                "label": "GB",
+                "clicks": 4
+              },
+              {
+                "label": "US",
+                "clicks": 3
+              },
+              {
+                "label": "SE",
+                "clicks": 2
+              }
+            ]
+          }
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats unknown link",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "nope",
+          "stats_type": "day"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 404,
+          "error_code": "NOT_FOUND",
+          "error": "Link not found."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats bounds reversed",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day",
+          "left_bound": "2020-03-01",
+          "right_bound": "2020-02-01"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "ANALYTICS_ERROR",
+          "error": "Invalid bounds."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats bounds too broad",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day",
+          "left_bound": "2015-01-01",
+          "right_bound": "2020-02-01"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "ANALYTICS_ERROR",
+          "error": "Bounds too broad."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats invalid date",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "key": "00000000000000000000000a11ce01",
+          "url_ending": "alice-custom",
+          "stats_type": "day",
+          "left_bound": "garbage"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 400,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 400,
+          "error_code": "MISSING_PARAMETERS",
+          "error": "Invalid or missing parameters."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "stats anonymous",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/data/link",
+        "params": {
+          "url_ending": "alice-custom",
+          "stats_type": "day"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 401,
+          "error_code": "AUTH_ERROR",
+          "error": "Anonymous access of this API is not permitted."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "quota first call",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000000ff01",
+          "response_type": "json",
+          "url": "https://example.com/q-1"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/o"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "quota exceeded",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000000ff01",
+          "response_type": "json",
+          "url": "https://example.com/q-2"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 429,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 429,
+          "error_code": "QUOTA_EXCEEDED",
+          "error": "Quota exceeded."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "quota exceeded plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "key": "00000000000000000000000000ff01",
+          "url": "https://example.com/q-3"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 429,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "429 Quota exceeded."
+      }
+    },
+    {
+      "name": "lookup also counts toward quota",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "key": "00000000000000000000000000ff01",
+          "response_type": "json",
+          "url_ending": "custom-one"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 429,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 429,
+          "error_code": "QUOTA_EXCEEDED",
+          "error": "Quota exceeded."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "OPTIONS preflight",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/v2/action/shorten",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 405,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 405,
+        "body": null
+      }
+    },
+    {
+      "name": "POST with CSRF-less session cookie",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/action/shorten",
+        "params": null,
+        "data": {
+          "key": "00000000000000000000000a11ce01",
+          "url": "https://example.com/with-cookie",
+          "response_type": "json"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/p"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "db",
+      "value": [
+        {
+          "id": "15",
+          "short_url": "alice-custom",
+          "long_url": "https://example.org/alice-api-custom",
+          "long_url_hash": "954617339",
+          "ip": "198.51.100.1",
+          "creator": "alice",
+          "clicks": "10",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "1",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:15:00",
+          "updated_at": "2020-02-01 12:15:00"
+        },
+        {
+          "id": "16",
+          "short_url": "a",
+          "long_url": "https://example.org/alice-api-secret",
+          "long_url_hash": "2445325189",
+          "ip": "198.51.100.1",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "4",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:16:00",
+          "updated_at": "2020-02-01 12:16:00"
+        },
+        {
+          "id": "17",
+          "short_url": "b",
+          "long_url": "https://example.org/bulk-1",
+          "long_url_hash": "2185161885",
+          "ip": "198.51.100.1",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:17:00",
+          "updated_at": "2020-02-01 12:17:00"
+        },
+        {
+          "id": "18",
+          "short_url": "bulk-custom",
+          "long_url": "https://example.org/bulk-2",
+          "long_url_hash": "456637735",
+          "ip": "198.51.100.1",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "1",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:18:00",
+          "updated_at": "2020-02-01 12:18:00"
+        },
+        {
+          "id": "19",
+          "short_url": "c",
+          "long_url": "https://example.com/anon-api",
+          "long_url_hash": "2299470578",
+          "ip": "203.0.113.7",
+          "creator": "ANONIP-203.0.113.7",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "2020-02-01 12:19:00",
+          "updated_at": "2020-02-01 12:19:00"
+        },
+        {
+          "id": "20",
+          "short_url": "d",
+          "long_url": "https://example.com/api-1",
+          "long_url_hash": "1478449188",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "21",
+          "short_url": "e",
+          "long_url": "https://example.com/api-2",
+          "long_url_hash": "3239446942",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "22",
+          "short_url": "f",
+          "long_url": "https://example.com/api-3",
+          "long_url_hash": "3054582024",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "23",
+          "short_url": "api-custom",
+          "long_url": "https://example.com/api-4",
+          "long_url_hash": "678800555",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "1",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "24",
+          "short_url": "g",
+          "long_url": "https://example.com/api-7",
+          "long_url_hash": "2977758481",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "4",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "25",
+          "short_url": "h",
+          "long_url": "https://example.com/a b c",
+          "long_url_hash": "2945251058",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "26",
+          "short_url": "i",
+          "long_url": "https://example.com/x",
+          "long_url_hash": "218770878",
+          "ip": "198.51.100.20",
+          "creator": "ANONIP-198.51.100.20",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "27",
+          "short_url": "j",
+          "long_url": "https://example.com/anon-1",
+          "long_url_hash": "3516337349",
+          "ip": "198.51.100.20",
+          "creator": "ANONIP-198.51.100.20",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "28",
+          "short_url": "k",
+          "long_url": "https://example.com/anon-2",
+          "long_url_hash": "1218338175",
+          "ip": "198.51.100.20",
+          "creator": "ANONIP-198.51.100.20",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "29",
+          "short_url": "l",
+          "long_url": "https://example.com/api-8",
+          "long_url_hash": "566485120",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "30",
+          "short_url": "m",
+          "long_url": "https://example.com/bulk-a",
+          "long_url_hash": "1059513353",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "31",
+          "short_url": "bulk-b",
+          "long_url": "https://example.com/bulk-b",
+          "long_url_hash": "2788144563",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "1",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "32",
+          "short_url": "n",
+          "long_url": "https://example.com/bulk-c",
+          "long_url_hash": "3509093669",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "4",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "33",
+          "short_url": "o",
+          "long_url": "https://example.com/q-1",
+          "long_url_hash": "6660588",
+          "ip": "198.51.100.20",
+          "creator": "quota",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        },
+        {
+          "id": "34",
+          "short_url": "p",
+          "long_url": "https://example.com/with-cookie",
+          "long_url_hash": "1964997170",
+          "ip": "198.51.100.20",
+          "creator": "alice",
+          "clicks": "0",
+          "secret_key_len": "0",
+          "is_disabled": "0",
+          "is_custom": "0",
+          "is_api": "1",
+          "created_at": "<NOW>",
+          "updated_at": "<NOW>"
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@
 
         <!-- Output sign in/sign out buttons appropriately -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{ route('index') }}">{{env('APP_NAME')}}</a>
+            <a class="navbar-brand" href="{{ route('index') }}">{{config('polr.app_name')}}</a>
         </div>
 
         <ul id="navbar" class="nav navbar-collapse collapse navbar-nav" id="nbc">
@@ -17,7 +17,7 @@
 
             @if (empty(session('username')))
                 <li class="visible-xs"><a href="{{ route('login') }}">Sign In</a></li>
-                @if (env('POLR_ALLOW_ACCT_CREATION'))
+                @if (config('polr.polr_allow_acct_creation'))
                     <li class="visible-xs"><a href="{{ route('signup') }}">Sign Up</a></li>
                 @endif
             @else
@@ -31,7 +31,7 @@
             <li class="divider-vertical"></li>
 
             @if (empty(session('username')))
-                @if (env('POLR_ALLOW_ACCT_CREATION'))
+                @if (config('polr.polr_allow_acct_creation'))
                     <li><a href="{{route('signup')}}">Sign Up</a></li>
                 @endif
 

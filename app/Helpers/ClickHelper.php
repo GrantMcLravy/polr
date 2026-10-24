@@ -3,17 +3,32 @@ namespace App\Helpers;
 use App\Models\Click;
 use App\Models\Link;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClickHelper {
     static private function getCountry($ip) {
-        $country_iso = geoip()->getLocation($ip)->iso_code;
+        // A GeoIP problem (e.g. a corrupt or unreadable database file, which
+        // torann/geoip does not always catch) must never break a redirect:
+        // record the click without a country and log a warning, at most once
+        // per request.
+        try {
+            $country_iso = geoip()->getLocation($ip)->iso_code;
+        }
+        catch (\Throwable $e) {
+            $request = request();
+            if (! $request->attributes->get('polr_geoip_failure_logged')) {
+                $request->attributes->set('polr_geoip_failure_logged', true);
+                Log::warning('GeoIP lookup failed; recording click without a country.', ['exception' => $e]);
+            }
+            return null;
+        }
         return $country_iso;
     }
 
     static private function getHost($url) {
         // Return host given URL; NULL if host is
         // not found.
-        return parse_url($url, PHP_URL_HOST);
+        return parse_url((string) $url, PHP_URL_HOST);
     }
 
     static public function recordClick(Link $link, Request $request) {

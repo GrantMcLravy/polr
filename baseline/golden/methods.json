@@ -1,0 +1,361 @@
+{
+  "group": "methods",
+  "env": {},
+  "steps": [
+    {
+      "name": "POST /",
+      "request": {
+        "method": "POST",
+        "path": "/",
+        "params": null,
+        "data": {
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 405,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 405,
+        "body": null
+      }
+    },
+    {
+      "name": "GET /shorten",
+      "request": {
+        "method": "GET",
+        "path": "/shorten",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 405,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 405,
+        "body": null
+      }
+    },
+    {
+      "name": "GET /admin/action/change_password",
+      "request": {
+        "method": "GET",
+        "path": "/admin/action/change_password",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 405,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 405,
+        "body": null
+      }
+    },
+    {
+      "name": "PUT /login",
+      "request": {
+        "method": "PUT",
+        "path": "/login",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 500,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache, private"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n                        .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }\n            .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }\n            .sf-reset .clear_fix:after { display:block; height:0; clear:both; visibility:hidden; }\n            .sf-reset .clear_fix { display:inline-block; }\n            .sf-reset * html .clear_fix { height:1%; }\n            .sf-reset .clear_fix { display:block; }\n            .sf-reset, .sf-reset .block { margin: auto }\n            .sf-reset abbr { border-bottom: 1px dotted #000; cursor: help; }\n            .sf-reset p { font-size:14px; line-height:20px; color:#868686; padding-bottom:20px }\n            .sf-reset strong { font-weight:bold; }\n            .sf-reset a { color:#6c6159; cursor: default; }\n            .sf-reset a img { border:none; }\n            .sf-reset a:hover { text-decoration:underline; }\n            .sf-reset em { font-style:italic; }\n            .sf-reset h1, .sf-reset h2 { font: 20px Georgia, \"Times New Roman\", Times, serif }\n            .sf-reset .exception_counter { background-color: #fff; color: #333; padding: 6px; float: left; margin-right: 10px; float: left; display: block; }\n            .sf-reset .exception_title { margin-left: 3em; margin-bottom: 0.7em; display: block; }\n            .sf-reset .exception_message { margin-left: 3em; display: block; }\n            .sf-reset .traces li { font-size:12px; padding: 2px 4px; list-style-type:decimal; margin-left:20px; }\n            .sf-reset .block { background-color:#FFFFFF; padding:10px 28px; margin-bottom:20px;\n                -webkit-border-bottom-right-radius: 16px;\n                -webkit-border-bottom-left-radius: 16px;\n                -moz-border-radius-bottomright: 16px;\n                -moz-border-radius-bottomleft: 16px;\n                border-bottom-right-radius: 16px;\n                border-bottom-left-radius: 16px;\n                border-bottom:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                word-wrap: break-word;\n            }\n            .sf-reset .block_exception { background-color:#ddd; color: #333; padding:20px;\n                -webkit-border-top-left-radius: 16px;\n                -webkit-border-top-right-radius: 16px;\n                -moz-border-radius-topleft: 16px;\n                -moz-border-radius-topright: 16px;\n                border-top-left-radius: 16px;\n                border-top-right-radius: 16px;\n                border-top:1px solid #ccc;\n                border-right:1px solid #ccc;\n                border-left:1px solid #ccc;\n                overflow: hidden;\n                word-wrap: break-word;\n            }\n            .sf-reset a { background:none; color:#868686; text-decoration:none; }\n            .sf-reset a:hover { background:none; color:#313131; text-decoration:underline; }\n            .sf-reset ol { padding: 10px 0; }\n            .sf-reset h1 { background-color:#FFFFFF; padding: 15px 28px; margin-bottom: 20px;\n                -webkit-border-radius: 10px;\n                -moz-border-radius: 10px;\n                border-radius: 10px;\n                border: 1px solid #ccc;\n            }\n        </style>\n    </head>\n    <body>\n                    <div id=\"sf-resetcontent\" class=\"sf-reset\">\n                <h1>Whoops, looks like something went wrong.</h1>\n                \n            </div>\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "HEAD /",
+      "request": {
+        "method": "HEAD",
+        "path": "/",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": ""
+      }
+    },
+    {
+      "name": "HEAD short link",
+      "request": {
+        "method": "HEAD",
+        "path": "/custom-one",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 301,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "https://example.com/custom"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": ""
+      }
+    },
+    {
+      "name": "GET internal ajax endpoint",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/link_avail_check",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 405,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": 405,
+        "body": null
+      }
+    },
+    {
+      "name": "GET unknown api path",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/nope",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /api/v2",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "trailing slash on short link",
+      "request": {
+        "method": "GET",
+        "path": "/custom-one/",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 301,
+        "headers": [
+          [
+            "Location",
+            "<BASE>/custom-one"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=iso-8859-1"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>301 Moved Permanently</title>\n</head><body>\n<h1>Moved Permanently</h1>\n<p>The document has moved <a href=\"<BASE>/custom-one\">here</a>.</p>\n<hr>\n<address>Apache/2.4.38 (Debian) Server at 127.0.0.1 Port 18080</address>\n</body></html>\n"
+      }
+    },
+    {
+      "name": "index.php front controller",
+      "request": {
+        "method": "GET",
+        "path": "/index.php",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>/index.php\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/index.php/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/index.php/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/index.php/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/index.php/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "index.php with path",
+      "request": {
+        "method": "GET",
+        "path": "/index.php/custom-one",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>/index.php\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/index.php/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/index.php/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/index.php/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/index.php/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "static asset",
+      "request": {
+        "method": "GET",
+        "path": "/js/constants.js",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Last-Modified",
+            "Sun, 17 Sep 2023 16:22:58 GMT"
+          ],
+          [
+            "ETag",
+            "\"3b-6059070503c80\""
+          ],
+          [
+            "Accept-Ranges",
+            "bytes"
+          ],
+          [
+            "Content-Type",
+            "application/javascript"
+          ]
+        ],
+        "json": null,
+        "body": "/* Polr JS Constants */\n\nconst BASE_API_PATH = '/api/v2/';\n"
+      }
+    }
+  ]
+}

@@ -20,17 +20,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <!DOCTYPE html>
 <html ng-app="polr">
 <head>
-    <title>@section('title'){{env('APP_NAME')}}@show</title>
+    <title>@section('title'){{config('polr.app_name')}}@show</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Leave this for stats --}}
-    <meta name="generator" content="Polr {{env('POLR_VERSION')}}" />
+    <meta name="generator" content="Polr {{config('polr.polr_version')}}" />
     @yield('meta')
 
     {{-- Load Stylesheets --}}
-    @if (env('APP_STYLESHEET'))
-    <link rel="stylesheet" href="{{env('APP_STYLESHEET')}}">
+    @if (config('polr.app_stylesheet'))
+    <link rel="stylesheet" href="{{config('polr.app_stylesheet')}}">
     @else
     <link rel="stylesheet" href="/css/default-bootstrap.min.css">
     @endif

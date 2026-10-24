@@ -30,7 +30,10 @@ class CreateLinkTable extends Migration
             $table->boolean('is_custom')->default(0);
             $table->boolean('is_api')->default(0);
 
-            $table->timestamps();
+            // Laravel 5.1's timestamps(): NOT NULL with a zero-date default
+            // (Laravel 13's timestamps() would create nullable columns).
+            $table->timestamp('created_at')->default('0000-00-00 00:00:00');
+            $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
         });
     }
 

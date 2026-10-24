@@ -47,7 +47,7 @@ class StatsController extends Controller {
         if ($link == null) {
             return redirect(route('admin'))->with('error', 'Cannot show stats for nonexistent link.');
         }
-        if (!env('SETTING_ADV_ANALYTICS')) {
+        if (!config('polr.setting_adv_analytics')) {
             return redirect(route('login'))->with('error', 'Please enable advanced analytics to view this page.');
         }
 

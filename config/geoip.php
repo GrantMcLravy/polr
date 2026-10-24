@@ -102,7 +102,9 @@ return [
     |
     */
 
-    // 'cache_tags' => ['torann-geoip-location'],
+    // Must be set explicitly: torann/geoip 3 merges its own default
+    // (['torann-geoip-location']), and the file cache cannot do tags.
+    'cache_tags' => null,
 
     /*
     |--------------------------------------------------------------------------

@@ -15,13 +15,13 @@
             <div class="col-md-3 col-md-offset-3 link-meta">
                 <p>
                     <b>Short Link: </b>
-                    <a target="_blank" href="{{ env('APP_PROTOCOL') }}/{{ env('APP_ADDRESS') }}/{{ $link->short_url }}">
-                        {{ env('APP_ADDRESS') }}/{{ $link->short_url }}
+                    <a target="_blank" href="{{ config('polr.app_protocol') }}/{{ config('polr.app_address') }}/{{ $link->short_url }}">
+                        {{ config('polr.app_address') }}/{{ $link->short_url }}
                     </a>
                 </p>
                 <p>
                     <b>Long Link: </b>
-                    <a target="_blank" href="{{ $link->long_url }}">{{ str_limit($link->long_url, 50) }}</a>
+                    <a target="_blank" href="{{ $link->long_url }}">{{ Str::limit($link->long_url, 50) }}</a>
                 </p>
                 {{-- <p>
                     <em>Tip: Clear the right date bound (bottom box) to set it to the current date and time. New
@@ -91,6 +91,8 @@
         </div>
     </div>
 </div>
+
+<p class='text-muted'>This product includes GeoLite2 data created by MaxMind, available from <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>
 
 @endsection
 

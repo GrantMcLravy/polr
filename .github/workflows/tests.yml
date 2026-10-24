@@ -1,0 +1,116 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    name: PHPUnit (PHP ${{ matrix.php }}, ${{ matrix.db }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+        db: ['mysql:5.7']
+        include:
+          - php: '8.4'
+            db: 'mysql:8.4'
+          - php: '8.4'
+            db: 'mariadb:11.4'
+    services:
+      db:
+        image: ${{ matrix.db }}
+        env:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: polr_test
+          MARIADB_ROOT_PASSWORD: rootpw
+          MARIADB_DATABASE: polr_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -uroot -prootpw || mariadb-admin ping -h 127.0.0.1 -uroot -prootpw"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 30
+    env:
+      # phpunit.xml defaults to the dev environment's "mysql" host.
+      DB_HOST: 127.0.0.1
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_mysql, intl, bcmath, zip
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: vendor/bin/phpunit --display-deprecations --display-warnings --display-notices --fail-on-deprecation --fail-on-warning
+
+  checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    env:
+      APP_KEY: a5bd6a61b1327670bedd712a358d9c2b
+      POLR_SETUP_RAN: 'true'
+      POLR_ALLOW_ACCT_CREATION: 'true'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, bcmath, zip
+          coverage: none
+      - run: composer validate --strict
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: composer audit
+      - name: Route inventory matches Polr 2.x
+        run: |
+          php artisan route:list --json > routes.json
+          python3 dev/check_routes.py routes.json
+      - name: config:cache and route:cache work
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan route:list > /dev/null
+          php artisan optimize:clear
+      - name: No env() outside config/
+        run: |
+          if grep -rn "env(" app resources routes; then exit 1; fi
+      - name: No Lumen code or dependencies
+        run: |
+          if grep -rn "Laravel\\\\Lumen" app bootstrap config routes; then exit 1; fi
+          if grep -n '"laravel/lumen' composer.json composer.lock; then exit 1; fi
+
+  docker:
+    name: Docker images build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build --target app -t polr-app .
+      - run: docker build --target web -t polr-web .
+      - name: App image runs as www-data and cannot write its code
+        run: |
+          test "$(docker run --rm --entrypoint id polr-app -un)" = www-data
+          docker run --rm --entrypoint sh polr-app -c '! touch /var/www/html/x 2>/dev/null && ! touch /var/www/html/app/x 2>/dev/null'
+
+  baseline-replay:
+    name: Replay of recorded Polr 2.3.0 behavior
+    runs-on: ubuntu-latest
+    env:
+      PYTHON: python3
+    steps:
+      - uses: actions/checkout@v7
+      - name: Prepare dev environment
+        run: |
+          cp baseline/fixtures/env/baseline.env .env
+          cp tests/fixtures/geoip/GeoIP2-City-Test.mmdb storage/app/geoip.mmdb
+          docker compose -f dev/docker-compose.yml up -d --wait mysql mailpit
+          docker compose -f dev/docker-compose.yml run --rm --no-deps app composer install --no-interaction --prefer-dist --no-progress
+      - name: Replay and compare (fails on differences not in dev/accepted-differences.txt)
+        run: dev/replay.sh
+      - name: Differences
+        if: always()
+        run: cat dev/.skel/replay.txt || true

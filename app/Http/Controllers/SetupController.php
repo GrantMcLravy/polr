@@ -37,7 +37,15 @@ class SetupController extends Controller {
     private static function updateGeoIP() {
         // Output GeoIP database for advanced
         // analytics
-        $exitCode = Artisan::call('geoip:update', []);
+        // torann/geoip 3 throws when the download fails; show the setup
+        // page's error message instead of an error page.
+        try {
+            $exitCode = Artisan::call('geoip:update', []);
+        }
+        catch (\Throwable $e) {
+            report($e);
+            return false;
+        }
         return self::parseExitCode($exitCode);
     }
 
@@ -49,7 +57,7 @@ class SetupController extends Controller {
     }
 
     public static function displaySetupPage(Request $request) {
-        if (env('POLR_SETUP_RAN')) {
+        if (config('polr.setup_ran')) {
             return self::setupAlreadyRan();
         }
 
@@ -57,7 +65,7 @@ class SetupController extends Controller {
     }
 
     public static function performSetup(Request $request) {
-        if (env('POLR_SETUP_RAN')) {
+        if (config('polr.setup_ran')) {
             return self::setupAlreadyRan();
         }
 
@@ -187,16 +195,29 @@ class SetupController extends Controller {
             'ST_PSEUDOR_ENDING' => $st_pseudor_ending,
             'ST_ADV_ANALYTICS' => $st_adv_analytics,
 
-            'TMP_SETUP_AUTH_KEY' => $setup_auth_key
+            'TMP_SETUP_AUTH_KEY' => $setup_auth_key,
+
+            // Escape values the way Polr 2.x's Blade did (htmlentities, no
+            // double encoding) so the generated .env is unchanged.
+            'escape' => function ($value) {
+                return htmlentities((string) $value, ENT_QUOTES, 'UTF-8', false);
+            },
         ])->render();
 
-        $handle = fopen('../.env', 'w');
+        // The .env file the application loads (base_path('.env') by default;
+        // Polr 2.x opened '../.env' relative to public/, the same file).
+        $handle = fopen(app()->environmentFilePath(), 'w');
         if (fwrite($handle, $compiled_configuration) === FALSE) {
             $response = view('error', [
                 'message' => 'Could not write configuration to disk.'
             ]);
         } else {
             Cache::flush();
+
+            // Make the next request read the new .env, also if the
+            // configuration or routes (which depend on it) were cached.
+            Artisan::call('config:clear');
+            Artisan::call('route:clear');
 
             $setup_finish_arguments = json_encode([
                 'acct_username' => $acct_username,
@@ -230,7 +251,7 @@ class SetupController extends Controller {
         // unset cookie
         setcookie('setup_arguments', '', time()-3600);
 
-        $transaction_authorised = env('TMP_SETUP_AUTH_KEY') === $setup_finish_args->setup_auth_key;
+        $transaction_authorised = config('polr.tmp_setup_auth_key') === $setup_finish_args->setup_auth_key;
 
         if ($transaction_authorised != true) {
             abort(403, 'Transaction unauthorised.');
@@ -248,7 +269,7 @@ class SetupController extends Controller {
             return redirect(route('setup'))->with('error', 'Could not create database. Perhaps your credentials were incorrect?');
         }
 
-        if (env('SETTING_ADV_ANALYTICS')) {
+        if (config('polr.setting_adv_analytics')) {
             $geoip_db_created = self::updateGeoIP();
             if (!$geoip_db_created) {
                 return redirect(route('setup'))->with('error', 'Could not fetch GeoIP database for advanced analytics. Perhaps your server is not connected to the internet or your MAXMIND_LICENSE_KEY is incorrect?');

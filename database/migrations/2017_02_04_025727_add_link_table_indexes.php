@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class AddLinkTableIndexes extends Migration
 {
@@ -24,6 +26,7 @@ class AddLinkTableIndexes extends Migration
         // DB::statement("UPDATE links SET long_url_hash = crc32(long_url);");
 
         DB::table('links')->select(['id', 'long_url_hash', 'long_url'])
+            ->orderBy('id')
             ->chunk(100, function($links) {
                 foreach ($links as $link) {
                     DB::table('links')

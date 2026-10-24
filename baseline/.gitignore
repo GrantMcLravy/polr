@@ -1,0 +1,4 @@
+.build/
+__pycache__/
+# the root .gitignore ignores anything named "env"
+!/fixtures/env/

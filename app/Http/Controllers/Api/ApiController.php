@@ -4,6 +4,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 class ApiController extends Controller {
+    /**
+     * Encode a date the way Polr 2.x's API responses contained it.
+     *
+     * Carbon 1 had no JSON serialization of its own, so json_encode() produced
+     * PHP's DateTime object form, which the API documentation shows. Carbon 3
+     * would produce an ISO 8601 string instead.
+     */
+    protected static function encodeDate($date) {
+        if (! $date instanceof \DateTimeInterface) {
+            return $date;
+        }
+
+        return [
+            'date' => $date->format('Y-m-d H:i:s.u'),
+            'timezone_type' => 3,
+            'timezone' => $date->getTimezone()->getName(),
+        ];
+    }
+
     protected static function encodeResponse($result, $action, $response_type='json', $plain_text_response=false) {
         $response = [
             "action" => $action,

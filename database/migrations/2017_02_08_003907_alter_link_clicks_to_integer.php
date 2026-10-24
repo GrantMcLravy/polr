@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AlterLinkClicksToInteger extends Migration
 {
@@ -16,7 +17,9 @@ class AlterLinkClicksToInteger extends Migration
     {
         Schema::table('links', function (Blueprint $table)
         {
-            $table->integer('clicks')->change();
+            // Without doctrine/dbal, change() replaces the whole column definition,
+            // so restate the default that Polr 2.x kept.
+            $table->integer('clicks')->default(0)->change();
         });
     }
 
@@ -29,7 +32,7 @@ class AlterLinkClicksToInteger extends Migration
     {
         Schema::table('links', function (Blueprint $table)
         {
-            $table->string('clicks')->change();
+            $table->string('clicks')->default(0)->change();
         });
     }
 }

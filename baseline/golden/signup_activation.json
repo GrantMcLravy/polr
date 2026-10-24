@@ -1,0 +1,263 @@
+{
+  "group": "signup_activation",
+  "env": {
+    "POLR_ACCT_ACTIVATION": "true"
+  },
+  "steps": [
+    {
+      "name": "signup requires activation",
+      "request": {
+        "method": "POST",
+        "path": "/signup",
+        "params": null,
+        "data": {
+          "username": "kate",
+          "password": "KatePass1",
+          "email": "kate@example.com",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "inactive login refused",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "kate",
+          "password": "KatePass1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "activation mail",
+      "mails": [
+        {
+          "from": [
+            "noreply@polr.test",
+            "Polr Baseline"
+          ],
+          "to": [
+            [
+              "kate@example.com",
+              "kate"
+            ]
+          ],
+          "subject": "Polr Baseline account activation",
+          "html": "<h3>Hello kate!</h3>\r\n\r\n<p>Thanks for registering at Polr Baseline. To use your account,\r\nyou will need to activate it by clicking the following link:</p>\r\n\r\n<br />\r\n\r\n<a href='http://polr.test/activate/kate/<RECOVERY_KEY>'>\r\n    http://polr.test/activate/kate/<RECOVERY_KEY>\r\n</a>\r\n\r\n<br />\r\n\r\n<p>Thanks,</p>\r\n<p>The Polr Baseline team.</p>\r\n\r\n--\r\n<br />\r\nYou received this email because someone with the IP 198.51.100.20 signed up\r\nfor an account at http://polr.test. If this was not you,\r\nyou may ignore this email.\r\n\r\n",
+          "text": "Hello kate!\n-----------\n\nThanks for registering at Polr Baseline. To use your account, you will need to activate it by clicking the following link:\n\nhttp://polr.test/activate/kate/<RECOVERY_KEY> ( http://polr.test/activate/kate/<RECOVERY_KEY> )\n\nThanks,\n\nThe Polr Baseline team.\n\n--\nYou received this email because someone with the IP 198.51.100.20 signed up for an account at http://polr.test. If this was not you, you may ignore this email."
+        }
+      ]
+    },
+    {
+      "name": "activate",
+      "request": {
+        "method": "GET",
+        "path": "/activate/kate/<RECOVERY_KEY>",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "activate again (key rotated)",
+      "request": {
+        "method": "GET",
+        "path": "/activate/kate/<RECOVERY_KEY>",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "activate wrong key",
+      "request": {
+        "method": "GET",
+        "path": "/activate/kate/0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "active login accepted",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "kate",
+          "password": "KatePass1",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    }
+  ]
+}

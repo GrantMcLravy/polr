@@ -1,231 +1,222 @@
 # Installation
 -----------------
 
-This installation guide will help you install Polr 2.0, the latest iteration of Polr.
+This guide installs Polr 2 on a server with a web server and PHP. To run Polr
+with Docker instead, see [Docker](docker.md). To upgrade an existing Polr 2.x
+installation, see [Upgrading](upgrading.md).
 
 ## Server Requirements
 
-The following software is required on your server to run Polr 2.0.
-In the case that you cannot fulfill the following requirements (e.g free shared hosting),
-you may be interested in looking at a [legacy 1.x release](https://github.com/cydrobolt/polr/releases) of Polr (now unsupported).
+ - A web server: nginx or Apache (other servers work if they can serve `public/`
+   and send everything else to `public/index.php`)
+ - PHP 8.3, 8.4 or 8.5 (PHP-FPM with nginx, or PHP-FPM / mod_php with Apache)
+ - MySQL 5.7 or later, or MariaDB (tested with MySQL 5.7, MySQL 8.4 and
+   MariaDB 11.4)
+ - [Composer](https://getcomposer.org/)
+ - PHP extensions: `ctype`, `curl`, `dom`, `fileinfo`, `filter`, `hash`,
+   `mbstring`, `openssl`, `pcre`, `pdo`, `pdo_mysql`, `session`, `tokenizer`,
+   `xml`, and `phar` and `zlib` for the GeoIP database updates. Most PHP packages
+   include these; on Debian/Ubuntu install for example `php8.4-fpm php8.4-mysql
+   php8.4-mbstring php8.4-xml php8.4-curl`.
 
-
- - Apache, nginx, IIS, or lighttpd (Apache preferred)
- - PHP >= 5.5.9
- - MariaDB or MySQL >= 5.5, SQLite alternatively
- - composer
- - PHP requirements:
-    - OpenSSL PHP Extension
-    - PDO PHP Extension
-    - PDO MySQL Driver (php5-mysql on Debian & Ubuntu, php5x-pdo_mysql on FreeBSD)
-    - Mbstring PHP Extension
-    - Tokenizer PHP Extension
-    - JSON PHP Extension
-    - PHP curl extension
+SQLite is not supported by this version.
 
 ## Download the source code
 
-If you would like to download a stable version of Polr, you may check out [the releases page](https://github.com/cydrobolt/polr/releases).
-
 ```bash
-$ sudo su
-# switch to Polr directory (replace with other directory path if applicable)
-$ cd /var/www
-# clone Polr
-$ git clone https://github.com/cydrobolt/polr.git --depth=1
-# set correct permissions
-$ chmod -R 755 polr
-
-# if you would like to use a specific release, check out
-# the tag associated with the release. see link above.
-$ # git checkout <tag>
-
-# run only if on Ubuntu-based systems
-$ chown -R www-data polr
-# run only if on Fedora-based systems
-$ chown -R apache polr
-
-# run only if on recent Fedora, or other system, with SELinux enforcing
-$ chcon -R -t httpd_sys_rw_content_t polr/storage polr/.env
+cd /var/www
+git clone https://github.com/GrantMcLravy/polr.git
+cd polr
+# optionally check out a release tag: git checkout <tag>
 ```
 
 ## Install `composer` dependencies
 
 ```bash
-# download composer package
-curl -sS https://getcomposer.org/installer | php
-# update/install dependencies
-php composer.phar install --no-dev -o
+composer install --no-dev -o
 ```
 
-If composer fails to install the proper dependencies due to your PHP version, delete `composer.lock`
-and try installing the dependencies again.
+Do not delete `composer.lock`: it pins the tested versions of all dependencies.
+
+## Permissions
+
+The web server's PHP user (e.g. `www-data` on Debian/Ubuntu, `apache` or `nginx`
+on Fedora/RHEL) needs write access to:
+
+ - `storage/` and `bootstrap/cache/`
+ - `.env` during setup, because the setup wizard writes it (see below)
 
 ```bash
-rm composer.lock
-php composer.phar install --no-dev -o
+cp .env.setup .env
+chown -R www-data storage bootstrap/cache .env
+# With SELinux enforcing (e.g. Fedora/RHEL):
+# chcon -R -t httpd_sys_rw_content_t storage bootstrap/cache .env
 ```
+
+The rest of the files only need to be readable. After setup you may make `.env`
+read-only again (`chown root .env && chmod 644 .env`). It contains the database
+password, so keep it out of the web root (Polr's web root is `public/`) and away from
+other users.
 
 ## Running Polr on...
 
+### nginx
+
+Install PHP-FPM (e.g. `apt install php8.4-fpm`). Replace `example.com` and the
+PHP-FPM socket path with yours:
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /var/www/polr/public;
+    index index.php;
+
+    # Never serve dotfiles (.env, .htaccess, .git, ...).
+    location ~ /\.(?!well-known/) {
+        deny all;
+    }
+
+    # Remove trailing slashes, as public/.htaccess does for Apache.
+    if (!-d $request_filename) {
+        rewrite ^/(.+)/$ /$1 permanent;
+    }
+
+    location / {
+        try_files $uri /index.php?$query_string;
+    }
+
+    location = /index.php {
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+}
+```
+
+Serve Polr over HTTPS on the internet (e.g. with Let's Encrypt), so passwords and
+API keys are not sent in the clear.
+
 ### Apache
 
-To run Polr on Apache, you will need to create a new Apache configuration file in your operating system's Apache configuration folder (e.g `/etc/apache2/sites-enabled` or `/etc/httpd/sites-enabled`) or add a virtual host to your `httpd-vhosts.conf` file like so:
-
-Replace `example.com` with your server's external address and restart Apache when done.
+Enable `mod_rewrite` (`a2enmod rewrite`) and add a virtual host. Replace
+`example.com` and restart Apache:
 
 ```apache
 <VirtualHost *:80>
     ServerName example.com
-    ServerAlias example.com
-
     DocumentRoot "/var/www/polr/public"
     <Directory "/var/www/polr/public">
         Require all granted
-        Options Indexes FollowSymLinks
         AllowOverride All
-        Order allow,deny
-        Allow from all
     </Directory>
 </VirtualHost>
 ```
 
-If `mod_rewrite` is not already enabled, you will need to enable it like so:
+`public/.htaccess` sends requests to Polr and removes trailing slashes.
 
-```bash
-# enable mod_rewrite
-a2enmod rewrite
-# restart apache on Ubuntu
-# sudo service apache2 restart
+### Other servers and shared hosting
 
-# restart apache on Fedora/CentOS
-# sudo service httpd restart
-```
-### nginx
-
-Replace `example.com` with your server's external address. You will need to install `php5-fpm`:
-
-```
-$ sudo apt-get install php5-fpm
-```
-
-Useful LEMP installation tutorial by [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-12-04)
-
-```nginx
-# Upstream to abstract backend connection(s) for php
-upstream php {
-    server unix:/var/run/php-fpm.sock;
-    server 127.0.0.1:9000;
-}
-
-# HTTP
-
-server {
-    listen       *:80;
-    root         /var/www/polr/public;
-    index        index.php index.html index.htm;
-    server_name  example.com; # Or whatever you want to use
-
-#   return 301 https://$server_name$request_uri; # Forces HTTPS, which enables privacy for login credentials.
-                                                 # Recommended for public, internet-facing, websites.
-
-    location / {
-            try_files $uri $uri/ /index.php$is_args$args;
-            # rewrite ^/([a-zA-Z0-9]+)/?$ /index.php?$1;
-    }
-
-    location ~ \.php$ {
-            try_files $uri =404;
-            include /etc/nginx/fastcgi_params;
-
-            fastcgi_pass    php;
-            fastcgi_index   index.php;
-            fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_param   HTTP_HOST       $server_name;
-    }
-}
-
-
-# HTTPS
-
-#server {
-#   listen              *:443 ssl;
-#   ssl_certificate     /etc/ssl/my.crt;
-#   ssl_certificate_key /etc/ssl/private/my.key;
-#   root                /var/www/polr/public;
-#   index index.php index.html index.htm;
-#   server_name         example.com;
-#
-#   location / {
-#           try_files $uri $uri/ /index.php$is_args$args;
-#           # rewrite ^/([a-zA-Z0-9]+)/?$ /index.php?$1;
-#   }
-#
-#   location ~ \.php$ {
-#           try_files $uri =404;
-#           include /etc/nginx/fastcgi_params;
-#
-#           fastcgi_pass    php;
-#           fastcgi_index   index.php;
-#           fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
-#           fastcgi_param   HTTP_HOST       $server_name;
-#   }
-#}
-```
-### Shared hosting/other
-
-To run Polr on another HTTP server or on shared hosting, you will need to set the home
-directory to `/PATH_TO_POLR/public`, not the root Polr folder.
+Set the document root to `/PATH_TO_POLR/public`, not the Polr folder itself, and
+send requests for files that do not exist to `public/index.php`.
 
 ## Create the database
 
-### MySQL
-
-You must create a database for Polr to use before you can complete the setup script.
-To create a database for Polr, you can log onto your `mysql` shell and run the following command:
-
 ```sql
-CREATE DATABASE polrdatabasename;
+CREATE DATABASE polr;
+CREATE USER 'polr'@'localhost' IDENTIFIED BY 'a long random password';
+GRANT ALL PRIVILEGES ON polr.* TO 'polr'@'localhost';
 ```
 
-Remember this database name, as you will need to provide it to Polr during setup.
-Additionally, if you wish to create a new user with access to solely this database, please look into MySQL's [GRANT](https://dev.mysql.com/doc/refman/5.7/en/grant.html) directive.
+## Option 1: Run the setup wizard
 
-### SQLite
+Make sure `.env` is a copy of `.env.setup` and writable by PHP (see
+[Permissions](#permissions)), then open `/setup` on your Polr site (e.g.
+`https://example.com/setup`).
 
-You may also use SQLite in place of MySQL for Polr. However, SQLite is not recommended for use with Polr.
+The wizard writes `.env`, creates the database tables and the first administrator,
+and, if you enable advanced analytics, downloads the GeoIP database. You can change
+the configuration later by editing `.env`.
 
+## Option 2: Configure Polr manually
 
-## Option 1: Run the automatic setup script
+Write `.env` yourself, using `resources/views/env.blade.php` as the list of settings
+(replace each `{!! $escape(...) !!}` with a value). `APP_KEY` must be a random,
+32-character string; to generate one:
 
-Once your server is properly set up, you will need to configure Polr and
-enable it to access the database.
+```bash
+php -r 'echo bin2hex(random_bytes(16)), PHP_EOL;'
+```
 
-Copy the `.env.setup` file to `.env` in your website's root directory.
-
-`$ cp .env.setup .env`
-
-Then, head over to your new Polr instance, at the path `/setup/` to configure
-your instance with the correct information. (e.g example.com/setup)
-
-This will automatically create the necessary tables and write a new configuration file to disk, `.env`. You may make changes  to your configuration later by editing this file.
-
-Once the setup script is completed, Polr is ready to go. You may go back to your Polr homepage and log in to perform
-any other actions.
-
-## Option 2: Write the configuration file and create the tables manually
-
-If you wish to configure and initialize Polr manually, you may do so through command line, although it is not recommended.
-
-Copy `resources/views/env.blade.php` to `.env` at the root directory
-and update the values appropriately. Do not leave any curly braces in your new `.env`. You may leave
-certain sections blank or commented-out to use the defaults.
-
-You may then run the following `artisan` command to create the necessary tables:
+Set `POLR_SETUP_RAN=true`, then create the tables and an administrator:
 
 ```bash
 php artisan migrate --force
-php artisan geoip:update
+php artisan polr:create-admin admin admin@example.com
+# (prompts for the password)
 ```
 
-You will also need to insert a admin user into the `users` table through `mysql` or a graphical SQL interface.
+Settings can also be given as environment variables (e.g. in a PHP-FPM pool or a
+systemd unit); these take precedence over `.env`.
+
+## Behind a reverse proxy
+
+If Polr runs behind a reverse proxy or load balancer, tell it which addresses to
+trust so that click records, GeoIP, anonymous API quotas and signup IPs use the
+visitor's address from `X-Forwarded-For` instead of the proxy's:
+
+```
+TRUSTED_PROXIES=10.0.0.5
+# several: TRUSTED_PROXIES=10.0.0.5,192.168.0.0/16
+# any (only if Polr cannot be reached except through the proxy): TRUSTED_PROXIES=*
+```
+
+By default no proxy is trusted.
+
+## Advanced analytics (GeoIP)
+
+Advanced analytics (`SETTING_ADV_ANALYTICS=true`) records each click's country
+using MaxMind's free GeoLite2 City database (`storage/app/geoip.mmdb`). It needs a
+MaxMind license key, see [Obtaining a MaxMind License Key](maxmind-license.md):
+
+```
+MAXMIND_LICENSE_KEY="your license key"
+```
+
+Download the database once (the setup wizard does this when you enable advanced
+analytics):
+
+```bash
+sudo -u www-data util/update-geoip.sh
+```
+
+MaxMind publishes updates twice a week, and its license requires replacing old
+copies within 30 days of a new release, so update it regularly with your system's
+cron. Edit the web server user's crontab (`sudo crontab -u www-data -e`) and add,
+for example, every Wednesday and Saturday at 04:00:
+
+```
+0 4 * * 3,6  /var/www/polr/util/update-geoip.sh >> /var/www/polr/storage/logs/geoip-update.log 2>&1
+```
+
+The script exits with an error if the update fails (cron can mail you its output)
+and leaves the existing database in place. The license key is removed from its
+output. If a lookup fails, for example because the database file is missing or
+damaged, the click is still recorded and redirected, just without a country.
+
+## Optional: cache the configuration
+
+For a little more speed you can cache the configuration and routes:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+```
+
+When cached, changes to `.env` take effect only after you run these commands again
+(or `php artisan optimize:clear` to remove the caches). The setup wizard clears them
+itself.

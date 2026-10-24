@@ -1,0 +1,106 @@
+{
+  "group": "api_anon_off",
+  "env": {
+    "SETTING_ANON_API": "false"
+  },
+  "steps": [
+    {
+      "name": "anonymous refused json",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/x",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 401,
+          "error_code": "AUTH_ERROR",
+          "error": "Authentication token required."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "anonymous refused plain",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/x"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 Authentication token required."
+      }
+    },
+    {
+      "name": "anonymous lookup refused",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/lookup",
+        "params": {
+          "url_ending": "custom-one"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "text/plain;charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 Authentication token required."
+      }
+    }
+  ]
+}

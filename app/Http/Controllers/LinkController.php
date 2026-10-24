@@ -21,7 +21,7 @@ class LinkController extends Controller {
     }
 
     public function performShorten(Request $request) {
-        if (env('SETTING_SHORTEN_PERMISSION') && !self::isLoggedIn()) {
+        if (config('polr.setting_shorten_permission') && !self::isLoggedIn()) {
             return redirect(route('index'))->with('error', 'You must be logged in to shorten links.');
         }
 
@@ -59,7 +59,7 @@ class LinkController extends Controller {
         // Return an error if the link has been disabled
         // or return a 404 if SETTING_REDIRECT_404 is set to true
         if ($link->is_disabled == 1) {
-            if (env('SETTING_REDIRECT_404')) {
+            if (config('polr.setting_redirect_404')) {
                 return abort(404);
             }
 
@@ -94,12 +94,14 @@ class LinkController extends Controller {
         $link->clicks = $clicks;
         $link->save();
 
-        if (env('SETTING_ADV_ANALYTICS')) {
+        if (config('polr.setting_adv_analytics')) {
             // Record advanced analytics if option is enabled
             ClickHelper::recordClick($link, $request);
         }
-        // Redirect to final destination
-        return redirect()->to($long_url, 301);
+        // Redirect to final destination. Cache-Control: no-cache as in Polr 2.x;
+        // newer Symfony leaves 301s cacheable, so browsers would stop asking
+        // Polr (no click counting, link edits/disabling ignored).
+        return redirect()->to($long_url, 301, ['Cache-Control' => 'no-cache']);
     }
 
 }

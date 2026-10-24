@@ -1,103 +1,78 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+use App\Exceptions\Renderer;
+use App\Http\Middleware\NoAutomaticOptionsResponses;
+use App\Http\Middleware\NoCookiesOnErrorResponses;
+use App\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks;
+use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
+use Illuminate\Http\Middleware\TrustProxies;
+use Illuminate\Http\Middleware\ValidatePathEncoding;
+use Illuminate\Http\Middleware\ValidatePostSize;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-Dotenv::load(__DIR__.'/../');
+// No health-check route: Polr owns every top-level path (/{short_url}), so a
+// framework route such as /up would shadow a short link.
+$app = Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        // Polr 2.x (Lumen) ran cookies, session and CSRF as global middleware,
+        // before routing, so every response (including 404s for unknown paths)
+        // has a session and a CSRF token. Keep that order rather than Laravel's
+        // "web" group.
+        //
+        // Not included, because Lumen did not have them and they would change
+        // request handling: TrimStrings (would trim passwords),
+        // ConvertEmptyStringsToNull, and HandleCors (Polr sets
+        // Access-Control-Allow-Origin itself and never answered preflights).
+        //
+        // Trusted proxies come from TRUSTED_PROXIES (config/trustedproxy.php).
+        $middleware->use([
+            ValidatePathEncoding::class,
+            InvokeDeferredCallbacks::class,
+            TrustProxies::class,
+            PreventRequestsDuringMaintenance::class,
+            ValidatePostSize::class,
+            NoCookiesOnErrorResponses::class,
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            VerifyCsrfToken::class,
+            NoAutomaticOptionsResponses::class,
+        ]);
 
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| Here we will load the environment and create the application instance
-| that serves as the central piece of this framework. We'll use this
-| application as an "IoC" container and router for this framework.
-|
-*/
+        $middleware->group('web', [
+            SubstituteBindings::class,
+        ]);
 
-$app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
-);
+        // The public API is exempt from CSRF; the internal admin AJAX endpoints
+        // under /api/v2 are not. (Read by App\Http\Middleware\VerifyCsrfToken,
+        // which extends Laravel's CSRF middleware.)
+        $middleware->validateCsrfTokens(except: [
+            'api/v*/action/*',
+            'api/v*/data/*',
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(fn (Throwable $e, $request) => (new Renderer)->render($e, $request));
+    })->create();
 
-$app->withFacades();
-$app->withEloquent();
-
-$app->configure('geoip');
-
-/*
-|--------------------------------------------------------------------------
-| Register Container Bindings
-|--------------------------------------------------------------------------
-|
-| Now we will register a few bindings in the service container. We will
-| register the exception handler and the console kernel. You may add
-| your own bindings here if you like or you can make another file.
-|
-*/
-
+// Read .env exactly as Polr 2.x did (phpdotenv 1.1 rules); phpdotenv 5 cannot
+// parse some existing .env files. See App\Bootstrap\LoadEnvironmentVariables.
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+    \App\Bootstrap\LoadEnvironmentVariables::class
 );
-
-$app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
-);
-
-/*
-|--------------------------------------------------------------------------
-| Register Middleware
-|--------------------------------------------------------------------------
-|
-| Next, we will register the middleware with the application. These can
-| be global middleware that run before and after each request into a
-| route or middleware that'll be assigned to some specific routes.
-|
-*/
-
-$app->middleware([
-    Illuminate\Cookie\Middleware\EncryptCookies::class,
-    // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-    Illuminate\Session\Middleware\StartSession::class,
-    Illuminate\View\Middleware\ShareErrorsFromSession::class,
-    App\Http\Middleware\VerifyCsrfToken::class,
-]);
-
-$app->routeMiddleware([
-    'api' => App\Http\Middleware\ApiMiddleware::class,
-]);
-
-/*
-|--------------------------------------------------------------------------
-| Register Service Providers
-|--------------------------------------------------------------------------
-|
-| Here we will register all of the application's service providers which
-| are used to bind services into the container. Service providers are
-| totally optional, so you are not required to uncomment this line.
-|
-*/
-
-$app->register(App\Providers\AppServiceProvider::class);
-$app->register(\Yajra\Datatables\DatatablesServiceProvider::class);
-$app->register(\Torann\GeoIP\GeoIPServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
-
-/*
-|--------------------------------------------------------------------------
-| Load The Application Routes
-|--------------------------------------------------------------------------
-|
-| Next we will include the routes file so that they can all be added to
-| the application. This will provide all of the URLs the application
-| can respond to, as well as the controllers that may handle them.
-|
-*/
-
-$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
-    require __DIR__.'/../app/Http/routes.php';
-});
-
 
 return $app;

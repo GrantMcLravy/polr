@@ -30,7 +30,10 @@ class CreateClicksTable extends Migration
             $table->index('link_id');
             $table->foreign('link_id')->references('id')->on('links')->onDelete('cascade');
 
-            $table->timestamps();
+            // Laravel 5.1's timestamps(): NOT NULL with a zero-date default
+            // (Laravel 13's timestamps() would create nullable columns).
+            $table->timestamp('created_at')->default('0000-00-00 00:00:00');
+            $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
         });
     }
     /**

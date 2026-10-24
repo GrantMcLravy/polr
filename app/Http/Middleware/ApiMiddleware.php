@@ -16,7 +16,7 @@ class ApiMiddleware {
         if (!$api_key) {
             // no API key provided; check whether anonymous API is enabled
 
-            if (env('SETTING_ANON_API')) {
+            if (config('polr.setting_anon_api')) {
                 $username = 'ANONIP-' . $request->ip();
             }
             else {
@@ -57,7 +57,9 @@ class ApiMiddleware {
      */
 
     public function handle($request, Closure $next) {
-        $request->user = $this->getApiUserInfo($request);
+        // Stored as a request attribute; Polr 2.x set a dynamic property
+        // ($request->user), which PHP 8.2+ deprecates.
+        $request->attributes->set('polr_api_user', $this->getApiUserInfo($request));
 
         return $next($request);
     }

@@ -1,0 +1,605 @@
+{
+  "group": "user_ajax",
+  "env": {},
+  "steps": [
+    {
+      "name": "login alice",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "alice",
+          "password": "AlicePass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "own links",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_user_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 7,
+          "recordsFiltered": 7,
+          "data": [
+            {
+              "id": 12,
+              "short_url": "7",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-web\" href=\"https://example.org/alice-web\">https://example.org/alice-web</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('7', 'https://example.org/alice-web')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/7\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:12:00"
+            },
+            {
+              "id": 13,
+              "short_url": "8",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-1\" href=\"https://example.org/alice-api-1\">https://example.org/alice-api-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('8', 'https://example.org/alice-api-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/8\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:13:00"
+            },
+            {
+              "id": 14,
+              "short_url": "9",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-2\" href=\"https://example.org/alice-api-2\">https://example.org/alice-api-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('9', 'https://example.org/alice-api-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/9\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:14:00"
+            },
+            {
+              "id": 16,
+              "short_url": "a",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-secret\" href=\"https://example.org/alice-api-secret\">https://example.org/alice-api-secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('a', 'https://example.org/alice-api-secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/a\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:16:00"
+            },
+            {
+              "id": 15,
+              "short_url": "alice-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-custom\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('alice-custom', 'https://example.org/alice-api-custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "10 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/alice-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:15:00"
+            },
+            {
+              "id": 17,
+              "short_url": "b",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-1\" href=\"https://example.org/bulk-1\">https://example.org/bulk-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('b', 'https://example.org/bulk-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/b\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:17:00"
+            },
+            {
+              "id": 18,
+              "short_url": "bulk-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-2\" href=\"https://example.org/bulk-2\">https://example.org/bulk-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('bulk-custom', 'https://example.org/bulk-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": "0 <a target=\"_blank\" class=\"stats-icon\" href=\"/admin/stats/bulk-custom\">\n                <i class=\"fa fa-area-chart\" aria-hidden=\"true\"></i>\n            </a>",
+              "created_at": "2020-02-01 12:18:00"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "admin users forbidden",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_users",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "username",
+          "columns[0][name]": "username",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "email",
+          "columns[1][name]": "email",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "created_at",
+          "columns[2][name]": "created_at",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "toggle_active",
+          "columns[3][name]": "toggle_active",
+          "columns[3][searchable]": "false",
+          "columns[3][orderable]": "false",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "api_action",
+          "columns[4][name]": "api_action",
+          "columns[4][searchable]": "false",
+          "columns[4][orderable]": "false",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "change_role",
+          "columns[5][name]": "change_role",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User not admin.\n"
+      }
+    },
+    {
+      "name": "admin links forbidden",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_admin_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false",
+          "columns[4][data]": "creator",
+          "columns[4][name]": "creator",
+          "columns[4][searchable]": "true",
+          "columns[4][orderable]": "true",
+          "columns[4][search][value]": "",
+          "columns[4][search][regex]": "false",
+          "columns[5][data]": "disable",
+          "columns[5][name]": "disable",
+          "columns[5][searchable]": "false",
+          "columns[5][orderable]": "false",
+          "columns[5][search][value]": "",
+          "columns[5][search][regex]": "false",
+          "columns[6][data]": "delete",
+          "columns[6][name]": "delete",
+          "columns[6][searchable]": "false",
+          "columns[6][orderable]": "false",
+          "columns[6][search][value]": "",
+          "columns[6][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User not admin.\n"
+      }
+    },
+    {
+      "name": "regenerate own key",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/generate_new_api_key",
+        "params": null,
+        "data": {
+          "user_id": 2
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<API_KEY>"
+      }
+    },
+    {
+      "name": "regenerate other's key forbidden",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/generate_new_api_key",
+        "params": null,
+        "data": {
+          "user_id": 1
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User not admin.\n"
+      }
+    },
+    {
+      "name": "toggle link forbidden",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/toggle_link",
+        "params": null,
+        "data": {
+          "link_ending": "0"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User not admin.\n"
+      }
+    },
+    {
+      "name": "delete user forbidden",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/delete_user",
+        "params": null,
+        "data": {
+          "user_id": 3
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User not admin.\n"
+      }
+    },
+    {
+      "name": "link availability",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/link_avail_check",
+        "params": null,
+        "data": {
+          "link_ending": "alice-custom"
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "unavailable"
+      }
+    },
+    {
+      "name": "user links anonymous",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_user_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User must be authenticated.\n"
+      }
+    },
+    {
+      "name": "login carol",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "carol",
+          "password": "CarolPass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "regenerate key without API access",
+      "request": {
+        "method": "POST",
+        "path": "/api/v2/admin/generate_new_api_key",
+        "params": null,
+        "data": {
+          "user_id": 6
+        },
+        "headers": {
+          "X-CSRF-TOKEN": "<CSRF>"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "401 User not admin.\n"
+      }
+    }
+  ]
+}

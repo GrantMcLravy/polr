@@ -1,0 +1,250 @@
+{
+  "group": "stats_disabled",
+  "env": {
+    "SETTING_ADV_ANALYTICS": "false"
+  },
+  "steps": [
+    {
+      "name": "login alice",
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "params": null,
+        "data": {
+          "username": "alice",
+          "password": "AlicePass123",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "stats with analytics off",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/alice-custom",
+        "params": {
+          "left_bound": "2020-02-01 00:00:00",
+          "right_bound": "2020-03-01 00:00:00"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "redirect does not record click",
+      "request": {
+        "method": "GET",
+        "path": "/alice-custom",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 301,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "https://example.org/alice-api-custom"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=https://example.org/alice-api-custom\" />\n\n        <title>Redirecting to https://example.org/alice-api-custom</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "user links without stats icons",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/admin/get_user_links",
+        "params": {
+          "draw": 1,
+          "start": 0,
+          "length": 10,
+          "search[value]": "",
+          "search[regex]": "false",
+          "order[0][column]": 0,
+          "order[0][dir]": "asc",
+          "columns[0][data]": "short_url",
+          "columns[0][name]": "short_url",
+          "columns[0][searchable]": "true",
+          "columns[0][orderable]": "true",
+          "columns[0][search][value]": "",
+          "columns[0][search][regex]": "false",
+          "columns[1][data]": "long_url",
+          "columns[1][name]": "long_url",
+          "columns[1][searchable]": "true",
+          "columns[1][orderable]": "true",
+          "columns[1][search][value]": "",
+          "columns[1][search][regex]": "false",
+          "columns[2][data]": "clicks",
+          "columns[2][name]": "clicks",
+          "columns[2][searchable]": "true",
+          "columns[2][orderable]": "true",
+          "columns[2][search][value]": "",
+          "columns[2][search][regex]": "false",
+          "columns[3][data]": "created_at",
+          "columns[3][name]": "created_at",
+          "columns[3][searchable]": "true",
+          "columns[3][orderable]": "true",
+          "columns[3][search][value]": "",
+          "columns[3][search][regex]": "false"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "draw": 1,
+          "recordsTotal": 7,
+          "recordsFiltered": 7,
+          "data": [
+            {
+              "id": 12,
+              "short_url": "7",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-web\" href=\"https://example.org/alice-web\">https://example.org/alice-web</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('7', 'https://example.org/alice-web')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 0,
+              "created_at": "2020-02-01 12:12:00"
+            },
+            {
+              "id": 13,
+              "short_url": "8",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-1\" href=\"https://example.org/alice-api-1\">https://example.org/alice-api-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('8', 'https://example.org/alice-api-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 0,
+              "created_at": "2020-02-01 12:13:00"
+            },
+            {
+              "id": 14,
+              "short_url": "9",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-2\" href=\"https://example.org/alice-api-2\">https://example.org/alice-api-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('9', 'https://example.org/alice-api-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 0,
+              "created_at": "2020-02-01 12:14:00"
+            },
+            {
+              "id": 16,
+              "short_url": "a",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-secret\" href=\"https://example.org/alice-api-secret\">https://example.org/alice-api-secret</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('a', 'https://example.org/alice-api-secret')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 0,
+              "created_at": "2020-02-01 12:16:00"
+            },
+            {
+              "id": 15,
+              "short_url": "alice-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/alice-api-custom\" href=\"https://example.org/alice-api-custom\">https://example.org/alice-api-custom</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('alice-custom', 'https://example.org/alice-api-custom')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 11,
+              "created_at": "2020-02-01 12:15:00"
+            },
+            {
+              "id": 17,
+              "short_url": "b",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-1\" href=\"https://example.org/bulk-1\">https://example.org/bulk-1</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('b', 'https://example.org/bulk-1')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 0,
+              "created_at": "2020-02-01 12:17:00"
+            },
+            {
+              "id": 18,
+              "short_url": "bulk-custom",
+              "long_url": "<a target=\"_blank\" title=\"https://example.org/bulk-2\" href=\"https://example.org/bulk-2\">https://example.org/bulk-2</a>\n            <a class=\"btn btn-primary btn-xs edit-long-link-btn\" ng-click=\"editLongLink('bulk-custom', 'https://example.org/bulk-2')\"><i class=\"fa fa-edit edit-link-icon\"></i></a>",
+              "clicks": 0,
+              "created_at": "2020-02-01 12:18:00"
+            }
+          ]
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "click count",
+      "value": 30
+    }
+  ]
+}

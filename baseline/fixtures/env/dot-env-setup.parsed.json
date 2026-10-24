@@ -1,0 +1,14 @@
+{
+    "APP_ENV": "local",
+    "APP_DEBUG": true,
+    "APP_KEY": "Su;8^J%x\"J4}S{M`9O~%]icH^~b^*.B.",
+    "APP_LOCALE": "en",
+    "APP_FALLBACK_LOCALE": "en",
+    "CACHE_DRIVER": "file",
+    "SESSION_DRIVER": "file",
+    "QUEUE_DRIVER": "file",
+    "VERSION": "2.3.0",
+    "VERSION_RELMONTH": "Jan",
+    "VERSION_RELDAY": "28",
+    "VERSION_RELYEAR": "2020"
+}

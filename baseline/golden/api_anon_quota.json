@@ -1,0 +1,197 @@
+{
+  "group": "api_anon_quota",
+  "env": {
+    "SETTING_ANON_API_QUOTA": "2"
+  },
+  "steps": [
+    {
+      "name": "anonymous call 0",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-q-0",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/d"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "anonymous call 1",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-q-1",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/e"
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "anonymous call 2",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-q-2",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 429,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 429,
+          "error_code": "QUOTA_EXCEEDED",
+          "error": "Quota exceeded."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "anonymous call 3",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-q-3",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 429,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "status_code": 429,
+          "error_code": "QUOTA_EXCEEDED",
+          "error": "Quota exceeded."
+        },
+        "body": null
+      }
+    },
+    {
+      "name": "other IP not affected",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/action/shorten",
+        "params": {
+          "url": "https://example.com/anon-q-x",
+          "response_type": "json"
+        },
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Access-Control-Allow-Origin",
+            "*"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "json": {
+          "action": "shorten",
+          "result": "http://polr.test/f"
+        },
+        "body": null
+      }
+    }
+  ]
+}

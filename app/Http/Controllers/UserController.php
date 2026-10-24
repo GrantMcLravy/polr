@@ -54,15 +54,15 @@ class UserController extends Controller {
     }
 
     public function performSignup(Request $request) {
-        if (env('POLR_ALLOW_ACCT_CREATION') == false) {
+        if (config('polr.polr_allow_acct_creation') == false) {
             return redirect(route('index'))->with('error', 'Sorry, but registration is disabled.');
         }
 
-        if (env('POLR_ACCT_CREATION_RECAPTCHA')) {
+        if (config('polr.polr_acct_creation_recaptcha')) {
             // Verify reCAPTCHA if setting is enabled
             $gRecaptchaResponse = $request->input('g-recaptcha-response');
 
-            $recaptcha = new \ReCaptcha\ReCaptcha(env('POLR_RECAPTCHA_SECRET_KEY'));
+            $recaptcha = new \ReCaptcha\ReCaptcha(config('polr.polr_recaptcha_secret_key'));
             $recaptcha_resp = $recaptcha->verify($gRecaptchaResponse, $request->ip());
 
             if (!$recaptcha_resp->isSuccess()) {
@@ -81,9 +81,9 @@ class UserController extends Controller {
         $password = $request->input('password');
         $email = $request->input('email');
 
-        if (env('SETTING_RESTRICT_EMAIL_DOMAIN')) {
+        if (config('polr.setting_restrict_email_domain')) {
             $email_domain = explode('@', $email)[1];
-            $permitted_email_domains = explode(',', env('SETTING_ALLOWED_EMAIL_DOMAINS'));
+            $permitted_email_domains = explode(',', (string) config('polr.setting_allowed_email_domains'));
 
             if (!in_array($email_domain, $permitted_email_domains)) {
                 return redirect(route('signup'))->with('error', 'Sorry, your email\'s domain is not permitted to create new accounts.');
@@ -100,7 +100,7 @@ class UserController extends Controller {
             return redirect(route('signup'))->with('error', 'Sorry, your email or username already exists. Try again.');
         }
 
-        $acct_activation_needed = env('POLR_ACCT_ACTIVATION');
+        $acct_activation_needed = config('polr.polr_acct_activation');
 
         if ($acct_activation_needed == false) {
             // if no activation is necessary
@@ -116,10 +116,10 @@ class UserController extends Controller {
         $api_active = false;
         $api_key = null;
 
-        if (env('SETTING_AUTO_API')) {
+        if (config('polr.setting_auto_api')) {
             // if automatic API key assignment is on
             $api_active = 1;
-            $api_key = CryptoHelper::generateRandomHex(env('_API_KEY_LENGTH'));
+            $api_key = CryptoHelper::generateRandomHex(config('polr.api_key_length'));
         }
 
         $user = UserFactory::createUser($username, $email, $password, $active, $ip, $api_key, $api_active);
@@ -128,9 +128,9 @@ class UserController extends Controller {
             Mail::send('emails.activation', [
                 'username' => $username, 'recovery_key' => $user->recovery_key, 'ip' => $ip
             ], function ($m) use ($user) {
-                $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $m->from(config('mail.from.address'), config('mail.from.name'));
 
-                $m->to($user->email, $user->username)->subject(env('APP_NAME') . ' account activation');
+                $m->to($user->email, $user->username)->subject(config('polr.app_name') . ' account activation');
             });
         }
 
@@ -138,7 +138,7 @@ class UserController extends Controller {
     }
 
     public function performSendPasswordResetCode(Request $request) {
-        if (!env('SETTING_PASSWORD_RECOV')) {
+        if (!config('polr.setting_password_recov')) {
             return redirect(route('index'))->with('error', 'Password recovery is disabled.');
         }
 
@@ -155,9 +155,9 @@ class UserController extends Controller {
         Mail::send('emails.lost_password', [
             'username' => $user->username, 'recovery_key' => $recovery_key, 'ip' => $ip
         ], function ($m) use ($user) {
-            $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $m->from(config('mail.from.address'), config('mail.from.name'));
 
-            $m->to($user->email, $user->username)->subject(env('APP_NAME') . ' Password Reset');
+            $m->to($user->email, $user->username)->subject(config('polr.app_name') . ' Password Reset');
         });
 
         return redirect(route('index'))->with('success', 'Password reset email sent. Check your inbox for details.');

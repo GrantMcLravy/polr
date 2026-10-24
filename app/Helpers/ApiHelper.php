@@ -20,7 +20,7 @@ class ApiHelper {
             $api_quota = $user->api_quota;
         }
         else {
-            $api_quota = env('SETTING_ANON_API_QUOTA') ?: 5;
+            $api_quota = config('polr.setting_anon_api_quota') ?: 5;
         }
 
         if ($api_quota < 0) {

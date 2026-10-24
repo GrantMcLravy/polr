@@ -1,0 +1,57 @@
+{
+  "group": "signup_auto_api",
+  "env": {
+    "SETTING_AUTO_API": "true"
+  },
+  "steps": [
+    {
+      "name": "signup gets API key",
+      "request": {
+        "method": "POST",
+        "path": "/signup",
+        "params": null,
+        "data": {
+          "username": "hank",
+          "password": "HankPass1",
+          "email": "hank@example.com",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "api key",
+      "value": {
+        "api_active": "1",
+        "api_key_len": 30
+      }
+    }
+  ]
+}

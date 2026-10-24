@@ -1,0 +1,404 @@
+{
+  "group": "public_pages",
+  "env": {},
+  "steps": [
+    {
+      "name": "GET /",
+      "request": {
+        "method": "GET",
+        "path": "/",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='css/index.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding   jumbotron large-content-div \">\n            <h1 class='title'>Polr Baseline</h1>\n\n<form method='POST' action='/shorten' role='form'>\n    <input type='url' autocomplete='off'\n        class='form-control long-link-input' placeholder='http://' name='link-url' />\n\n    <div class='row' id='options' ng-cloak>\n        <p>Customize link</p>\n\n                        <div class='btn-group btn-toggle visibility-toggler' data-toggle='buttons'>\n            <label class='btn btn-primary btn-sm active'>\n                <input type='radio' name='options' value='p' checked /> Public\n            </label>\n            <label class='btn btn-sm btn-default'>\n                <input type='radio' name='options' value='s' /> Secret\n            </label>\n        </div>\n        \n        <div>\n            <div class='custom-link-text'>\n                <h2 class='site-url-field'>polr.test/</h2>\n                <input type='text' autocomplete=\"off\" class='form-control custom-url-field' name='custom-ending' />\n            </div>\n            <div>\n                <a href='#' class='btn btn-success btn-xs check-btn' id='check-link-availability'>Check Availability</a>\n                <div id='link-availability-status'></div>\n            </div>\n        </div>\n    </div>\n    <input type='submit' class='btn btn-info' id='shorten' value='Shorten' />\n    <a href='#' class='btn btn-warning' id='show-link-options'>Link Options</a>\n    <input type=\"hidden\" name='_token' value='<CSRF>' />\n</form>\n\n<div id='tips' class='text-muted tips'>\n    <i class='fa fa-spinner'></i> Loading Tips...\n</div>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    <script src='js/index.js'></script>\n</body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /login",
+      "request": {
+        "method": "GET",
+        "path": "/login",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='css/login.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <div class=\"center-text\">\n    <h1>Login</h1><br/><br/>\n    <div class=\"col-md-3\"></div>\n    <div class=\"col-md-6\">\n        <form action=\"login\" method=\"POST\">\n            <input type=\"text\" placeholder=\"username\" name=\"username\" class=\"form-control login-field\" />\n            <input type=\"password\" placeholder=\"password\" name=\"password\" class=\"form-control login-field\" />\n            <input type=\"hidden\" name='_token' value='<CSRF>' />\n            <input type=\"submit\" value=\"Login\" class=\"login-submit btn btn-success\" />\n\n            <p class='login-prompts'>\n                            <small>Don't have an account? <a href='<BASE>/signup'>Register</a></small>\n            \n                            <small>Forgot your password? <a href='<BASE>/lost_password'>Reset</a></small>\n                        </p>\n        </form>\n    </div>\n    <div class=\"col-md-3\"></div>\n</div\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /about-polr",
+      "request": {
+        "method": "GET",
+        "path": "/about-polr",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/about.css' />\n<link rel='stylesheet' href='/css/effects.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  \">\n            <div class='well logo-well'>\n    <img class='logo-img' src='/img/logo.png' />\n</div>\n\n<div class='about-contents'>\n    \n    <p>Polr Baseline is powered by Polr 2, an open source, minimalist link shortening platform. The Polr Project is in no way associated with this site.\n        Learn more at <a href='https://github.com/Cydrobolt/polr'>its Github page</a> or its <a href=\"//project.polr.me\">project site</a>.\n        <br />Polr is licensed under the GNU GPL License.\n    </p>\n</div>\n\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /lost_password",
+      "request": {
+        "method": "GET",
+        "path": "/lost_password",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/lost_password.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1 class='header'>Lost Password</h1>\n\n<div class='col-md-6 col-md-offset-3'>\n    <form action='/lost_password' method='POST'>\n        <input type='email' name='email' placeholder='Email' class='form-control email-input-pd'>\n        <input type=\"hidden\" name='_token' value='<CSRF>' />\n        <input type='submit' value='Send a password reset email' class='form-control'>\n    </form>\n</div>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /signup",
+      "request": {
+        "method": "GET",
+        "path": "/signup",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    \n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel='stylesheet' href='/css/signup.css' />\n</head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <div class='col-md-6'>\n    <h2 class='title'>Register</h2>\n\n    <form action='/signup' method='POST'>\n        Username: <input type='text' name='username' class='form-control form-field' placeholder='Username' />\n        Password: <input type='password' name='password' class='form-control form-field' placeholder='Password' />\n        Email: <input type='email' name='email' class='form-control form-field' placeholder='Email' />\n\n        \n        <input type=\"hidden\" name='_token' value='<CSRF>' />\n        <input type=\"submit\" class=\"btn btn-default btn-success\" value=\"Register\"/>\n        <p class='login-prompt'>\n            <small>Already have an account? <a href='<BASE>/login'>Login</a></small>\n        </p>\n    </form>\n</div>\n<div class='col-md-6 hidden-xs hidden-sm'>\n    <div class='right-col-one'>\n        <h4>Username</h4>\n        <p>The username you will use to login to Polr Baseline.</p>\n    </p>\n    <div class='right-col-next'>\n        <div class='right-col'>\n            <h4>Password</h4>\n            <p>The secure password you will use to login to Polr Baseline.</p>\n        </p>\n    </div>\n    <div class='right-col-next'>\n        <h4>Email</h4>\n        <p>The email you will use to verify your account or to recover your account.</p>\n    </p>\n</div>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n        </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /admin",
+      "request": {
+        "method": "GET",
+        "path": "/admin",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "GET /logout",
+      "request": {
+        "method": "GET",
+        "path": "/logout",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>\" />\n\n        <title>Redirecting to <BASE></title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>\"><BASE></a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "GET /setup",
+      "request": {
+        "method": "GET",
+        "path": "/setup",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h2>Error</h2>\n<h4>Sorry, but you have already completed the setup process.</h4>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /setup/finish",
+      "request": {
+        "method": "GET",
+        "path": "/setup/finish",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 404,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h1>404</h1>\n<p>This page could not be found.</p>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    },
+    {
+      "name": "GET /admin/stats/custom-one",
+      "request": {
+        "method": "GET",
+        "path": "/admin/stats/custom-one",
+        "params": null,
+        "data": null,
+        "headers": null
+      },
+      "response": {
+        "status": 302,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Location",
+            "<BASE>/login"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url=<BASE>/login\" />\n\n        <title>Redirecting to <BASE>/login</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"<BASE>/login\"><BASE>/login</a>.\n    </body>\n</html>"
+      }
+    },
+    {
+      "name": "POST /setup after setup ran",
+      "request": {
+        "method": "POST",
+        "path": "/setup",
+        "params": null,
+        "data": {
+          "app:name": "x",
+          "_token": "<CSRF>"
+        },
+        "headers": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Cache-Control",
+            "no-cache"
+          ],
+          [
+            "Set-Cookie",
+            "XSRF-TOKEN=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/"
+          ],
+          [
+            "Set-Cookie",
+            "laravel_session=<MASKED>; expires=<MASKED>; Max-Age=<MASKED>; path=/; HttpOnly"
+          ],
+          [
+            "Vary",
+            "Accept-Encoding"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=UTF-8"
+          ]
+        ],
+        "json": null,
+        "body": "<!--\nPolr, a minimalist URL shortening platform.\nCopyright (C) 2013-2017 Chaoyi Zha\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.\n-->\n\n<!DOCTYPE html>\n<html ng-app=\"polr\">\n<head>\n    <title>Polr Baseline</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"csrf-token\" content=\"<CSRF>\">\n        <meta name=\"generator\" content=\"Polr 2.3.0\" />\n    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, max-age=0, must-revalidate\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta name=\"robots\" content=\"noindex\" />\n\n            <link rel=\"stylesheet\" href=\"/css/default-bootstrap.min.css\">\n    \n    <link href=\"/css/base.css\" rel=\"stylesheet\">\n    <link href=\"/css/toastr.min.css\" rel=\"stylesheet\">\n    <link href=\"/css/font-awesome.min.css\" rel=\"stylesheet\">\n\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    </head>\n<body>\n    <div class=\"container-fluid\">\n    <nav role=\"navigation\" class=\"navbar navbar-default navbar-fixed-top\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n\n        <!-- Output sign in/sign out buttons appropriately -->\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"<BASE>\">Polr Baseline</a>\n        </div>\n\n        <ul id=\"navbar\" class=\"nav navbar-collapse collapse navbar-nav\" id=\"nbc\">\n\t\t    <li><a href=\"<BASE>/about-polr\">About</a></li>\n\n                            <li class=\"visible-xs\"><a href=\"<BASE>/login\">Sign In</a></li>\n                                    <li class=\"visible-xs\"><a href=\"<BASE>/signup\">Sign Up</a></li>\n                                    </ul>\n\n        <ul id=\"navbar\" class=\"nav pull-right navbar-nav hidden-xs\">\n            <li class=\"divider-vertical\"></li>\n\n                                                <li><a href=\"<BASE>/signup\">Sign Up</a></li>\n                \n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">Sign In <strong class=\"caret\"></strong></a>\n                    <div class=\"dropdown-menu pull-right login-dropdown-menu\" id=\"dropdown\">\n                        <h2>Login</h2>\n                        <form action=\"login\" method=\"POST\" accept-charset=\"UTF-8\">\n                            <input type=\"text\" name=\"username\" placeholder='Username' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"password\" name=\"password\" placeholder='Password' size=\"30\" class=\"form-control login-form-field\" />\n                            <input type=\"hidden\" name='_token' value='<CSRF>' />\n                            <input class=\"btn btn-success form-control login-form-submit\" type=\"submit\" name=\"login\" value=\"Sign In\" />\n                        </form>\n                    </div>\n                </li>\n                    </ul>\n    </nav>\n</div>\n    <div class=\"container\">\n        <div class=\"content-div  content-div-padding  \">\n            <h2>Error</h2>\n<h4>Sorry, but you have already completed the setup process.</h4>\n        </div>\n    </div>\n\n        <script src=\"/js/constants.js\"></script>\n    <script src=\"/js/jquery-1.11.3.min.js\"></script>\n    <script src=\"/js/bootstrap.min.js\"></script>\n    <script src=\"/js/angular.min.js\"></script>\n    <script src=\"/js/toastr.min.js\"></script>\n    <script src=\"/js/base.js\"></script>\n\n    <script>\n                \n        </script>\n\n    </body>\n</html>\n"
+      }
+    }
+  ]
+}
